@@ -38,7 +38,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       }
       const res = await register(username, email, password);
       if (res.success) {
-        setSuccessMsg('Account created! Welcome to your ZENDR Vault.');
+        setSuccessMsg('Account created! Welcome to ZENDR.');
         setTimeout(() => onClose(), 1200);
       } else {
         setErrorMsg(res.error || 'Registration failed.');
@@ -81,9 +81,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             alt="ZENDR Logo"
             className="h-8 sm:h-9 w-auto max-w-[180px] object-contain mx-auto drop-shadow-[0_0_20px_rgba(245,158,11,0.3)] transition-opacity opacity-90 hover:opacity-100"
           />
-          <h2 className="text-2xl font-extrabold tracking-tight text-white">
-            ZENDR Vault
-          </h2>
           <p className="text-xs text-white/60 max-w-xs mx-auto leading-relaxed">
             Cloud sync past conversions, store raw SVG code &amp; access your presets anywhere.
           </p>
@@ -202,10 +199,12 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             className="w-full mt-2 btn-primary py-2.5 rounded-lg text-xs sm:text-sm font-semibold"
           >
             {isSubmitting
-              ? 'Connecting to Vault...'
+              ? tab === 'login'
+                ? 'Signing In...'
+                : 'Creating Account...'
               : tab === 'login'
-              ? 'Unlock My Vault'
-              : 'Create Free Vault'}
+              ? 'Sign In'
+              : 'Create Account'}
           </button>
         </form>
 
