@@ -311,7 +311,7 @@ export const ImageEditorPage: React.FC = () => {
         </p>
 
         {/* Tool Sub-Navigation Pills */}
-        <div className="flex items-center justify-center gap-1 p-1 rounded-xl bg-[#0c0d10] border border-white/[0.08] max-w-fit mx-auto flex-wrap mt-3 text-xs">
+        <div className="flex items-center justify-center gap-1 p-1 rounded-full bg-white/[0.04] backdrop-blur-2xl border border-white/[0.08] shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] max-w-fit mx-auto flex-wrap mt-3 text-xs">
           {[
             { id: 'resize' as const, label: 'Resize', icon: Scaling },
             { id: 'crop' as const, label: 'Crop', icon: Crop },
@@ -327,10 +327,10 @@ export const ImageEditorPage: React.FC = () => {
               <button
                 key={item.id}
                 onClick={() => setActiveTool(item.id)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-100 cursor-pointer ${
+                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium active:scale-[0.95] transition-all duration-200 cursor-pointer ${
                   isActive
-                    ? 'bg-amber-400 text-black font-semibold shadow-sm'
-                    : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
+                    ? 'bg-gradient-to-b from-amber-300 to-amber-500 text-black font-semibold shadow-[0_2px_10px_rgba(245,158,11,0.3),inset_0_1px_0_rgba(255,255,255,0.4)]'
+                    : 'text-white/60 hover:text-white hover:bg-white/[0.06]'
                 }`}
               >
                 <Icon className="w-3.5 h-3.5" />
@@ -740,7 +740,7 @@ export const ImageEditorPage: React.FC = () => {
                 <a
                   href={resultSrc || originalSrc}
                   download={`edited_${file.name}`}
-                  className="btn-primary text-xs px-5 py-2.5 rounded-lg font-semibold inline-flex items-center gap-2"
+                  className="btn-primary text-xs px-5 py-2.5 rounded-full font-semibold inline-flex items-center gap-2"
                 >
                   <Download className="w-4 h-4 text-black" />
                   <span>Download Image</span>

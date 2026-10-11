@@ -390,8 +390,8 @@ const ImageWorkspaceContent: React.FC<ImageWorkspaceContentProps> = ({ mode, onO
 
         {/* Format Selector if Universal Image Converter */}
         {mode === 'image-converter' && (
-          <div className="inline-flex items-center gap-1 p-1 rounded-xl bg-[#0c0d10] border border-white/[0.08] text-xs font-mono mb-4">
-            <span className="text-white/50 pl-2 pr-1 text-[11px]">Format:</span>
+          <div className="inline-flex items-center gap-1.5 p-1 rounded-full liquid-glass-pill text-xs font-mono mb-4">
+            <span className="text-white/50 pl-3 pr-1 text-[11px]">Format:</span>
             {(['png', 'jpeg', 'webp'] as const).map((fmt) => (
               <button
                 key={fmt}
@@ -399,9 +399,9 @@ const ImageWorkspaceContent: React.FC<ImageWorkspaceContentProps> = ({ mode, onO
                   setTargetFormat(fmt);
                   if (file) runGenericConversion(file);
                 }}
-                className={`px-3 py-1 rounded-lg uppercase font-semibold transition-all duration-100 cursor-pointer select-none ${
+                className={`px-3.5 py-1.5 rounded-full uppercase font-semibold transition-all duration-150 active:scale-95 cursor-pointer select-none ${
                   targetFormat === fmt
-                    ? 'bg-amber-400 text-black shadow-sm'
+                    ? 'bg-amber-400 text-black shadow-sm font-bold'
                     : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
                 }`}
               >
@@ -439,7 +439,7 @@ const ImageWorkspaceContent: React.FC<ImageWorkspaceContentProps> = ({ mode, onO
             {/* If Vector / SVG mode, show interactive settings drawer */}
             {isVectorMode ? (
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-                <div className="lg:col-span-4 bg-white/[0.02] border border-white/10 rounded-3xl p-5 backdrop-blur-xl">
+                <div className="lg:col-span-4 liquid-glass-card rounded-[28px] p-5">
                   <PngToSvgSettings
                     options={pngOptions}
                     onChange={handlePngSettingsChange}
@@ -470,7 +470,7 @@ const ImageWorkspaceContent: React.FC<ImageWorkspaceContentProps> = ({ mode, onO
               </div>
             ) : isSvgMode ? (
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-                <div className="lg:col-span-4 bg-white/[0.02] border border-white/10 rounded-3xl p-5 backdrop-blur-xl">
+                <div className="lg:col-span-4 liquid-glass-card rounded-[28px] p-5">
                   <SvgToPngSettings
                     options={svgOptions}
                     nativeDimensions={{ width: 800, height: 800, aspectRatio: 1 }}
@@ -503,7 +503,7 @@ const ImageWorkspaceContent: React.FC<ImageWorkspaceContentProps> = ({ mode, onO
             ) : (
               /* High-Res Modern Image Conversion View (HEIC, WEBP, JFIF) */
               <div className="max-w-4xl mx-auto space-y-6">
-                <div className="p-6 rounded-3xl border border-white/10 bg-white/[0.02] backdrop-blur-2xl space-y-5">
+                <div className="p-6 rounded-[28px] liquid-glass-card space-y-5">
                   <div className="flex items-center justify-between pb-4 border-b border-white/[0.06]">
                     <div>
                       <h3 className="text-base font-bold text-white">{file.name}</h3>
@@ -515,7 +515,7 @@ const ImageWorkspaceContent: React.FC<ImageWorkspaceContentProps> = ({ mode, onO
                     <div className="flex items-center gap-2">
                       <button
                         onClick={handleClear}
-                        className="btn-secondary text-xs px-3 py-1.5 rounded-lg"
+                        className="btn-secondary text-xs px-4 py-2 rounded-full"
                       >
                         <RotateCcw className="w-3.5 h-3.5" />
                         <span>Change File</span>
@@ -526,7 +526,7 @@ const ImageWorkspaceContent: React.FC<ImageWorkspaceContentProps> = ({ mode, onO
                   {/* Image Preview & Output */}
                   {convertedSrc && (
                     <div className="space-y-4">
-                      <div className="rounded-2xl border border-white/10 bg-black/40 p-4 flex items-center justify-center min-h-[300px] overflow-hidden">
+                      <div className="rounded-[20px] border border-white/10 bg-black/40 p-4 flex items-center justify-center min-h-[300px] overflow-hidden">
                         <img
                           src={convertedSrc}
                           alt="Converted output"
@@ -545,7 +545,7 @@ const ImageWorkspaceContent: React.FC<ImageWorkspaceContentProps> = ({ mode, onO
                           <a
                             href={convertedSrc}
                             download={`${file.name.replace(/\.[^/.]+$/, '')}.${meta.outputExt}`}
-                            className="btn-primary text-xs px-5 py-2.5 rounded-lg"
+                            className="btn-primary text-xs px-6 py-2.5 rounded-full"
                           >
                             <Download className="w-4 h-4 text-black" />
                             <span>Download {meta.outputExt.toUpperCase()}</span>

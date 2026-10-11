@@ -95,10 +95,10 @@ export const DropZone: React.FC<DropZoneProps> = ({
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         onClick={() => !isLoading && fileInputRef.current?.click()}
-        className={`group relative rounded-[28px] border border-dashed transition-transform transition-colors duration-100 active:scale-[0.99] cursor-pointer p-12 sm:p-16 text-center select-none backdrop-blur-md ${
+        className={`group relative rounded-[28px] border border-dashed transition-all duration-200 active:scale-[0.98] cursor-pointer p-12 sm:p-16 text-center select-none backdrop-blur-2xl ${
           isDragOver
             ? 'border-amber-400 bg-amber-500/[0.08] shadow-[0_0_50px_rgba(245,158,11,0.25)]'
-            : 'futuristic-card hover:border-amber-400/40'
+            : 'liquid-glass-card hover:border-amber-400/40'
         }`}
       >
         <div className="flex flex-col items-center justify-center space-y-4 max-w-sm mx-auto">

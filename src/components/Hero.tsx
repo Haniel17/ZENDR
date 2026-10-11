@@ -26,7 +26,7 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToTools }) => {
       <div className="flex flex-wrap items-center justify-center gap-3 pt-8">
         <Link
           to="/pdf-converter"
-          className="btn-primary text-sm px-5 py-2.5 rounded-lg"
+          className="btn-primary text-sm px-6 py-2.5 rounded-full shadow-[0_4px_16px_rgba(245,158,11,0.35)]"
         >
           <FileText className="w-4 h-4 text-black" />
           <span>Explore PDF Tools</span>
@@ -34,7 +34,7 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToTools }) => {
 
         <Link
           to="/image-converter"
-          className="btn-secondary text-sm px-5 py-2.5 rounded-lg"
+          className="btn-secondary text-sm px-6 py-2.5 rounded-full"
         >
           <Image className="w-4 h-4 text-amber-400" />
           <span>Image Studio</span>
@@ -42,7 +42,7 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToTools }) => {
 
         <Link
           to="/text-to-json"
-          className="btn-secondary text-sm px-5 py-2.5 rounded-lg"
+          className="btn-secondary text-sm px-6 py-2.5 rounded-full"
         >
           <Braces className="w-4 h-4 text-amber-400" />
           <span>Data Suite (8 Formats)</span>
@@ -54,10 +54,10 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToTools }) => {
         <div className="pt-8">
           <button
             onClick={onScrollToTools}
-            className="inline-flex items-center gap-2 text-xs font-mono text-white/40 hover:text-white/80 transition-colors cursor-pointer group"
+            className="inline-flex items-center gap-2 text-xs font-mono text-white/50 hover:text-white px-4 py-1.5 rounded-full bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 backdrop-blur-md transition-all active:scale-95 cursor-pointer group shadow-sm"
           >
             <span>Browse all tools</span>
-            <ArrowDown className="w-3.5 h-3.5 text-amber-400/70 group-hover:text-amber-400 group-hover:translate-y-0.5 transition-all" />
+            <ArrowDown className="w-3.5 h-3.5 text-amber-400/80 group-hover:text-amber-400 group-hover:translate-y-0.5 transition-all" />
           </button>
         </div>
       )}

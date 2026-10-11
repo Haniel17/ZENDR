@@ -332,7 +332,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   }, []);
 
   const renderPdfDropdownContent = () => (
-    <div className="w-[780px] max-w-[calc(100vw-2rem)] rounded-2xl bg-[#08080c]/98 backdrop-blur-3xl border border-white/10 p-5 shadow-[0_25px_70px_-15px_rgba(0,0,0,0.95),0_0_25px_rgba(245,158,11,0.08)] ring-1 ring-white/5">
+    <div className="w-[780px] max-w-[calc(100vw-2rem)] rounded-[28px] bg-[#08080c]/90 backdrop-blur-3xl border border-white/15 p-5 shadow-[0_30px_80px_rgba(0,0,0,0.85),inset_0_1px_0_rgba(255,255,255,0.18)]">
       {/* Top Header */}
       <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-white/[0.08]">
         <div className="flex items-center gap-2.5">
@@ -418,7 +418,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   );
 
   const renderDataDropdownContent = () => (
-    <div className="w-[780px] max-w-[calc(100vw-2rem)] rounded-2xl bg-[#08080c]/98 backdrop-blur-3xl border border-white/10 p-5 shadow-[0_25px_70px_-15px_rgba(0,0,0,0.95),0_0_25px_rgba(245,158,11,0.08)] ring-1 ring-white/5">
+    <div className="w-[780px] max-w-[calc(100vw-2rem)] rounded-[28px] bg-[#08080c]/90 backdrop-blur-3xl border border-white/15 p-5 shadow-[0_30px_80px_rgba(0,0,0,0.85),inset_0_1px_0_rgba(255,255,255,0.18)]">
       {/* Top Header */}
       <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-white/[0.08]">
         <div className="flex items-center gap-2.5">
@@ -505,11 +505,11 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <header 
-      className="sticky top-0 z-50 w-full border-b border-white/[0.06] bg-[#040406]/90 backdrop-blur-md transition-colors flex-shrink-0"
+      className="sticky top-0 z-50 w-full border-b border-white/[0.08] bg-[#040406]/75 backdrop-blur-2xl transition-colors flex-shrink-0"
       style={{ transform: 'translateZ(0)' }}
     >
       {/* Animated Subtle Ambient Highlight Beam under Navbar */}
-      <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/[0.08] to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/[0.12] to-transparent pointer-events-none" />
       <div
         className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-[1px] w-3/4 max-w-4xl bg-gradient-to-r from-transparent via-amber-400/50 to-transparent transition-all duration-300 pointer-events-none ${
           isPdfDropdownOpen || isDataDropdownOpen || hoveredNav
@@ -520,7 +520,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between relative">
         {/* Brand Logo with Transparent Zendr.png */}
-        <Link to="/" className="flex items-center gap-2.5 group active:scale-95 transition-transform duration-75">
+        <Link to="/" className="flex items-center gap-2.5 group active:scale-95 transition-transform duration-150 ease-[cubic-bezier(0.16,1,0.3,1)]">
           <img
             src="/Zendr.png"
             alt="ZENDR"
@@ -531,9 +531,9 @@ export const Navbar: React.FC<NavbarProps> = ({
           </span>
         </Link>
 
-        {/* Center: Module Navigation Links with Fluid Hover Pill */}
+        {/* Center: Module Navigation Links with Apple Liquid Glass Pill Dock */}
         <nav 
-          className="hidden md:flex items-center gap-1 bg-[#0b0c10]/80 p-1 rounded-xl border border-white/[0.08] text-xs relative"
+          className="hidden md:flex items-center gap-1 bg-white/[0.04] p-1.5 rounded-full border border-white/10 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.14)] text-xs relative"
           onMouseLeave={() => setHoveredNav(null)}
         >
           {/* Overview */}
@@ -546,18 +546,18 @@ export const Navbar: React.FC<NavbarProps> = ({
               handleCloseDataDropdown();
             }}
             className={({ isActive }) =>
-              `relative px-3 py-1.5 rounded-lg transition-colors duration-150 cursor-pointer select-none font-medium z-10 ${
+              `relative px-3.5 py-1.5 rounded-full transition-all duration-150 cursor-pointer select-none font-medium z-10 active:scale-95 ${
                 isActive
-                  ? 'bg-amber-400 text-black shadow-sm font-semibold'
-                  : 'text-white/60 hover:text-white'
+                  ? 'bg-amber-400 text-black shadow-[0_2px_10px_rgba(245,158,11,0.35),inset_0_1px_0_rgba(255,255,255,0.6)] font-semibold'
+                  : 'text-white/65 hover:text-white'
               }`
             }
           >
             {hoveredNav === 'overview' && (
               <motion.div
                 layoutId="navbar-hover-pill"
-                className="absolute inset-0 rounded-lg bg-white/[0.08] -z-10"
-                transition={{ type: 'spring', stiffness: 450, damping: 32 }}
+                className="absolute inset-0 rounded-full bg-white/[0.08] -z-10"
+                transition={{ type: 'spring', stiffness: 500, damping: 35 }}
               />
             )}
             Overview
@@ -576,18 +576,18 @@ export const Navbar: React.FC<NavbarProps> = ({
               to="/pdf-converter"
               onClick={handleClosePdfDropdown}
               className={({ isActive }) =>
-                `relative px-3 py-1.5 rounded-lg transition-colors duration-150 cursor-pointer select-none font-medium flex items-center gap-1.5 z-10 ${
+                `relative px-3.5 py-1.5 rounded-full transition-all duration-150 cursor-pointer select-none font-medium flex items-center gap-1.5 z-10 active:scale-95 ${
                   isActive || isPdfDropdownOpen
-                    ? 'bg-amber-400 text-black shadow-sm font-semibold'
-                    : 'text-white/60 hover:text-white'
+                    ? 'bg-amber-400 text-black shadow-[0_2px_10px_rgba(245,158,11,0.35),inset_0_1px_0_rgba(255,255,255,0.6)] font-semibold'
+                    : 'text-white/65 hover:text-white'
                 }`
               }
             >
               {hoveredNav === 'pdf-tools' && !isPdfDropdownOpen && (
                 <motion.div
                   layoutId="navbar-hover-pill"
-                  className="absolute inset-0 rounded-lg bg-white/[0.08] -z-10"
-                  transition={{ type: 'spring', stiffness: 450, damping: 32 }}
+                  className="absolute inset-0 rounded-full bg-white/[0.08] -z-10"
+                  transition={{ type: 'spring', stiffness: 500, damping: 35 }}
                 />
               )}
               <FileText className="w-3.5 h-3.5" />
@@ -609,18 +609,18 @@ export const Navbar: React.FC<NavbarProps> = ({
               handleCloseDataDropdown();
             }}
             className={({ isActive }) =>
-              `relative px-3 py-1.5 rounded-lg transition-colors duration-150 cursor-pointer select-none font-medium flex items-center gap-1.5 z-10 ${
+              `relative px-3.5 py-1.5 rounded-full transition-all duration-150 cursor-pointer select-none font-medium flex items-center gap-1.5 z-10 active:scale-95 ${
                 isActive
-                  ? 'bg-amber-400 text-black shadow-sm font-semibold'
-                  : 'text-white/60 hover:text-white'
+                  ? 'bg-amber-400 text-black shadow-[0_2px_10px_rgba(245,158,11,0.35),inset_0_1px_0_rgba(255,255,255,0.6)] font-semibold'
+                  : 'text-white/65 hover:text-white'
               }`
             }
           >
             {hoveredNav === 'pdf-editor' && (
               <motion.div
                 layoutId="navbar-hover-pill"
-                className="absolute inset-0 rounded-lg bg-white/[0.08] -z-10"
-                transition={{ type: 'spring', stiffness: 450, damping: 32 }}
+                className="absolute inset-0 rounded-full bg-white/[0.08] -z-10"
+                transition={{ type: 'spring', stiffness: 500, damping: 35 }}
               />
             )}
             <Edit3 className="w-3.5 h-3.5" />
@@ -636,18 +636,18 @@ export const Navbar: React.FC<NavbarProps> = ({
               handleCloseDataDropdown();
             }}
             className={({ isActive }) =>
-              `relative px-3 py-1.5 rounded-lg transition-colors duration-150 cursor-pointer select-none font-medium flex items-center gap-1.5 z-10 ${
+              `relative px-3.5 py-1.5 rounded-full transition-all duration-150 cursor-pointer select-none font-medium flex items-center gap-1.5 z-10 active:scale-95 ${
                 isActive
-                  ? 'bg-amber-400 text-black shadow-sm font-semibold'
-                  : 'text-white/60 hover:text-white'
+                  ? 'bg-amber-400 text-black shadow-[0_2px_10px_rgba(245,158,11,0.35),inset_0_1px_0_rgba(255,255,255,0.6)] font-semibold'
+                  : 'text-white/65 hover:text-white'
               }`
             }
           >
             {hoveredNav === 'image-tools' && (
               <motion.div
                 layoutId="navbar-hover-pill"
-                className="absolute inset-0 rounded-lg bg-white/[0.08] -z-10"
-                transition={{ type: 'spring', stiffness: 450, damping: 32 }}
+                className="absolute inset-0 rounded-full bg-white/[0.08] -z-10"
+                transition={{ type: 'spring', stiffness: 500, damping: 35 }}
               />
             )}
             <Image className="w-3.5 h-3.5" />
@@ -667,18 +667,18 @@ export const Navbar: React.FC<NavbarProps> = ({
               to="/text-to-json"
               onClick={handleCloseDataDropdown}
               className={({ isActive }) =>
-                `relative px-3 py-1.5 rounded-lg transition-colors duration-150 cursor-pointer select-none font-medium flex items-center gap-1.5 z-10 ${
+                `relative px-3.5 py-1.5 rounded-full transition-all duration-150 cursor-pointer select-none font-medium flex items-center gap-1.5 z-10 active:scale-95 ${
                   isActive || isDataDropdownOpen
-                    ? 'bg-amber-400 text-black shadow-sm font-semibold'
-                    : 'text-white/60 hover:text-white'
+                    ? 'bg-amber-400 text-black shadow-[0_2px_10px_rgba(245,158,11,0.35),inset_0_1px_0_rgba(255,255,255,0.6)] font-semibold'
+                    : 'text-white/65 hover:text-white'
                 }`
               }
             >
               {hoveredNav === 'data-tools' && !isDataDropdownOpen && (
                 <motion.div
                   layoutId="navbar-hover-pill"
-                  className="absolute inset-0 rounded-lg bg-white/[0.08] -z-10"
-                  transition={{ type: 'spring', stiffness: 450, damping: 32 }}
+                  className="absolute inset-0 rounded-full bg-white/[0.08] -z-10"
+                  transition={{ type: 'spring', stiffness: 500, damping: 35 }}
                 />
               )}
               <Braces className="w-3.5 h-3.5" />
@@ -696,7 +696,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="flex items-center gap-2.5 sm:gap-3">
           {/* MongoDB Status Indicator */}
           <div 
-            className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#0e0f13] border border-white/[0.08] text-white/70 text-xs font-mono"
+            className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.1] backdrop-blur-xl shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] text-white/70 text-xs font-mono"
             title={dbStatus.isConnected ? 'MongoDB Connected' : 'Local Storage Fallback'}
           >
             <span
@@ -715,12 +715,12 @@ export const Navbar: React.FC<NavbarProps> = ({
               {/* Vault Button */}
               <button
                 onClick={onOpenVault}
-                className="btn-secondary text-xs px-3 py-1.5 rounded-lg"
+                className="btn-secondary text-xs px-4 py-1.5 rounded-full"
               >
                 <Database className="w-3.5 h-3.5 text-amber-400" />
                 <span className="hidden sm:inline">Vault</span>
                 {conversions.length > 0 && (
-                  <span className="ml-0.5 px-1.5 py-0.2 rounded text-[10px] bg-amber-400/20 text-amber-300 font-mono">
+                  <span className="ml-0.5 px-1.5 py-0.2 rounded-full text-[10px] bg-amber-400/20 text-amber-300 font-mono">
                     {conversions.length}
                   </span>
                 )}
@@ -729,14 +729,14 @@ export const Navbar: React.FC<NavbarProps> = ({
               {/* User Avatar badge */}
               <div className="flex items-center gap-2 pl-1 border-l border-white/10">
                 <div className="flex items-center gap-1.5 text-xs text-white/80">
-                  <div className="w-6 h-6 rounded-md bg-gradient-to-tr from-amber-400 to-amber-200 text-black flex items-center justify-center font-bold text-[10px]">
+                  <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-amber-400 to-amber-200 text-black flex items-center justify-center font-bold text-[10px] shadow-sm">
                     {user.username.charAt(0).toUpperCase()}
                   </div>
                   <span className="font-medium hidden md:inline">{user.username}</span>
                 </div>
                 <button
                   onClick={logout}
-                  className="p-1.5 rounded-md text-white/40 hover:text-rose-400 hover:bg-white/5 transition-colors"
+                  className="p-1.5 rounded-full text-white/40 hover:text-rose-400 hover:bg-white/5 transition-colors active:scale-95"
                   title="Sign out"
                 >
                   <LogOut className="w-3.5 h-3.5" />
@@ -747,7 +747,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <div className="flex items-center gap-2">
               <button
                 onClick={onOpenAuth}
-                className="btn-secondary text-xs px-3 py-1.5 rounded-lg"
+                className="btn-secondary text-xs px-4 py-1.5 rounded-full"
               >
                 <UserIcon className="w-3.5 h-3.5 text-amber-400" />
                 <span>Sign In</span>

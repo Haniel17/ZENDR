@@ -126,11 +126,11 @@ export const StampPickerModal: React.FC<StampPickerModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="w-full max-w-md rounded-3xl border border-white/10 bg-[#07070a] shadow-2xl overflow-hidden flex flex-col text-white">
+      <div className="w-full max-w-md rounded-[28px] liquid-glass-card shadow-2xl overflow-hidden flex flex-col text-white">
         {/* Header */}
         <div className="px-6 py-4 border-b border-white/[0.08] flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-amber-400/10 border border-amber-400/20 text-amber-400 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-full bg-amber-400/10 border border-amber-400/20 text-amber-400 flex items-center justify-center">
               <PenTool className="w-4 h-4" />
             </div>
             <div>
@@ -163,10 +163,10 @@ export const StampPickerModal: React.FC<StampPickerModalProps> = ({
                 });
                 onClose();
               }}
-              className="group p-3 rounded-2xl border border-white/5 hover:border-amber-400/40 bg-white/[0.02] hover:bg-white/[0.05] transition-all cursor-pointer flex items-center justify-between gap-4"
+              className="group p-3 rounded-[18px] border border-white/5 hover:border-amber-400/40 bg-white/[0.02] hover:bg-white/[0.05] transition-all cursor-pointer flex items-center justify-between gap-4"
             >
               <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center">
+                <div className="w-9 h-9 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center">
                   {stamp.icon}
                 </div>
                 <div>
@@ -186,7 +186,7 @@ export const StampPickerModal: React.FC<StampPickerModalProps> = ({
         <div className="px-6 py-3 border-t border-white/[0.08] bg-white/[0.01] flex justify-end">
           <button
             onClick={onClose}
-            className="btn-secondary text-xs px-3.5 py-1.5 rounded-lg"
+            className="btn-secondary text-xs px-5 py-2 rounded-full"
           >
             Cancel
           </button>

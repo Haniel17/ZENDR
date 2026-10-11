@@ -54,13 +54,13 @@ export const VaultModal: React.FC<VaultModalProps> = ({ isOpen, onClose }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
       <div 
-        className="relative w-full max-w-2xl max-h-[85vh] flex flex-col rounded-3xl futuristic-card border border-white/15 bg-[#090a0e]/95 text-left shadow-2xl overflow-hidden"
+        className="relative w-full max-w-2xl max-h-[85vh] flex flex-col rounded-[28px] liquid-glass-card border border-white/15 bg-[#090a0e]/95 text-left shadow-2xl overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Header */}
         <div className="p-6 border-b border-white/10 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-400">
+            <div className="w-10 h-10 rounded-full bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-400">
               <Database className="w-5 h-5" />
             </div>
             <div>
@@ -68,7 +68,7 @@ export const VaultModal: React.FC<VaultModalProps> = ({ isOpen, onClose }) => {
                 <h3 className="text-lg font-bold text-white tracking-tight">
                   Conversion Vault
                 </h3>
-                <span className="px-2 py-0.5 rounded-full bg-amber-400/15 border border-amber-400/30 text-amber-400 font-mono text-[10px]">
+                <span className="px-2.5 py-0.5 rounded-full bg-amber-400/15 border border-amber-400/30 text-amber-400 font-mono text-[10px]">
                   {conversions.length} saved
                 </span>
               </div>
@@ -80,7 +80,7 @@ export const VaultModal: React.FC<VaultModalProps> = ({ isOpen, onClose }) => {
 
           <button
             onClick={onClose}
-            className="p-2 rounded-xl text-white/50 hover:text-white hover:bg-white/10 transition-colors"
+            className="p-2 rounded-full text-white/50 hover:text-white hover:bg-white/10 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -88,12 +88,12 @@ export const VaultModal: React.FC<VaultModalProps> = ({ isOpen, onClose }) => {
 
         {/* Filter Pills */}
         <div className="px-6 py-3 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
-          <div className="flex items-center gap-1 p-1 rounded-xl bg-[#0c0d10] border border-white/[0.08] text-xs">
+          <div className="flex items-center gap-1 p-1 rounded-full liquid-glass-pill text-xs">
             <button
               onClick={() => setFilter('all')}
-              className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
+              className={`px-3.5 py-1 rounded-full text-xs font-semibold transition-all duration-150 active:scale-95 ${
                 filter === 'all'
-                  ? 'bg-amber-400 text-black shadow-sm'
+                  ? 'bg-amber-400 text-black shadow-sm font-bold'
                   : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
               }`}
             >
@@ -101,9 +101,9 @@ export const VaultModal: React.FC<VaultModalProps> = ({ isOpen, onClose }) => {
             </button>
             <button
               onClick={() => setFilter('png-to-svg')}
-              className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
+              className={`px-3.5 py-1 rounded-full text-xs font-semibold transition-all duration-150 active:scale-95 ${
                 filter === 'png-to-svg'
-                  ? 'bg-amber-400 text-black shadow-sm'
+                  ? 'bg-amber-400 text-black shadow-sm font-bold'
                   : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
               }`}
             >
@@ -111,9 +111,9 @@ export const VaultModal: React.FC<VaultModalProps> = ({ isOpen, onClose }) => {
             </button>
             <button
               onClick={() => setFilter('svg-to-png')}
-              className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
+              className={`px-3.5 py-1 rounded-full text-xs font-semibold transition-all duration-150 active:scale-95 ${
                 filter === 'svg-to-png'
-                  ? 'bg-amber-400 text-black shadow-sm'
+                  ? 'bg-amber-400 text-black shadow-sm font-bold'
                   : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
               }`}
             >
@@ -150,12 +150,12 @@ export const VaultModal: React.FC<VaultModalProps> = ({ isOpen, onClose }) => {
             filtered.map((item) => (
               <div
                 key={item._id}
-                className="p-4 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-all"
+                className="p-4 rounded-[20px] bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-all"
               >
                 {/* Left: Info */}
                 <div className="space-y-1 min-w-0 flex-1">
                   <div className="flex items-center gap-2">
-                    <span className={`px-2 py-0.5 rounded text-[10px] font-bold font-mono uppercase ${
+                    <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono uppercase ${
                       item.mode === 'png-to-svg'
                         ? 'bg-amber-400/20 text-amber-300 border border-amber-400/30'
                         : 'bg-purple-400/20 text-purple-300 border border-purple-400/30'
@@ -195,7 +195,7 @@ export const VaultModal: React.FC<VaultModalProps> = ({ isOpen, onClose }) => {
                   {item.previewSvgSnippet && (
                     <button
                       onClick={() => handleCopyCode(item._id, item.previewSvgSnippet)}
-                      className="btn-secondary text-xs px-3 py-1.5 rounded-lg"
+                      className="btn-secondary text-xs px-3.5 py-1.5 rounded-full"
                       title="Copy SVG XML"
                     >
                       {copiedId === item._id ? (
@@ -214,7 +214,7 @@ export const VaultModal: React.FC<VaultModalProps> = ({ isOpen, onClose }) => {
 
                   <button
                     onClick={() => deleteFromVault(item._id)}
-                    className="p-2 rounded-xl text-white/40 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
+                    className="p-2 rounded-full text-white/40 hover:text-rose-400 hover:bg-rose-500/10 transition-colors"
                     title="Delete record"
                   >
                     <Trash2 className="w-4 h-4" />

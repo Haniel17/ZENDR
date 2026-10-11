@@ -63,15 +63,15 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md animate-fade-in">
       <div 
-        className="relative w-full max-w-md rounded-3xl futuristic-card border border-white/15 p-6 sm:p-8 bg-[#090a0e]/90 text-left shadow-2xl"
+        className="relative w-full max-w-md rounded-[28px] border border-white/15 p-6 sm:p-8 bg-[#07070a]/95 backdrop-blur-3xl text-left shadow-[0_20px_60px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.15)]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 p-2 rounded-xl text-white/50 hover:text-white hover:bg-white/10 transition-colors"
+          className="absolute top-5 right-5 w-8 h-8 rounded-full flex items-center justify-center text-white/50 hover:text-white bg-white/[0.04] hover:bg-white/10 border border-white/5 transition-all active:scale-95 cursor-pointer"
         >
-          <X className="w-5 h-5" />
+          <X className="w-4 h-4" />
         </button>
 
         {/* Brand Header */}
@@ -85,7 +85,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             Cloud sync past conversions, store raw SVG code &amp; access your presets anywhere.
           </p>
           <div className="pt-1">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-amber-400/10 border border-amber-400/20 text-amber-400 font-mono text-[10px]">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/20 text-amber-400 font-mono text-[10px] shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]">
               <Shield className="w-3 h-3" />
               <span>100% Optional • No Gatekeeping</span>
             </span>
@@ -93,17 +93,17 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         </div>
 
         {/* Tab Switcher */}
-        <div className="grid grid-cols-2 gap-1 p-1 rounded-xl bg-[#0c0d10] border border-white/[0.08] mb-6">
+        <div className="grid grid-cols-2 gap-1 p-1 rounded-full bg-white/[0.04] backdrop-blur-2xl border border-white/[0.08] mb-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
           <button
             type="button"
             onClick={() => {
               setTab('login');
               setErrorMsg(null);
             }}
-            className={`py-2 text-xs font-semibold rounded-lg transition-all ${
+            className={`py-2 text-xs font-semibold rounded-full transition-all active:scale-[0.95] cursor-pointer ${
               tab === 'login'
-                ? 'bg-amber-400 text-black shadow-sm'
-                : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
+                ? 'bg-gradient-to-b from-amber-300 to-amber-500 text-black shadow-[0_2px_10px_rgba(245,158,11,0.3),inset_0_1px_0_rgba(255,255,255,0.4)]'
+                : 'text-white/60 hover:text-white hover:bg-white/[0.06]'
             }`}
           >
             Sign In
@@ -114,10 +114,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               setTab('register');
               setErrorMsg(null);
             }}
-            className={`py-2 text-xs font-semibold rounded-lg transition-all ${
+            className={`py-2 text-xs font-semibold rounded-full transition-all active:scale-[0.95] cursor-pointer ${
               tab === 'register'
-                ? 'bg-amber-400 text-black shadow-sm'
-                : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
+                ? 'bg-gradient-to-b from-amber-300 to-amber-500 text-black shadow-[0_2px_10px_rgba(245,158,11,0.3),inset_0_1px_0_rgba(255,255,255,0.4)]'
+                : 'text-white/60 hover:text-white hover:bg-white/[0.06]'
             }`}
           >
             Create Account
@@ -126,13 +126,13 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
         {/* Feedback Messages */}
         {errorMsg && (
-          <div className="mb-4 p-3 rounded-xl bg-rose-500/15 border border-rose-500/30 flex items-center gap-2.5 text-rose-300 text-xs">
+          <div className="mb-4 p-3 rounded-2xl bg-rose-500/15 border border-rose-500/30 flex items-center gap-2.5 text-rose-300 text-xs">
             <AlertCircle className="w-4 h-4 flex-shrink-0 text-rose-400" />
             <span>{errorMsg}</span>
           </div>
         )}
         {successMsg && (
-          <div className="mb-4 p-3 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center gap-2.5 text-emerald-300 text-xs">
+          <div className="mb-4 p-3 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center gap-2.5 text-emerald-300 text-xs">
             <CheckCircle2 className="w-4 h-4 flex-shrink-0 text-emerald-400" />
             <span>{successMsg}</span>
           </div>
@@ -152,7 +152,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   placeholder="e.g. pixel_ninja"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder-white/30 text-xs focus:outline-none focus:border-amber-400 focus:bg-white/[0.07] transition-all"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-full bg-white/[0.04] border border-white/10 text-white placeholder-white/30 text-xs focus:outline-none focus:border-amber-400 focus:bg-white/[0.07] transition-all shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-xl"
                   required
                 />
               </div>
@@ -170,7 +170,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 placeholder="you@domain.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder-white/30 text-xs focus:outline-none focus:border-amber-400 focus:bg-white/[0.07] transition-all"
+                className="w-full pl-10 pr-4 py-2.5 rounded-full bg-white/[0.04] border border-white/10 text-white placeholder-white/30 text-xs focus:outline-none focus:border-amber-400 focus:bg-white/[0.07] transition-all shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-xl"
                 required
               />
             </div>
@@ -187,7 +187,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder-white/30 text-xs focus:outline-none focus:border-amber-400 focus:bg-white/[0.07] transition-all"
+                className="w-full pl-10 pr-4 py-2.5 rounded-full bg-white/[0.04] border border-white/10 text-white placeholder-white/30 text-xs focus:outline-none focus:border-amber-400 focus:bg-white/[0.07] transition-all shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-xl"
                 required
               />
             </div>
@@ -196,7 +196,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full mt-2 btn-primary py-2.5 rounded-lg text-xs sm:text-sm font-semibold"
+            className="w-full mt-2 btn-primary py-2.5 rounded-full text-xs sm:text-sm font-semibold"
           >
             {isSubmitting
               ? tab === 'login'

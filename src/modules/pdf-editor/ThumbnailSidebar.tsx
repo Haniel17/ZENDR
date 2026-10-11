@@ -57,7 +57,7 @@ export const ThumbnailSidebar: React.FC<ThumbnailSidebarProps> = ({
 
         <button
           onClick={() => fileInputRef.current?.click()}
-          className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-400/10 hover:bg-amber-400/20 text-amber-400 border border-amber-400/20 text-[11px] font-medium transition-colors cursor-pointer"
+          className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/10 hover:bg-amber-400/20 text-amber-400 border border-amber-400/20 text-[11px] font-medium transition-all active:scale-95 cursor-pointer"
           title="Append pages from another PDF file"
         >
           <Plus className="w-3.5 h-3.5" />
@@ -110,7 +110,7 @@ export const ThumbnailSidebar: React.FC<ThumbnailSidebarProps> = ({
                 setDraggedIndex(null);
                 setDragOverIndex(null);
               }}
-              className={`group relative rounded-xl border p-2 transition-all cursor-pointer ${
+              className={`group relative rounded-[18px] border p-2 transition-all cursor-pointer ${
                 isDraggingThis
                   ? 'opacity-40 border-amber-400/40 border-dashed scale-95'
                   : isDragTarget
@@ -131,7 +131,7 @@ export const ThumbnailSidebar: React.FC<ThumbnailSidebarProps> = ({
                 </span>
 
                 {page.customRotation !== 0 && (
-                  <span className="text-[10px] font-mono text-amber-400/80 bg-amber-400/10 px-1 rounded">
+                  <span className="text-[10px] font-mono text-amber-400/80 bg-amber-400/10 px-1.5 py-0.5 rounded-full">
                     {page.customRotation}°
                   </span>
                 )}
@@ -139,7 +139,7 @@ export const ThumbnailSidebar: React.FC<ThumbnailSidebarProps> = ({
 
               {/* Thumbnail Preview Canvas Container */}
               <div
-                className="w-full aspect-[3/4] bg-zinc-950 rounded-lg overflow-hidden flex items-center justify-center border border-white/5 relative"
+                className="w-full aspect-[3/4] bg-zinc-950 rounded-[12px] overflow-hidden flex items-center justify-center border border-white/5 relative"
                 style={{
                   transform: `rotate(${page.customRotation}deg)`,
                   transition: 'transform 0.2s ease'
@@ -165,7 +165,7 @@ export const ThumbnailSidebar: React.FC<ThumbnailSidebarProps> = ({
                       onMovePage(index, 'up');
                     }}
                     disabled={index === 0}
-                    className="p-1 rounded hover:text-white hover:bg-white/10 disabled:opacity-20 transition-colors"
+                    className="p-1.5 rounded-full hover:text-white hover:bg-white/10 disabled:opacity-20 transition-all active:scale-95 cursor-pointer"
                     title="Move Page Up"
                   >
                     <ArrowUp className="w-3.5 h-3.5" />
@@ -176,7 +176,7 @@ export const ThumbnailSidebar: React.FC<ThumbnailSidebarProps> = ({
                       onMovePage(index, 'down');
                     }}
                     disabled={index === pages.length - 1}
-                    className="p-1 rounded hover:text-white hover:bg-white/10 disabled:opacity-20 transition-colors"
+                    className="p-1.5 rounded-full hover:text-white hover:bg-white/10 disabled:opacity-20 transition-all active:scale-95 cursor-pointer"
                     title="Move Page Down"
                   >
                     <ArrowDown className="w-3.5 h-3.5" />
@@ -186,7 +186,7 @@ export const ThumbnailSidebar: React.FC<ThumbnailSidebarProps> = ({
                       e.stopPropagation();
                       onRotatePage(page.pageNumber);
                     }}
-                    className="p-1 rounded hover:text-amber-400 hover:bg-white/10 transition-colors"
+                    className="p-1.5 rounded-full hover:text-amber-400 hover:bg-white/10 transition-all active:scale-95 cursor-pointer"
                     title="Rotate 90° Clockwise"
                   >
                     <RotateCw className="w-3.5 h-3.5" />
@@ -199,7 +199,7 @@ export const ThumbnailSidebar: React.FC<ThumbnailSidebarProps> = ({
                       e.stopPropagation();
                       onExtractPage(page.pageNumber);
                     }}
-                    className="p-1 rounded hover:text-emerald-400 hover:bg-white/10 transition-colors"
+                    className="p-1.5 rounded-full hover:text-emerald-400 hover:bg-white/10 transition-all active:scale-95 cursor-pointer"
                     title="Extract this single page as PDF"
                   >
                     <Download className="w-3.5 h-3.5" />
@@ -210,7 +210,7 @@ export const ThumbnailSidebar: React.FC<ThumbnailSidebarProps> = ({
                       onDeletePage(page.pageNumber);
                     }}
                     disabled={activePages.length <= 1}
-                    className="p-1 rounded hover:text-rose-400 hover:bg-white/10 disabled:opacity-20 transition-colors"
+                    className="p-1.5 rounded-full hover:text-rose-400 hover:bg-white/10 disabled:opacity-20 transition-all active:scale-95 cursor-pointer"
                     title="Delete Page"
                   >
                     <Trash2 className="w-3.5 h-3.5" />

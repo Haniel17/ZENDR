@@ -789,8 +789,8 @@ export const PdfEditorWorkspace: React.FC<PdfEditorWorkspaceProps> = ({
   if (!file) {
     return (
       <div className="flex-1 flex flex-col items-center justify-center p-6 text-center select-none">
-        <div className="max-w-md w-full p-8 rounded-3xl bg-[#09090d]/80 border border-white/10 backdrop-blur-2xl shadow-2xl flex flex-col items-center space-y-4">
-          <div className="w-16 h-16 rounded-2xl bg-amber-400/10 border border-amber-400/20 text-amber-400 flex items-center justify-center drop-shadow-[0_0_20px_rgba(245,158,11,0.25)]">
+        <div className="max-w-md w-full p-8 rounded-[28px] liquid-glass-card shadow-2xl flex flex-col items-center space-y-4">
+          <div className="w-16 h-16 rounded-full bg-amber-400/10 border border-amber-400/20 text-amber-400 flex items-center justify-center drop-shadow-[0_0_20px_rgba(245,158,11,0.25)]">
             <Upload className="w-8 h-8" />
           </div>
 
@@ -799,7 +799,7 @@ export const PdfEditorWorkspace: React.FC<PdfEditorWorkspaceProps> = ({
             Reorder pages, rotate, delete, insert text stamps, draw highlights, and extract pages. 100% in-browser and private.
           </p>
 
-          <label className="w-full py-3 px-4 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-semibold text-sm cursor-pointer shadow-lg shadow-amber-400/20 transition-all flex items-center justify-center gap-2">
+          <label className="w-full py-3.5 px-6 rounded-full bg-amber-400 hover:bg-amber-300 active:scale-95 text-black font-semibold text-sm cursor-pointer shadow-lg shadow-amber-400/20 transition-all flex items-center justify-center gap-2">
             <Upload className="w-4 h-4" />
             <span>Select PDF File</span>
             <input

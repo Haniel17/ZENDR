@@ -95,7 +95,7 @@ export const PngToSvgSettings: React.FC<PngToSvgSettingsProps> = ({
   };
 
   return (
-    <div className="rounded-3xl bg-black/50 backdrop-blur-2xl border border-white/10 p-6 space-y-6 shadow-2xl text-left">
+    <div className="rounded-[28px] liquid-glass-card p-6 space-y-6 shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.14)] text-left">
       {/* Header */}
       <div className="flex items-center justify-between pb-3 border-b border-white/10">
         <div className="flex items-center gap-2 text-white font-bold text-sm tracking-tight">
@@ -104,7 +104,7 @@ export const PngToSvgSettings: React.FC<PngToSvgSettingsProps> = ({
         </div>
         <button
           onClick={resetDefaults}
-          className="flex items-center gap-1 text-xs text-white/50 hover:text-amber-400 transition-colors"
+          className="flex items-center gap-1 text-xs text-white/50 hover:text-amber-400 transition-colors px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/5 active:scale-95 cursor-pointer"
           title="Reset to default values"
         >
           <RotateCcw className="w-3 h-3" />
@@ -122,9 +122,9 @@ export const PngToSvgSettings: React.FC<PngToSvgSettingsProps> = ({
             <button
               key={p.id}
               onClick={() => handlePresetSelect(p.id)}
-              className={`py-1.5 px-2 rounded-xl text-xs font-medium transition-all text-center ${
+              className={`py-1.5 px-2 rounded-full text-xs font-medium transition-all duration-150 active:scale-95 text-center cursor-pointer ${
                 options.preset === p.id
-                  ? 'bg-amber-400 text-black font-bold shadow-md shadow-amber-400/20'
+                  ? 'bg-gradient-to-b from-amber-300 to-amber-500 text-black font-bold shadow-[0_2px_10px_rgba(245,158,11,0.3),inset_0_1px_0_rgba(255,255,255,0.4)]'
                   : 'bg-white/[0.04] text-white/70 hover:text-white hover:bg-white/[0.08] border border-white/5'
               }`}
             >
@@ -263,7 +263,7 @@ export const PngToSvgSettings: React.FC<PngToSvgSettingsProps> = ({
       <button
         onClick={onVectorize}
         disabled={isProcessing}
-        className="w-full btn-primary py-2.5 rounded-lg text-xs sm:text-sm font-semibold flex items-center justify-center gap-2"
+        className="w-full btn-primary py-2.5 rounded-full text-xs sm:text-sm font-semibold flex items-center justify-center gap-2"
       >
         {isProcessing ? (
           <>

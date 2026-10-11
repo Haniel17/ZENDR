@@ -456,9 +456,9 @@ export const CompressorWorkspacePage: React.FC<CompressorWorkspaceProps> = ({ in
                           <button
                             key={dim.val}
                             onClick={() => setMaxWidth(dim.val)}
-                            className={`py-1.5 rounded-lg border text-xs font-mono transition-all cursor-pointer ${
+                            className={`py-1.5 rounded-full border text-xs font-mono transition-all duration-150 active:scale-95 cursor-pointer ${
                               maxWidth === dim.val
-                                ? 'bg-amber-400 text-black font-bold border-amber-400'
+                                ? 'bg-amber-400 text-black font-bold border-amber-400 shadow-sm'
                                 : 'bg-white/[0.02] border-white/10 text-white/60 hover:text-white'
                             }`}
                           >
@@ -474,7 +474,7 @@ export const CompressorWorkspacePage: React.FC<CompressorWorkspaceProps> = ({ in
                   <button
                     onClick={handleRecompress}
                     disabled={isProcessing}
-                    className="btn-secondary text-xs px-4 py-2 rounded-lg"
+                    className="btn-secondary text-xs px-4 py-2 rounded-full"
                   >
                     <RefreshCw className="w-3.5 h-3.5 text-amber-400" />
                     <span>Apply &amp; Recompress</span>
@@ -491,7 +491,7 @@ export const CompressorWorkspacePage: React.FC<CompressorWorkspaceProps> = ({ in
                 <p className="text-xs text-white/50 font-mono">{progressMsg || 'Processing streams...'}</p>
               </div>
             ) : resultBlob ? (
-              <div className="rounded-3xl border border-emerald-500/20 bg-emerald-500/[0.03] p-6 sm:p-8 backdrop-blur-xl space-y-6">
+              <div className="rounded-[28px] border border-emerald-500/20 bg-emerald-500/[0.03] p-6 sm:p-8 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.14)] space-y-6">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-white/[0.08]">
                   <div className="space-y-1">
                     <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold">
@@ -510,7 +510,7 @@ export const CompressorWorkspacePage: React.FC<CompressorWorkspaceProps> = ({ in
                         ? `${file.name.replace(/\.[^/.]+$/, '')}_compressed.pdf`
                         : `${file.name.replace(/\.[^/.]+$/, '')}_compressed.${file.name.split('.').pop() || 'jpg'}`
                     }
-                    className="btn-primary text-sm px-6 py-2.5 rounded-lg font-semibold"
+                    className="btn-primary text-sm px-6 py-2.5 rounded-full font-semibold"
                   >
                     <Download className="w-4 h-4 text-black" />
                     <span>Download Compressed File</span>

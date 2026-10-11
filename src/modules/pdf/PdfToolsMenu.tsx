@@ -102,7 +102,7 @@ export const PdfToolsMenu: React.FC = () => {
       <Link
         key={tool.id}
         to={tool.route}
-        className={`group relative rounded-3xl border p-5 sm:p-6 transition-all duration-300 flex flex-col justify-between cursor-pointer ${
+        className={`group relative rounded-[28px] border p-5 sm:p-6 transition-all duration-300 flex flex-col justify-between cursor-pointer backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.14)] hover:-translate-y-0.5 ${
           isEditor
             ? 'border-amber-400/40 bg-gradient-to-b from-amber-400/[0.08] to-white/[0.02] hover:border-amber-400 hover:shadow-[0_0_35px_rgba(245,158,11,0.2)]'
             : 'border-white/[0.08] bg-white/[0.02] hover:bg-white/[0.05] hover:border-amber-400/40 hover:shadow-[0_0_30px_rgba(245,158,11,0.12)]'
@@ -111,12 +111,12 @@ export const PdfToolsMenu: React.FC = () => {
         <div className="space-y-3.5">
           {/* Top Row: Icon & Badges */}
           <div className="flex items-center justify-between">
-            <div className="w-11 h-11 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center transition-colors group-hover:border-amber-400/30">
+            <div className="w-11 h-11 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-center transition-colors group-hover:border-amber-400/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]">
               {renderIcon(tool.iconName)}
             </div>
 
             <div className="flex items-center gap-1.5">
-              <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-medium bg-white/[0.04] border border-white/10 text-white/70 group-hover:text-amber-400 group-hover:border-amber-400/30 transition-colors">
+              <span className="px-3 py-1 rounded-full text-[10px] font-mono font-medium bg-white/[0.04] border border-white/10 text-white/70 group-hover:text-amber-400 group-hover:border-amber-400/30 transition-colors shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]">
                 {tool.badge || 'Tool'}
               </span>
             </div>
@@ -144,7 +144,7 @@ export const PdfToolsMenu: React.FC = () => {
             <span>Client-side</span>
           </div>
 
-          <div className="flex items-center gap-1.5 font-semibold text-white/80 group-hover:text-amber-400 group-hover:translate-x-1 transition-all">
+          <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.06] font-semibold text-white/80 group-hover:text-amber-400 group-hover:border-amber-400/30 transition-all active:scale-[0.95]">
             <span>Open Tool</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </div>
@@ -176,17 +176,17 @@ export const PdfToolsMenu: React.FC = () => {
       <div className="space-y-4 pt-2">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/[0.08] pb-5">
           {/* Category Tabs */}
-          <div className="flex items-center gap-1 overflow-x-auto p-1 bg-[#0c0d10] border border-white/[0.08] rounded-xl text-xs">
+          <div className="flex items-center gap-1 overflow-x-auto p-1 bg-white/[0.04] border border-white/[0.08] backdrop-blur-2xl rounded-full text-xs shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]">
             {CATEGORY_TABS.map((tab) => {
               const isSelected = selectedCategory === tab.id;
               return (
                 <button
                   key={tab.id}
                   onClick={() => setSelectedCategory(tab.id)}
-                  className={`px-3.5 py-1.5 rounded-lg font-medium transition-all duration-100 whitespace-nowrap cursor-pointer ${
+                  className={`px-4 py-1.5 rounded-full font-medium active:scale-[0.95] transition-all duration-200 whitespace-nowrap cursor-pointer ${
                     isSelected
-                      ? 'bg-amber-400 text-black font-semibold shadow-sm'
-                      : 'text-white/70 hover:text-white hover:bg-white/[0.04]'
+                      ? 'bg-gradient-to-b from-amber-300 to-amber-500 text-black font-semibold shadow-[0_2px_10px_rgba(245,158,11,0.3),inset_0_1px_0_rgba(255,255,255,0.4)]'
+                      : 'text-white/70 hover:text-white hover:bg-white/[0.06]'
                   }`}
                 >
                   {tab.label}
@@ -203,7 +203,7 @@ export const PdfToolsMenu: React.FC = () => {
               placeholder="Search PDF tools (e.g. word, merge, sign)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-8 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder-white/40 text-xs focus:outline-none focus:border-amber-400 transition-colors"
+              className="w-full pl-10 pr-8 py-2 rounded-full bg-white/[0.04] border border-white/10 text-white placeholder-white/40 text-xs focus:outline-none focus:border-amber-400 transition-colors backdrop-blur-xl shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
             />
             {searchQuery && (
               <button

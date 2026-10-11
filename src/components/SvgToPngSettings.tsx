@@ -90,7 +90,7 @@ export const SvgToPngSettings: React.FC<SvgToPngSettingsProps> = ({
   };
 
   return (
-    <div className="rounded-3xl bg-black/50 backdrop-blur-2xl border border-white/10 p-6 space-y-6 shadow-2xl text-left">
+    <div className="rounded-[28px] liquid-glass-card p-6 space-y-6 shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.14)] text-left">
       {/* Header */}
       <div className="flex items-center justify-between pb-3 border-b border-white/10">
         <div className="flex items-center gap-2 text-white font-bold text-sm tracking-tight">
@@ -99,7 +99,7 @@ export const SvgToPngSettings: React.FC<SvgToPngSettingsProps> = ({
         </div>
         <button
           onClick={resetToNative}
-          className="flex items-center gap-1 text-xs text-white/50 hover:text-amber-400 transition-colors"
+          className="flex items-center gap-1 text-xs text-white/50 hover:text-amber-400 transition-colors px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/5 active:scale-95 cursor-pointer"
           title="Reset to native dimensions"
         >
           <RotateCcw className="w-3 h-3" />
@@ -122,7 +122,7 @@ export const SvgToPngSettings: React.FC<SvgToPngSettingsProps> = ({
               max={8192}
               value={options.width}
               onChange={(e) => handleWidthChange(parseInt(e.target.value) || 1)}
-              className="w-full px-3 py-2 rounded-xl bg-white/[0.05] border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-amber-400"
+              className="w-full px-4 py-2 rounded-full bg-white/[0.05] border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-amber-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
             />
           </div>
 
@@ -130,9 +130,9 @@ export const SvgToPngSettings: React.FC<SvgToPngSettingsProps> = ({
           <div className="pt-5">
             <button
               onClick={() => setIsAspectLocked(!isAspectLocked)}
-              className={`p-2 rounded-xl border transition-colors ${
+              className={`p-2 rounded-full border transition-all active:scale-90 cursor-pointer ${
                 isAspectLocked
-                  ? 'bg-amber-400/20 border-amber-400/50 text-amber-400'
+                  ? 'bg-amber-400/20 border-amber-400/50 text-amber-400 shadow-sm'
                   : 'bg-white/[0.03] border-white/10 text-white/40'
               }`}
               title={isAspectLocked ? 'Aspect ratio locked' : 'Aspect ratio unlocked'}
@@ -150,7 +150,7 @@ export const SvgToPngSettings: React.FC<SvgToPngSettingsProps> = ({
               max={8192}
               value={options.height}
               onChange={(e) => handleHeightChange(parseInt(e.target.value) || 1)}
-              className="w-full px-3 py-2 rounded-xl bg-white/[0.05] border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-amber-400"
+              className="w-full px-4 py-2 rounded-full bg-white/[0.05] border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-amber-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
             />
           </div>
         </div>
@@ -168,9 +168,9 @@ export const SvgToPngSettings: React.FC<SvgToPngSettingsProps> = ({
               <button
                 key={scale}
                 onClick={() => handleScaleMultiplier(scale)}
-                className={`py-1.5 rounded-xl text-xs font-mono font-medium transition-all ${
+                className={`py-1.5 rounded-full text-xs font-mono font-medium transition-all duration-150 active:scale-95 cursor-pointer ${
                   isCurrent
-                    ? 'bg-amber-400 text-black font-bold shadow-md shadow-amber-400/20'
+                    ? 'bg-gradient-to-b from-amber-300 to-amber-500 text-black font-bold shadow-[0_2px_10px_rgba(245,158,11,0.3),inset_0_1px_0_rgba(255,255,255,0.4)]'
                     : 'bg-white/[0.04] text-white/70 hover:text-white hover:bg-white/[0.08] border border-white/5'
                 }`}
               >
@@ -191,7 +191,7 @@ export const SvgToPngSettings: React.FC<SvgToPngSettingsProps> = ({
             <button
               key={preset.size}
               onClick={() => handlePresetResolution(preset.size)}
-              className="py-1.5 px-2 rounded-xl text-xs font-mono text-white/70 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/5 transition-colors"
+              className="py-1.5 px-3 rounded-full text-xs font-mono text-white/70 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/5 transition-all duration-150 active:scale-95 cursor-pointer"
             >
               {preset.label}
             </button>
@@ -211,9 +211,9 @@ export const SvgToPngSettings: React.FC<SvgToPngSettingsProps> = ({
               <button
                 key={bg.id}
                 onClick={() => onChange({ ...options, backgroundColor: bg.value })}
-                className={`flex items-center gap-2 p-2 rounded-xl text-xs font-medium border transition-all ${
+                className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium border transition-all duration-150 active:scale-95 cursor-pointer ${
                   isSelected
-                    ? 'border-amber-400 bg-amber-400/10 text-white'
+                    ? 'border-amber-400 bg-amber-400/10 text-white shadow-sm'
                     : 'border-white/10 text-white/60 hover:border-white/20'
                 }`}
               >
@@ -229,7 +229,7 @@ export const SvgToPngSettings: React.FC<SvgToPngSettingsProps> = ({
       <button
         onClick={onRender}
         disabled={isProcessing}
-        className="w-full btn-primary py-2.5 rounded-lg text-xs sm:text-sm font-semibold flex items-center justify-center gap-2"
+        className="w-full btn-primary py-2.5 rounded-full text-xs sm:text-sm font-semibold flex items-center justify-center gap-2"
       >
         {isProcessing ? (
           <>

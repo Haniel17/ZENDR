@@ -66,9 +66,9 @@ export function ThemedSelect<T extends string | number = string>({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className={`inline-flex items-center justify-between gap-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border transition-transform transition-colors duration-75 active:scale-95 cursor-pointer select-none font-medium shadow-sm ${sizeStyles} ${
+        className={`inline-flex items-center justify-between gap-2 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border backdrop-blur-xl transition-all duration-200 active:scale-[0.95] cursor-pointer select-none font-medium shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] ${sizeStyles} ${
           isOpen
-            ? 'border-amber-400/60 bg-amber-400/[0.08] text-white'
+            ? 'border-amber-400/60 bg-amber-400/[0.1] text-white shadow-[0_2px_12px_rgba(245,158,11,0.2)]'
             : 'border-white/10 text-white/90 hover:border-amber-400/40 hover:text-white'
         }`}
       >
@@ -79,7 +79,7 @@ export function ThemedSelect<T extends string | number = string>({
         </span>
 
         <ChevronDown
-          className={`w-3 h-3 text-amber-400/80 shrink-0 transition-transform duration-150 ${
+          className={`w-3 h-3 text-amber-400/80 shrink-0 transition-transform duration-200 ${
             isOpen ? 'rotate-180 text-amber-400' : ''
           }`}
         />
@@ -88,7 +88,7 @@ export function ThemedSelect<T extends string | number = string>({
       {/* Popover Menu */}
       {isOpen && (
         <div
-          className={`absolute top-full mt-1.5 min-w-[190px] w-max max-w-[280px] max-h-[260px] overflow-y-auto rounded-xl bg-[#09090e]/98 backdrop-blur-2xl border border-white/10 shadow-2xl p-1 z-50 ring-1 ring-white/5 custom-scrollbar animate-in fade-in zoom-in-95 duration-75 ${
+          className={`absolute top-full mt-2 min-w-[190px] w-max max-w-[280px] max-h-[260px] overflow-y-auto rounded-[20px] bg-[#09090e]/95 backdrop-blur-3xl border border-white/10 shadow-[0_16px_40px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.15)] p-1.5 z-50 ring-1 ring-white/5 custom-scrollbar animate-in fade-in zoom-in-95 duration-100 ${
             align === 'right' ? 'right-0' : 'left-0'
           }`}
         >
@@ -103,9 +103,9 @@ export function ThemedSelect<T extends string | number = string>({
                     onChange(option.value);
                     setIsOpen(false);
                   }}
-                  className={`w-full flex items-center justify-between gap-3 px-2.5 py-1.5 rounded-lg text-xs cursor-pointer select-none text-left transition-colors ${
+                  className={`w-full flex items-center justify-between gap-3 px-3 py-1.5 rounded-full text-xs cursor-pointer select-none text-left transition-all duration-150 ${
                     isSelected
-                      ? 'bg-amber-400 text-black font-semibold shadow-sm'
+                      ? 'bg-gradient-to-b from-amber-300 to-amber-500 text-black font-semibold shadow-sm'
                       : 'text-white/80 hover:bg-white/[0.08] hover:text-white'
                   }`}
                 >

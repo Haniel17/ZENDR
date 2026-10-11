@@ -118,13 +118,13 @@ export const PreviewWorkspace: React.FC<PreviewWorkspaceProps> = ({
       {/* Top Workspace Toolbar */}
       <div className="p-4 border-b border-white/10 flex flex-wrap items-center justify-between gap-3 bg-white/[0.02]">
         {/* View Mode Tabs */}
-        <div className="flex items-center gap-1 p-1 rounded-xl bg-[#0c0d10] border border-white/[0.08]">
+        <div className="flex items-center gap-1 p-1 rounded-full bg-white/[0.04] backdrop-blur-2xl border border-white/[0.08] shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]">
           <button
             onClick={() => setViewMode('split')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-100 cursor-pointer select-none ${
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-200 active:scale-[0.95] cursor-pointer select-none ${
               viewMode === 'split'
-                ? 'bg-amber-400 text-black font-semibold shadow-sm'
-                : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
+                ? 'bg-gradient-to-b from-amber-300 to-amber-500 text-black font-semibold shadow-[0_2px_10px_rgba(245,158,11,0.3),inset_0_1px_0_rgba(255,255,255,0.4)]'
+                : 'text-white/60 hover:text-white hover:bg-white/[0.06]'
             }`}
           >
             <Split className="w-3.5 h-3.5" />
@@ -133,10 +133,10 @@ export const PreviewWorkspace: React.FC<PreviewWorkspaceProps> = ({
 
           <button
             onClick={() => setViewMode('side-by-side')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-100 cursor-pointer select-none ${
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-200 active:scale-[0.95] cursor-pointer select-none ${
               viewMode === 'side-by-side'
-                ? 'bg-amber-400 text-black font-semibold shadow-sm'
-                : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
+                ? 'bg-gradient-to-b from-amber-300 to-amber-500 text-black font-semibold shadow-[0_2px_10px_rgba(245,158,11,0.3),inset_0_1px_0_rgba(255,255,255,0.4)]'
+                : 'text-white/60 hover:text-white hover:bg-white/[0.06]'
             }`}
           >
             <Eye className="w-3.5 h-3.5" />
@@ -145,10 +145,10 @@ export const PreviewWorkspace: React.FC<PreviewWorkspaceProps> = ({
 
           <button
             onClick={() => setViewMode('result')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-100 cursor-pointer select-none ${
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-200 active:scale-[0.95] cursor-pointer select-none ${
               viewMode === 'result'
-                ? 'bg-amber-400 text-black font-semibold shadow-sm'
-                : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
+                ? 'bg-gradient-to-b from-amber-300 to-amber-500 text-black font-semibold shadow-[0_2px_10px_rgba(245,158,11,0.3),inset_0_1px_0_rgba(255,255,255,0.4)]'
+                : 'text-white/60 hover:text-white hover:bg-white/[0.06]'
             }`}
           >
             <span>Result</span>
@@ -157,10 +157,10 @@ export const PreviewWorkspace: React.FC<PreviewWorkspaceProps> = ({
           {mode === 'png-to-svg' && convertedSvgString && (
             <button
               onClick={() => setViewMode('code')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-100 cursor-pointer select-none ${
+              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-200 active:scale-[0.95] cursor-pointer select-none ${
                 viewMode === 'code'
-                  ? 'bg-amber-400 text-black font-semibold shadow-sm'
-                  : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
+                  ? 'bg-gradient-to-b from-amber-300 to-amber-500 text-black font-semibold shadow-[0_2px_10px_rgba(245,158,11,0.3),inset_0_1px_0_rgba(255,255,255,0.4)]'
+                  : 'text-white/60 hover:text-white hover:bg-white/[0.06]'
               }`}
             >
               <Code className="w-3.5 h-3.5" />
@@ -174,7 +174,7 @@ export const PreviewWorkspace: React.FC<PreviewWorkspaceProps> = ({
           {/* Transparency Grid Toggle */}
           <button
             onClick={() => setShowCheckerboard(!showCheckerboard)}
-            className={`px-3 py-1.5 rounded-xl text-xs font-mono border transition-transform transition-colors duration-75 active:scale-95 cursor-pointer select-none ${
+            className={`px-3 py-1.5 rounded-full text-xs font-mono border transition-all duration-150 active:scale-95 cursor-pointer select-none ${
               showCheckerboard
                 ? 'bg-white/10 text-white border-white/20'
                 : 'bg-transparent text-white/40 border-white/5 hover:text-white'
@@ -184,10 +184,10 @@ export const PreviewWorkspace: React.FC<PreviewWorkspaceProps> = ({
           </button>
 
           {/* Zoom controls */}
-          <div className="flex items-center gap-0.5 futuristic-pill rounded-xl p-0.5">
+          <div className="flex items-center gap-0.5 bg-white/[0.04] backdrop-blur-xl border border-white/[0.08] rounded-full p-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]">
             <button
               onClick={() => setZoomLevel((z) => Math.max(0.5, z - 0.25))}
-              className="p-1.5 hover:text-white text-white/50 transition-transform duration-75 active:scale-90 cursor-pointer select-none"
+              className="p-1.5 rounded-full hover:text-white text-white/50 transition-all duration-150 active:scale-90 cursor-pointer select-none"
               title="Zoom out"
             >
               <ZoomOut className="w-3.5 h-3.5" />
@@ -197,14 +197,14 @@ export const PreviewWorkspace: React.FC<PreviewWorkspaceProps> = ({
             </span>
             <button
               onClick={() => setZoomLevel((z) => Math.min(3, z + 0.25))}
-              className="p-1.5 hover:text-white text-white/50 transition-transform duration-75 active:scale-90 cursor-pointer select-none"
+              className="p-1.5 rounded-full hover:text-white text-white/50 transition-all duration-150 active:scale-90 cursor-pointer select-none"
               title="Zoom in"
             >
               <ZoomIn className="w-3.5 h-3.5" />
             </button>
             <button
               onClick={() => setZoomLevel(1)}
-              className="p-1.5 hover:text-white text-white/50 transition-transform duration-75 active:scale-90 cursor-pointer select-none"
+              className="p-1.5 rounded-full hover:text-white text-white/50 transition-all duration-150 active:scale-90 cursor-pointer select-none"
               title="Reset 100%"
             >
               <Maximize2 className="w-3.5 h-3.5" />
@@ -214,7 +214,7 @@ export const PreviewWorkspace: React.FC<PreviewWorkspaceProps> = ({
           {/* Remove / Clear button */}
           <button
             onClick={onClear}
-            className="p-2 rounded-xl text-white/40 hover:text-rose-400 hover:bg-rose-500/10 transition-transform transition-colors duration-75 active:scale-90 ml-1 cursor-pointer select-none"
+            className="p-2 rounded-full text-white/40 hover:text-rose-400 hover:bg-rose-500/10 transition-all duration-150 active:scale-90 ml-1 cursor-pointer select-none"
             title="Discard current image"
           >
             <Trash2 className="w-4 h-4" />
@@ -400,7 +400,7 @@ export const PreviewWorkspace: React.FC<PreviewWorkspaceProps> = ({
           {onSaveVault && (
             <button
               onClick={onSaveVault}
-              className={`flex-1 sm:flex-initial btn-secondary text-xs px-3.5 py-2 rounded-lg ${
+              className={`flex-1 sm:flex-initial btn-secondary text-xs px-4 py-2 rounded-full ${
                 isSavedToVault ? 'text-emerald-400 border-emerald-500/40 bg-emerald-500/10' : ''
               }`}
             >
@@ -421,7 +421,7 @@ export const PreviewWorkspace: React.FC<PreviewWorkspaceProps> = ({
           {mode === 'png-to-svg' && convertedSvgString && (
             <button
               onClick={handleCopySvgCode}
-              className="flex-1 sm:flex-initial btn-secondary text-xs px-3.5 py-2 rounded-lg"
+              className="flex-1 sm:flex-initial btn-secondary text-xs px-4 py-2 rounded-full"
             >
               {copiedCode ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
               <span>{copiedCode ? 'Copied!' : 'Copy SVG'}</span>
@@ -430,7 +430,7 @@ export const PreviewWorkspace: React.FC<PreviewWorkspaceProps> = ({
 
           <button
             onClick={handleDownload}
-            className="flex-1 sm:flex-initial btn-primary text-xs sm:text-sm px-5 py-2 rounded-lg font-semibold"
+            className="flex-1 sm:flex-initial btn-primary text-xs sm:text-sm px-6 py-2.5 rounded-full font-semibold"
           >
             <Download className="w-4 h-4 text-black" />
             <span>

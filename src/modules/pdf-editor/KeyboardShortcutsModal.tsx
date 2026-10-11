@@ -64,13 +64,13 @@ export const KeyboardShortcutsModal: React.FC<KeyboardShortcutsModalProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-150 select-none">
       <div
-        className="w-full max-w-2xl bg-[#09090e] border border-white/10 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]"
+        className="w-full max-w-2xl bg-[#09090e]/95 border border-white/10 rounded-[28px] liquid-glass-card shadow-2xl overflow-hidden flex flex-col max-h-[85vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div className="px-6 py-4 border-b border-white/[0.08] flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-amber-400/10 border border-amber-400/20 text-amber-400 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-full bg-amber-400/10 border border-amber-400/20 text-amber-400 flex items-center justify-center">
               <Keyboard className="w-4 h-4" />
             </div>
             <div>
@@ -104,7 +104,7 @@ export const KeyboardShortcutsModal: React.FC<KeyboardShortcutsModalProps> = ({
                     className="flex items-center justify-between p-2.5 rounded-xl bg-white/[0.02] border border-white/[0.05] hover:border-white/10 transition-colors"
                   >
                     <span className="text-white/70 text-[11px]">{item.desc}</span>
-                    <kbd className="px-2 py-0.5 rounded-md bg-white/[0.08] border border-white/10 font-mono text-[10px] font-semibold text-amber-300 shadow-sm flex items-center gap-1">
+                    <kbd className="px-2 py-0.5 rounded-full bg-white/[0.08] border border-white/10 font-mono text-[10px] font-semibold text-amber-300 shadow-sm flex items-center gap-1">
                       {item.key}
                     </kbd>
                   </div>
@@ -122,7 +122,7 @@ export const KeyboardShortcutsModal: React.FC<KeyboardShortcutsModalProps> = ({
           </span>
           <button
             onClick={onClose}
-            className="btn-secondary text-xs px-3.5 py-1.5 rounded-lg"
+            className="btn-secondary text-xs px-5 py-2 rounded-full"
           >
             Got it (Esc)
           </button>

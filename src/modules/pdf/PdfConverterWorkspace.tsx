@@ -758,7 +758,7 @@ export const PdfConverterWorkspace: React.FC<PdfConverterWorkspaceProps> = ({
             <button
               onClick={handleExecute}
               disabled={isProcessing || selectedFiles.length === 0}
-              className="w-full btn-primary py-3 rounded-lg text-sm font-semibold flex items-center justify-center gap-2"
+              className="w-full btn-primary py-3 rounded-full text-sm font-semibold flex items-center justify-center gap-2"
             >
               {isProcessing ? (
                 <>
@@ -776,13 +776,13 @@ export const PdfConverterWorkspace: React.FC<PdfConverterWorkspaceProps> = ({
 
           {/* Download Output Card */}
           {resultBlob && (
-            <div className="rounded-3xl border border-emerald-500/30 bg-emerald-500/[0.06] backdrop-blur-2xl p-6 space-y-4">
+            <div className="rounded-[28px] border border-emerald-500/30 bg-emerald-500/[0.06] backdrop-blur-2xl p-6 space-y-4 shadow-[0_8px_32px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.14)]">
               <div className="flex items-center gap-2.5 text-emerald-400">
                 <CheckCircle2 className="w-5 h-5" />
                 <h4 className="text-sm font-bold text-white">Conversion Successful</h4>
               </div>
 
-              <div className="p-3 rounded-xl bg-black/40 border border-white/5 space-y-1 font-mono text-xs">
+              <div className="p-3 rounded-2xl bg-black/40 border border-white/5 space-y-1 font-mono text-xs">
                 <div className="text-white truncate font-medium">{resultFileName}</div>
                 <div className="text-white/50 text-[11px]">
                   Output Size: {formatBytes(resultBlob.size)}
@@ -796,7 +796,7 @@ export const PdfConverterWorkspace: React.FC<PdfConverterWorkspaceProps> = ({
 
               <button
                 onClick={handleDownload}
-                className="w-full btn-success py-3 rounded-lg text-sm font-semibold flex items-center justify-center gap-2"
+                className="w-full btn-success py-3 rounded-full text-sm font-semibold flex items-center justify-center gap-2"
               >
                 <Download className="w-4 h-4" />
                 <span>Download Result</span>
@@ -805,7 +805,7 @@ export const PdfConverterWorkspace: React.FC<PdfConverterWorkspaceProps> = ({
               {resultFileName.endsWith('.pdf') && (
                 <Link
                   to="/pdf-editor"
-                  className="w-full btn-secondary py-2.5 rounded-lg text-xs font-medium flex items-center justify-center gap-2"
+                  className="w-full btn-secondary py-2.5 rounded-full text-xs font-medium flex items-center justify-center gap-2"
                 >
                   <ExternalLink className="w-3.5 h-3.5 text-amber-400" />
                   <span>Open in PDF Editor</span>

@@ -20,13 +20,13 @@ export const ToolsGrid: React.FC = () => {
       {/* 1. Core Studio Workspaces (3 Flagship Cards) */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
         {/* PDF Suite Studio Card */}
-        <div className="group relative rounded-3xl border border-white/[0.08] bg-white/[0.02] hover:bg-white/[0.04] p-6 sm:p-7 backdrop-blur-xl transition-all duration-300 hover:border-amber-400/40 flex flex-col justify-between">
+        <div className="group relative rounded-[28px] liquid-glass-card p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 hover:border-amber-400/40 hover:-translate-y-0.5">
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <div className="w-11 h-11 rounded-2xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-400">
+              <div className="w-11 h-11 rounded-2xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]">
                 <FileText className="w-5 h-5" />
               </div>
-              <span className="px-3 py-1 rounded-full text-[11px] font-mono text-amber-400/90 bg-amber-400/10 border border-amber-400/20">
+              <span className="px-3 py-1 rounded-full text-[11px] font-mono text-amber-400/90 bg-amber-400/10 border border-amber-400/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]">
                 {pdfCount} Tools • Client-Side
               </span>
             </div>
@@ -42,24 +42,24 @@ export const ToolsGrid: React.FC = () => {
 
             {/* Quick Feature Badges */}
             <div className="flex flex-wrap gap-1.5 pt-1 text-[11px] font-mono text-white/50">
-              <span className="px-2.5 py-1 rounded-lg bg-amber-400/10 border border-amber-400/20 text-amber-400">Sign &amp; Stamp</span>
-              <span className="px-2.5 py-1 rounded-lg bg-white/[0.03] border border-white/5">Visual Editor</span>
-              <span className="px-2.5 py-1 rounded-lg bg-white/[0.03] border border-white/5">Merge &amp; Split</span>
-              <span className="px-2.5 py-1 rounded-lg bg-white/[0.03] border border-white/5">Word ⇄ PDF</span>
+              <span className="px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/20 text-amber-400">Sign &amp; Stamp</span>
+              <span className="px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.08]">Visual Editor</span>
+              <span className="px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.08]">Merge &amp; Split</span>
+              <span className="px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.08]">Word ⇄ PDF</span>
             </div>
           </div>
 
           <div className="flex items-center gap-2.5 pt-6 mt-6 border-t border-white/[0.06]">
             <Link
               to="/pdf-converter"
-              className="btn-primary text-xs px-3.5 py-1.5 rounded-lg"
+              className="btn-primary text-xs px-4 py-2 rounded-full"
             >
               <span>Open PDF Tools</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
             <Link
               to="/pdf-editor"
-              className="btn-secondary text-xs px-3 py-1.5 rounded-lg"
+              className="btn-secondary text-xs px-4 py-2 rounded-full"
             >
               <Edit3 className="w-3.5 h-3.5 text-amber-400" />
               <span>Visual Editor</span>
@@ -68,13 +68,13 @@ export const ToolsGrid: React.FC = () => {
         </div>
 
         {/* Image Studio Card */}
-        <div className="group relative rounded-3xl border border-white/[0.08] bg-white/[0.02] hover:bg-white/[0.04] p-6 sm:p-7 backdrop-blur-xl transition-all duration-300 hover:border-amber-400/40 flex flex-col justify-between">
+        <div className="group relative rounded-[28px] liquid-glass-card p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 hover:border-amber-400/40 hover:-translate-y-0.5">
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <div className="w-11 h-11 rounded-2xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-400">
+              <div className="w-11 h-11 rounded-2xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]">
                 <Image className="w-5 h-5" />
               </div>
-              <span className="px-3 py-1 rounded-md text-[11px] font-mono text-amber-400/90 bg-amber-400/10 border border-amber-400/20">
+              <span className="px-3 py-1 rounded-full text-[11px] font-mono text-amber-400/90 bg-amber-400/10 border border-amber-400/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]">
                 {imageCount} Tools • Client-Side
               </span>
             </div>
@@ -90,24 +90,24 @@ export const ToolsGrid: React.FC = () => {
 
             {/* Quick Feature Badges */}
             <div className="flex flex-wrap gap-1.5 pt-1 text-[11px] font-mono text-white/50">
-              <span className="px-2.5 py-1 rounded-lg bg-white/[0.03] border border-white/5">PNG to SVG (Vector)</span>
-              <span className="px-2.5 py-1 rounded-lg bg-white/[0.03] border border-white/5">SVG to PNG (Raster)</span>
-              <span className="px-2.5 py-1 rounded-lg bg-white/[0.03] border border-white/5">Quantization</span>
-              <span className="px-2.5 py-1 rounded-lg bg-white/[0.03] border border-white/5">Zero Upload</span>
+              <span className="px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.08]">PNG to SVG (Vector)</span>
+              <span className="px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.08]">SVG to PNG (Raster)</span>
+              <span className="px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.08]">Quantization</span>
+              <span className="px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.08]">Zero Upload</span>
             </div>
           </div>
 
           <div className="flex items-center gap-2.5 pt-6 mt-6 border-t border-white/[0.06]">
             <Link
               to="/image-converter"
-              className="btn-primary text-xs px-3.5 py-1.5 rounded-lg"
+              className="btn-primary text-xs px-4 py-2 rounded-full"
             >
               <span>Open Image Studio</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
             <Link
               to="/image-converter/png-to-svg"
-              className="btn-secondary text-xs px-3 py-1.5 rounded-lg"
+              className="btn-secondary text-xs px-4 py-2 rounded-full"
             >
               <span>PNG → SVG</span>
             </Link>
@@ -115,13 +115,13 @@ export const ToolsGrid: React.FC = () => {
         </div>
 
         {/* Data & Code Suite Studio Card */}
-        <div className="group relative rounded-3xl border border-white/[0.08] bg-white/[0.02] hover:bg-white/[0.04] p-6 sm:p-7 backdrop-blur-xl transition-all duration-300 hover:border-amber-400/40 flex flex-col justify-between">
+        <div className="group relative rounded-[28px] liquid-glass-card p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 hover:border-amber-400/40 hover:-translate-y-0.5">
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <div className="w-11 h-11 rounded-2xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-400">
+              <div className="w-11 h-11 rounded-2xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]">
                 <Braces className="w-5 h-5" />
               </div>
-              <span className="px-3 py-1 rounded-md text-[11px] font-mono text-amber-400/90 bg-amber-400/10 border border-amber-400/20">
+              <span className="px-3 py-1 rounded-full text-[11px] font-mono text-amber-400/90 bg-amber-400/10 border border-amber-400/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]">
                 {dataCount} Tools • Client-Side
               </span>
             </div>
@@ -137,24 +137,24 @@ export const ToolsGrid: React.FC = () => {
 
             {/* Quick Feature Badges */}
             <div className="flex flex-wrap gap-1.5 pt-1 text-[11px] font-mono text-white/50">
-              <span className="px-2.5 py-1 rounded-lg bg-amber-400/10 border border-amber-400/20 text-amber-400">JSON ⇄ CSV</span>
-              <span className="px-2.5 py-1 rounded-lg bg-white/[0.03] border border-white/5">JSON ⇄ YAML</span>
-              <span className="px-2.5 py-1 rounded-lg bg-white/[0.03] border border-white/5">XML ⇄ JSON</span>
-              <span className="px-2.5 py-1 rounded-lg bg-white/[0.03] border border-white/5">Base64</span>
+              <span className="px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/20 text-amber-400">JSON ⇄ CSV</span>
+              <span className="px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.08]">JSON ⇄ YAML</span>
+              <span className="px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.08]">XML ⇄ JSON</span>
+              <span className="px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.08]">Base64</span>
             </div>
           </div>
 
           <div className="flex items-center gap-2.5 pt-6 mt-6 border-t border-white/[0.06]">
             <Link
               to="/text-to-json"
-              className="btn-primary text-xs px-3.5 py-1.5 rounded-lg"
+              className="btn-primary text-xs px-4 py-2 rounded-full"
             >
               <span>Open Data Suite</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
             <Link
               to="/csv-to-json"
-              className="btn-secondary text-xs px-3 py-1.5 rounded-lg"
+              className="btn-secondary text-xs px-4 py-2 rounded-full"
             >
               <span>CSV ➔ JSON</span>
             </Link>

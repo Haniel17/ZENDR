@@ -307,16 +307,16 @@ export const DataConverterPage: React.FC = () => {
           </div>
 
           {/* Quick Tool Switcher Pills */}
-          <div className="flex items-center gap-1 overflow-x-auto p-1 bg-[#0c0d10] border border-white/[0.08] rounded-xl scrollbar-none text-xs">
+          <div className="flex items-center gap-1 overflow-x-auto p-1 bg-white/[0.04] backdrop-blur-2xl border border-white/[0.08] rounded-full scrollbar-none text-xs shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]">
             <button
               onClick={() => {
                 setActiveTool('text-to-json');
                 setParseMode('key-value');
               }}
-              className={`px-3 py-1.5 rounded-lg font-medium transition-all duration-100 whitespace-nowrap cursor-pointer select-none flex items-center gap-1.5 ${
+              className={`px-3.5 py-1.5 rounded-full font-medium active:scale-[0.95] transition-all duration-200 whitespace-nowrap cursor-pointer select-none flex items-center gap-1.5 ${
                 activeTool === 'text-to-json'
-                  ? 'bg-amber-400 text-black font-semibold shadow-sm'
-                  : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
+                  ? 'bg-gradient-to-b from-amber-300 to-amber-500 text-black font-semibold shadow-[0_2px_10px_rgba(245,158,11,0.3),inset_0_1px_0_rgba(255,255,255,0.4)]'
+                  : 'text-white/60 hover:text-white hover:bg-white/[0.06]'
               }`}
             >
               <span>Text ➔ JSON</span>
@@ -326,70 +326,70 @@ export const DataConverterPage: React.FC = () => {
                 setActiveTool('csv-to-json');
                 setParseMode('csv');
               }}
-              className={`px-3 py-1.5 rounded-lg font-medium transition-all duration-100 whitespace-nowrap cursor-pointer select-none flex items-center gap-1.5 ${
+              className={`px-3.5 py-1.5 rounded-full font-medium active:scale-[0.95] transition-all duration-200 whitespace-nowrap cursor-pointer select-none flex items-center gap-1.5 ${
                 activeTool === 'csv-to-json'
-                  ? 'bg-amber-400 text-black font-semibold shadow-sm'
-                  : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
+                  ? 'bg-gradient-to-b from-amber-300 to-amber-500 text-black font-semibold shadow-[0_2px_10px_rgba(245,158,11,0.3),inset_0_1px_0_rgba(255,255,255,0.4)]'
+                  : 'text-white/60 hover:text-white hover:bg-white/[0.06]'
               }`}
             >
               <span>CSV ➔ JSON</span>
             </button>
             <button
               onClick={() => setActiveTool('json-to-csv')}
-              className={`px-3 py-1.5 rounded-lg font-medium transition-all duration-100 whitespace-nowrap cursor-pointer select-none flex items-center gap-1.5 ${
+              className={`px-3.5 py-1.5 rounded-full font-medium active:scale-[0.95] transition-all duration-200 whitespace-nowrap cursor-pointer select-none flex items-center gap-1.5 ${
                 activeTool === 'json-to-csv'
-                  ? 'bg-amber-400 text-black font-semibold shadow-sm'
-                  : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
+                  ? 'bg-gradient-to-b from-amber-300 to-amber-500 text-black font-semibold shadow-[0_2px_10px_rgba(245,158,11,0.3),inset_0_1px_0_rgba(255,255,255,0.4)]'
+                  : 'text-white/60 hover:text-white hover:bg-white/[0.06]'
               }`}
             >
               <span>JSON ➔ CSV</span>
             </button>
             <button
               onClick={() => setActiveTool('yaml-to-json')}
-              className={`px-3 py-1.5 rounded-lg font-medium transition-all duration-100 whitespace-nowrap cursor-pointer select-none flex items-center gap-1.5 ${
+              className={`px-3.5 py-1.5 rounded-full font-medium active:scale-[0.95] transition-all duration-200 whitespace-nowrap cursor-pointer select-none flex items-center gap-1.5 ${
                 activeTool === 'yaml-to-json'
-                  ? 'bg-amber-400 text-black font-semibold shadow-sm'
-                  : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
+                  ? 'bg-gradient-to-b from-amber-300 to-amber-500 text-black font-semibold shadow-[0_2px_10px_rgba(245,158,11,0.3),inset_0_1px_0_rgba(255,255,255,0.4)]'
+                  : 'text-white/60 hover:text-white hover:bg-white/[0.06]'
               }`}
             >
               <span>YAML ➔ JSON</span>
             </button>
             <button
               onClick={() => setActiveTool('json-to-yaml')}
-              className={`px-3 py-1.5 rounded-lg font-medium transition-all duration-100 whitespace-nowrap cursor-pointer select-none flex items-center gap-1.5 ${
+              className={`px-3.5 py-1.5 rounded-full font-medium active:scale-[0.95] transition-all duration-200 whitespace-nowrap cursor-pointer select-none flex items-center gap-1.5 ${
                 activeTool === 'json-to-yaml'
-                  ? 'bg-amber-400 text-black font-semibold shadow-sm'
-                  : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
+                  ? 'bg-gradient-to-b from-amber-300 to-amber-500 text-black font-semibold shadow-[0_2px_10px_rgba(245,158,11,0.3),inset_0_1px_0_rgba(255,255,255,0.4)]'
+                  : 'text-white/60 hover:text-white hover:bg-white/[0.06]'
               }`}
             >
               <span>JSON ➔ YAML</span>
             </button>
             <button
               onClick={() => setActiveTool('xml-to-json')}
-              className={`px-3 py-1.5 rounded-lg font-medium transition-all duration-100 whitespace-nowrap cursor-pointer select-none flex items-center gap-1.5 ${
+              className={`px-3.5 py-1.5 rounded-full font-medium active:scale-[0.95] transition-all duration-200 whitespace-nowrap cursor-pointer select-none flex items-center gap-1.5 ${
                 activeTool === 'xml-to-json'
-                  ? 'bg-amber-400 text-black font-semibold shadow-sm'
-                  : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
+                  ? 'bg-gradient-to-b from-amber-300 to-amber-500 text-black font-semibold shadow-[0_2px_10px_rgba(245,158,11,0.3),inset_0_1px_0_rgba(255,255,255,0.4)]'
+                  : 'text-white/60 hover:text-white hover:bg-white/[0.06]'
               }`}
             >
               <span>XML ➔ JSON</span>
             </button>
             <button
               onClick={() => setActiveTool('json-to-xml')}
-              className={`px-3 py-1.5 rounded-lg font-medium transition-all duration-100 whitespace-nowrap cursor-pointer select-none flex items-center gap-1.5 ${
+              className={`px-3.5 py-1.5 rounded-full font-medium active:scale-[0.95] transition-all duration-200 whitespace-nowrap cursor-pointer select-none flex items-center gap-1.5 ${
                 activeTool === 'json-to-xml'
-                  ? 'bg-amber-400 text-black font-semibold shadow-sm'
-                  : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
+                  ? 'bg-gradient-to-b from-amber-300 to-amber-500 text-black font-semibold shadow-[0_2px_10px_rgba(245,158,11,0.3),inset_0_1px_0_rgba(255,255,255,0.4)]'
+                  : 'text-white/60 hover:text-white hover:bg-white/[0.06]'
               }`}
             >
               <span>JSON ➔ XML</span>
             </button>
             <button
               onClick={() => setActiveTool('base64-converter')}
-              className={`px-3 py-1.5 rounded-lg font-medium transition-all duration-100 whitespace-nowrap cursor-pointer select-none flex items-center gap-1.5 ${
+              className={`px-3.5 py-1.5 rounded-full font-medium active:scale-[0.95] transition-all duration-200 whitespace-nowrap cursor-pointer select-none flex items-center gap-1.5 ${
                 activeTool === 'base64-converter'
-                  ? 'bg-amber-400 text-black font-semibold shadow-sm'
-                  : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
+                  ? 'bg-gradient-to-b from-amber-300 to-amber-500 text-black font-semibold shadow-[0_2px_10px_rgba(245,158,11,0.3),inset_0_1px_0_rgba(255,255,255,0.4)]'
+                  : 'text-white/60 hover:text-white hover:bg-white/[0.06]'
               }`}
             >
               <span>Base64</span>
@@ -647,7 +647,7 @@ export const DataConverterPage: React.FC = () => {
                 <button
                   onClick={handleCopy}
                   disabled={!outputText}
-                  className="btn-secondary text-xs px-3 py-1.5 rounded-lg"
+                  className="btn-secondary text-xs px-4 py-1.5 rounded-full"
                 >
                   {isCopied ? (
                     <>
@@ -665,7 +665,7 @@ export const DataConverterPage: React.FC = () => {
                 <button
                   onClick={handleDownload}
                   disabled={!outputText}
-                  className="btn-primary text-xs px-3.5 py-1.5 rounded-lg"
+                  className="btn-primary text-xs px-4 py-1.5 rounded-full"
                 >
                   <Download className="w-3.5 h-3.5" />
                   <span>Download</span>

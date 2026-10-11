@@ -317,11 +317,11 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="w-full max-w-xl rounded-3xl border border-white/10 bg-[#07070a] shadow-2xl overflow-hidden flex flex-col text-white">
+      <div className="w-full max-w-xl rounded-[28px] border border-white/10 bg-[#07070a]/95 backdrop-blur-3xl shadow-[0_20px_60px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.15)] overflow-hidden flex flex-col text-white">
         {/* Header */}
         <div className="px-6 py-4 border-b border-white/[0.08] flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-amber-400/10 border border-amber-400/20 text-amber-400 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-amber-400/10 border border-amber-400/20 text-amber-400 flex items-center justify-center shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]">
               <PenTool className="w-4 h-4" />
             </div>
             <div>
@@ -332,7 +332,7 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
 
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-white/[0.04] hover:bg-white/[0.1] border border-white/5 flex items-center justify-center text-white/50 hover:text-white transition-colors cursor-pointer"
+            className="w-8 h-8 rounded-full bg-white/[0.04] hover:bg-white/[0.1] border border-white/5 flex items-center justify-center text-white/50 hover:text-white transition-colors cursor-pointer active:scale-95"
           >
             <X className="w-4 h-4" />
           </button>
@@ -340,13 +340,13 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
 
         {/* Navigation Tabs */}
         <div className="px-6 pt-4">
-          <div className="flex items-center gap-1 p-1 bg-[#0c0d10] border border-white/[0.08] rounded-xl">
+          <div className="flex items-center gap-1 p-1 bg-white/[0.04] backdrop-blur-2xl border border-white/[0.08] rounded-full shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
             <button
               onClick={() => setActiveTab('draw')}
-              className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+              className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-full text-xs font-medium transition-all active:scale-[0.95] cursor-pointer ${
                 activeTab === 'draw'
-                  ? 'bg-amber-400 text-black shadow-sm font-semibold'
-                  : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
+                  ? 'bg-gradient-to-b from-amber-300 to-amber-500 text-black shadow-[0_2px_10px_rgba(245,158,11,0.3),inset_0_1px_0_rgba(255,255,255,0.4)] font-semibold'
+                  : 'text-white/60 hover:text-white hover:bg-white/[0.06]'
               }`}
             >
               <PenTool className="w-3.5 h-3.5" />
@@ -355,10 +355,10 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
 
             <button
               onClick={() => setActiveTab('type')}
-              className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+              className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-full text-xs font-medium transition-all active:scale-[0.95] cursor-pointer ${
                 activeTab === 'type'
-                  ? 'bg-amber-400 text-black shadow-sm font-semibold'
-                  : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
+                  ? 'bg-gradient-to-b from-amber-300 to-amber-500 text-black shadow-[0_2px_10px_rgba(245,158,11,0.3),inset_0_1px_0_rgba(255,255,255,0.4)] font-semibold'
+                  : 'text-white/60 hover:text-white hover:bg-white/[0.06]'
               }`}
             >
               <Type className="w-3.5 h-3.5" />
@@ -367,10 +367,10 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
 
             <button
               onClick={() => setActiveTab('upload')}
-              className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+              className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-full text-xs font-medium transition-all active:scale-[0.95] cursor-pointer ${
                 activeTab === 'upload'
-                  ? 'bg-amber-400 text-black shadow-sm font-semibold'
-                  : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
+                  ? 'bg-gradient-to-b from-amber-300 to-amber-500 text-black shadow-[0_2px_10px_rgba(245,158,11,0.3),inset_0_1px_0_rgba(255,255,255,0.4)] font-semibold'
+                  : 'text-white/60 hover:text-white hover:bg-white/[0.06]'
               }`}
             >
               <Upload className="w-3.5 h-3.5" />
@@ -379,10 +379,10 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
 
             <button
               onClick={() => setActiveTab('saved')}
-              className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer relative ${
+              className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-full text-xs font-medium transition-all active:scale-[0.95] cursor-pointer relative ${
                 activeTab === 'saved'
-                  ? 'bg-amber-400 text-black shadow-sm font-semibold'
-                  : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
+                  ? 'bg-gradient-to-b from-amber-300 to-amber-500 text-black shadow-[0_2px_10px_rgba(245,158,11,0.3),inset_0_1px_0_rgba(255,255,255,0.4)] font-semibold'
+                  : 'text-white/60 hover:text-white hover:bg-white/[0.06]'
               }`}
             >
               <BookmarkCheck className="w-3.5 h-3.5" />
@@ -751,7 +751,7 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
           <div className="flex items-center gap-2.5">
             <button
               onClick={onClose}
-              className="btn-secondary text-xs px-4 py-2 rounded-lg"
+              className="btn-secondary text-xs px-4 py-2 rounded-full"
             >
               Cancel
             </button>
@@ -762,7 +762,7 @@ export const SignatureModal: React.FC<SignatureModalProps> = ({
                 (activeTab === 'upload' && !uploadedDataUrl) ||
                 (activeTab === 'saved')
               }
-              className="btn-primary text-xs px-5 py-2 rounded-lg font-semibold"
+              className="btn-primary text-xs px-5 py-2 rounded-full font-semibold"
             >
               <Check className="w-3.5 h-3.5 stroke-[2.5]" />
               <span>Insert Signature</span>

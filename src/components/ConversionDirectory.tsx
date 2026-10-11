@@ -143,13 +143,13 @@ export const ConversionDirectory: React.FC = () => {
     <div className="w-full space-y-4">
       {/* Category Tab Switcher: Convert vs Data vs Compress vs Tools */}
       <div className="flex items-center justify-between flex-wrap gap-3">
-        <div className="flex items-center gap-1 p-1 rounded-xl bg-[#0c0d10] border border-white/[0.08]">
+        <div className="flex items-center gap-1 p-1 rounded-full bg-white/[0.04] backdrop-blur-2xl border border-white/[0.08] shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]">
           <button
             onClick={() => setActiveTab('convert')}
-            className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all duration-100 cursor-pointer select-none ${
+            className={`px-4 py-1.5 rounded-full text-xs font-medium active:scale-[0.95] transition-all duration-200 cursor-pointer select-none ${
               activeTab === 'convert'
-                ? 'bg-amber-400 text-black shadow-sm font-semibold'
-                : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
+                ? 'bg-gradient-to-b from-amber-300 to-amber-500 text-black shadow-[0_2px_10px_rgba(245,158,11,0.3),inset_0_1px_0_rgba(255,255,255,0.4)] font-semibold'
+                : 'text-white/60 hover:text-white hover:bg-white/[0.06]'
             }`}
           >
             File Conversions (29)
@@ -157,10 +157,10 @@ export const ConversionDirectory: React.FC = () => {
 
           <button
             onClick={() => setActiveTab('data')}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all duration-100 cursor-pointer select-none ${
+            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-medium active:scale-[0.95] transition-all duration-200 cursor-pointer select-none ${
               activeTab === 'data'
-                ? 'bg-amber-400 text-black shadow-sm font-semibold'
-                : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
+                ? 'bg-gradient-to-b from-amber-300 to-amber-500 text-black shadow-[0_2px_10px_rgba(245,158,11,0.3),inset_0_1px_0_rgba(255,255,255,0.4)] font-semibold'
+                : 'text-white/60 hover:text-white hover:bg-white/[0.06]'
             }`}
           >
             <Braces className="w-3.5 h-3.5" />
@@ -169,10 +169,10 @@ export const ConversionDirectory: React.FC = () => {
 
           <button
             onClick={() => setActiveTab('compress')}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all duration-100 cursor-pointer select-none ${
+            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-medium active:scale-[0.95] transition-all duration-200 cursor-pointer select-none ${
               activeTab === 'compress'
-                ? 'bg-amber-400 text-black shadow-sm font-semibold'
-                : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
+                ? 'bg-gradient-to-b from-amber-300 to-amber-500 text-black shadow-[0_2px_10px_rgba(245,158,11,0.3),inset_0_1px_0_rgba(255,255,255,0.4)] font-semibold'
+                : 'text-white/60 hover:text-white hover:bg-white/[0.06]'
             }`}
           >
             <Minimize2 className="w-3.5 h-3.5" />
@@ -181,10 +181,10 @@ export const ConversionDirectory: React.FC = () => {
 
           <button
             onClick={() => setActiveTab('tools')}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all duration-100 cursor-pointer select-none ${
+            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-medium active:scale-[0.95] transition-all duration-200 cursor-pointer select-none ${
               activeTab === 'tools'
-                ? 'bg-amber-400 text-black shadow-sm font-semibold'
-                : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
+                ? 'bg-gradient-to-b from-amber-300 to-amber-500 text-black shadow-[0_2px_10px_rgba(245,158,11,0.3),inset_0_1px_0_rgba(255,255,255,0.4)] font-semibold'
+                : 'text-white/60 hover:text-white hover:bg-white/[0.06]'
             }`}
           >
             <Edit3 className="w-3.5 h-3.5" />
@@ -205,7 +205,7 @@ export const ConversionDirectory: React.FC = () => {
 
       {/* Two-Column Directory Panel */}
       <div 
-        className="w-full rounded-3xl border border-white/[0.08] bg-[#09090d]/85 backdrop-blur-md overflow-hidden shadow-2xl shadow-black/50"
+        className="w-full rounded-[28px] border border-white/[0.08] bg-white/[0.02] backdrop-blur-2xl overflow-hidden shadow-[0_12px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.12)]"
         style={{ transform: 'translateZ(0)' }}
       >
         {/* Table Headers */}
@@ -213,7 +213,7 @@ export const ConversionDirectory: React.FC = () => {
           {/* Left Column Header: Image */}
           <div className="md:col-span-4 px-6 sm:px-8 py-5 flex items-center justify-between border-b md:border-b-0 md:border-r border-white/[0.08] bg-white/[0.01]">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-400">
+              <div className="w-9 h-9 rounded-2xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]">
                 <ImageIcon className="w-4 h-4" />
               </div>
               <div>
@@ -225,7 +225,7 @@ export const ConversionDirectory: React.FC = () => {
             </div>
             <Link
               to={leftExploreLink}
-              className="text-[11px] font-mono text-amber-400 hover:text-amber-300 flex items-center gap-1 transition-colors"
+              className="text-[11px] font-mono text-amber-400 hover:text-amber-300 flex items-center gap-1 transition-colors px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] hover:bg-white/[0.08] active:scale-[0.95]"
             >
               <span>Explore</span>
               <ArrowUpRight className="w-3 h-3" />
@@ -235,7 +235,7 @@ export const ConversionDirectory: React.FC = () => {
           {/* Right Column Header: PDF */}
           <div className="md:col-span-8 px-6 sm:px-8 py-5 flex items-center justify-between bg-white/[0.01]">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-400">
+              <div className="w-9 h-9 rounded-2xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]">
                 <FileText className="w-4 h-4" />
               </div>
               <div>
@@ -247,7 +247,7 @@ export const ConversionDirectory: React.FC = () => {
             </div>
             <Link
               to={rightExploreLink}
-              className="text-[11px] font-mono text-amber-400 hover:text-amber-300 flex items-center gap-1 transition-colors"
+              className="text-[11px] font-mono text-amber-400 hover:text-amber-300 flex items-center gap-1 transition-colors px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] hover:bg-white/[0.08] active:scale-[0.95]"
             >
               <span>Explore</span>
               <ArrowUpRight className="w-3 h-3" />
@@ -263,22 +263,22 @@ export const ConversionDirectory: React.FC = () => {
               <Link
                 key={item.name}
                 to={item.route}
-                className="group flex items-center justify-between px-4 py-3 rounded-xl hover:bg-white/[0.06] transition-colors duration-75 active:scale-[0.99] cursor-pointer select-none"
+                className="group flex items-center justify-between px-4 py-3 rounded-2xl hover:bg-white/[0.06] transition-all duration-200 active:scale-[0.98] cursor-pointer select-none"
               >
                 <div className="flex items-center gap-3">
-                  <span className="w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-amber-400 transition-colors duration-75" />
-                  <span className="text-sm font-medium text-white/80 group-hover:text-amber-400 transition-colors duration-75">
+                  <span className="w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-amber-400 transition-colors duration-150" />
+                  <span className="text-sm font-medium text-white/80 group-hover:text-amber-400 transition-colors duration-150">
                     {item.name}
                   </span>
                 </div>
 
                 <div className="flex items-center gap-2">
                   {item.badge && (
-                    <span className="px-2 py-0.5 rounded-md text-[10px] font-mono bg-white/[0.03] border border-white/[0.08] text-white/50 group-hover:text-amber-400/80 group-hover:border-amber-400/30 transition-colors duration-75">
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono bg-white/[0.04] border border-white/[0.08] text-white/50 group-hover:text-amber-400/90 group-hover:border-amber-400/30 transition-colors duration-150">
                       {item.badge}
                     </span>
                   )}
-                  <ArrowUpRight className="w-3.5 h-3.5 text-white/20 group-hover:text-amber-400 transition-colors duration-75" />
+                  <ArrowUpRight className="w-3.5 h-3.5 text-white/20 group-hover:text-amber-400 transition-colors duration-150" />
                 </div>
               </Link>
             ))}
@@ -291,7 +291,7 @@ export const ConversionDirectory: React.FC = () => {
                 <Link
                   key={item.name}
                   to={item.route}
-                  className="group flex items-center justify-between px-4 py-3 rounded-xl hover:bg-white/[0.06] transition-colors duration-75 active:scale-[0.99] cursor-pointer select-none"
+                  className="group flex items-center justify-between px-4 py-3 rounded-2xl hover:bg-white/[0.06] transition-all duration-200 active:scale-[0.98] cursor-pointer select-none"
                 >
                   <div className="flex items-center gap-3 min-w-0">
                     <span className="w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-amber-400 shrink-0 transition-colors" />
@@ -302,7 +302,7 @@ export const ConversionDirectory: React.FC = () => {
 
                   <div className="flex items-center gap-2 shrink-0">
                     {item.badge && (
-                      <span className="px-2 py-0.5 rounded-md text-[10px] font-mono bg-white/[0.03] border border-white/[0.08] text-white/50 group-hover:text-amber-400/80 group-hover:border-amber-400/30 transition-colors">
+                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono bg-white/[0.04] border border-white/[0.08] text-white/50 group-hover:text-amber-400/80 group-hover:border-amber-400/30 transition-colors">
                         {item.badge}
                       </span>
                     )}
