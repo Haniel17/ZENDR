@@ -214,7 +214,8 @@ export async function exportEditedPdf(
           y: Math.max(0, pdfY),
           size: ann.fontSize,
           font: textFont,
-          color: annColor
+          color: annColor,
+          lineHeight: ann.fontSize * 1.25
         });
       } else if (ann.type === 'shape') {
         const { shapeType, x, y, width, height, strokeWidth } = ann;

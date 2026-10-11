@@ -154,7 +154,7 @@ export const PdfEditorWorkspace: React.FC<PdfEditorWorkspaceProps> = ({
       case 'select':
         return {
           title: 'Select Mode (V)',
-          hint: 'Click signatures, text, or shapes to drag & resize. Double-click any text to edit in-place.',
+          hint: 'Click text to edit directly right on the page. Drag & resize signatures or shapes.',
           badge: 'Shortcuts: V for Select • H for Hand'
         };
       case 'hand':
@@ -165,8 +165,8 @@ export const PdfEditorWorkspace: React.FC<PdfEditorWorkspaceProps> = ({
         };
       case 'text':
         return {
-          title: 'Text Editor (T)',
-          hint: 'Click or double-click any text on the PDF to edit it in-place, or click anywhere to type new text.',
+          title: 'Direct Text Editor (T)',
+          hint: 'Click any text on the page to edit directly in place. Enter or click outside to save.',
           badge: 'T for Text • Enter to apply'
         };
       case 'whiteout':

@@ -232,17 +232,19 @@ export const CanvasOverlay: React.FC<CanvasOverlayProps> = ({
   };
 
   const startEditingNativeText = (item: PdfTextItem) => {
+    const isBold = Boolean(item.fontName && /bold|black|heavy|700|800|900/i.test(item.fontName));
+    const textColor = currentColor !== '#ffffff' && currentColor !== '#f59e0b' ? currentColor : '#000000';
     setInlineEditor({
       mode: 'native',
       originalItem: item,
       x: item.x,
       y: item.y,
-      width: Math.max(100, item.width),
-      height: Math.max(20, item.height),
+      width: Math.max(60, item.width),
+      height: Math.max(16, item.height),
       text: item.str,
       fontSize: item.fontSize,
-      color: currentColor === '#ffffff' ? '#000000' : currentColor,
-      isBold: true
+      color: textColor,
+      isBold
     });
   };
 
@@ -252,11 +254,11 @@ export const CanvasOverlay: React.FC<CanvasOverlayProps> = ({
       annotationId: ann.id,
       x: ann.x,
       y: ann.y,
-      width: ann.width || Math.max(100, ann.text.length * ann.fontSize * 0.6),
-      height: ann.height || ann.fontSize * 1.4,
+      width: ann.width || Math.max(60, ann.text.length * ann.fontSize * 0.6),
+      height: ann.height || ann.fontSize * 1.3,
       text: ann.text,
       fontSize: ann.fontSize,
-      color: ann.color,
+      color: ann.color || '#000000',
       isBold: Boolean(ann.isBold)
     });
   };
@@ -267,10 +269,29 @@ export const CanvasOverlay: React.FC<CanvasOverlayProps> = ({
     if (!trimmed) {
       if (inlineEditor.mode === 'annotation' && inlineEditor.annotationId) {
         onRemoveAnnotation(inlineEditor.annotationId);
+      } else if (inlineEditor.mode === 'native' && inlineEditor.originalItem) {
+        // Erase/whiteout the native text
+        const orig = inlineEditor.originalItem;
+        onAddAnnotation({
+          id: `whiteout_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+          pageNumber: 1,
+          color: '#ffffff',
+          fill: '#ffffff',
+          type: 'shape',
+          shapeType: 'whiteout',
+          x: Math.max(0, orig.x - 2),
+          y: Math.max(0, orig.y - 2),
+          width: orig.width + 4,
+          height: orig.height + 4,
+          strokeWidth: 1
+        });
       }
       setInlineEditor(null);
       return;
     }
+
+    const approxWidth = Math.max(inlineEditor.width, trimmed.length * inlineEditor.fontSize * 0.62);
+    const approxHeight = Math.max(inlineEditor.height, inlineEditor.fontSize * 1.25);
 
     if (inlineEditor.mode === 'native' && inlineEditor.originalItem) {
       const orig = inlineEditor.originalItem;
@@ -284,25 +305,36 @@ export const CanvasOverlay: React.FC<CanvasOverlayProps> = ({
         fontSize: inlineEditor.fontSize,
         color: inlineEditor.color,
         isBold: inlineEditor.isBold,
-        width: inlineEditor.width,
-        height: inlineEditor.height,
+        width: approxWidth,
+        height: approxHeight,
         whiteoutBounds: {
           x: Math.max(0, orig.x - 2),
           y: Math.max(0, orig.y - 2),
-          width: orig.width + 4,
-          height: orig.height + 4
+          width: Math.max(orig.width + 4, approxWidth + 4),
+          height: Math.max(orig.height + 4, approxHeight + 4)
         },
         originalText: orig.str
       };
       onAddAnnotation(newAnn);
       setSelectedId(newAnn.id);
     } else if (inlineEditor.mode === 'annotation' && inlineEditor.annotationId && onUpdateAnnotation) {
-      onUpdateAnnotation(inlineEditor.annotationId, {
+      const existingAnn = annotations.find((a) => a.id === inlineEditor.annotationId) as TextAnnotation | undefined;
+      const updates: Partial<TextAnnotation> = {
         text: trimmed,
         fontSize: inlineEditor.fontSize,
         color: inlineEditor.color,
-        isBold: inlineEditor.isBold
-      });
+        isBold: inlineEditor.isBold,
+        width: approxWidth,
+        height: approxHeight
+      };
+      if (existingAnn?.whiteoutBounds) {
+        updates.whiteoutBounds = {
+          ...existingAnn.whiteoutBounds,
+          width: Math.max(existingAnn.whiteoutBounds.width, approxWidth + 4),
+          height: Math.max(existingAnn.whiteoutBounds.height, approxHeight + 4)
+        };
+      }
+      onUpdateAnnotation(inlineEditor.annotationId, updates);
     } else if (inlineEditor.mode === 'new') {
       const newAnn: TextAnnotation = {
         id: `text_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
@@ -313,7 +345,9 @@ export const CanvasOverlay: React.FC<CanvasOverlayProps> = ({
         text: trimmed,
         fontSize: inlineEditor.fontSize,
         color: inlineEditor.color,
-        isBold: inlineEditor.isBold
+        isBold: inlineEditor.isBold,
+        width: approxWidth,
+        height: approxHeight
       };
       onAddAnnotation(newAnn);
       setSelectedId(newAnn.id);
@@ -417,6 +451,8 @@ export const CanvasOverlay: React.FC<CanvasOverlayProps> = ({
         {annotations.map((ann) => {
           // 1. Text Annotation
           if (ann.type === 'text') {
+            const isEditingThis = inlineEditor?.annotationId === ann.id;
+
             return (
               <g key={ann.id}>
                 {/* If this annotation replaced existing PDF text, draw solid white mask rectangle */}
@@ -429,24 +465,38 @@ export const CanvasOverlay: React.FC<CanvasOverlayProps> = ({
                     fill="#ffffff"
                   />
                 )}
-                <text
-                  x={ann.x}
-                  y={ann.y + ann.fontSize}
-                  fill={ann.color}
-                  fontSize={ann.fontSize}
-                  fontWeight={ann.isBold ? 'bold' : 'normal'}
-                  className={`select-none font-sans ${currentTool === 'select' || currentTool === 'text' ? 'cursor-pointer' : ''}`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    if (currentTool === 'select') setSelectedId(ann.id);
-                  }}
-                  onDoubleClick={(e) => {
-                    e.stopPropagation();
-                    startEditingExistingAnnotation(ann);
-                  }}
-                >
-                  {ann.text}
-                </text>
+                {!isEditingThis && (
+                  <text
+                    x={ann.x}
+                    y={ann.y + ann.fontSize}
+                    fill={ann.color}
+                    fontSize={ann.fontSize}
+                    fontWeight={ann.isBold ? 'bold' : 'normal'}
+                    className={`select-none font-sans ${currentTool === 'select' || currentTool === 'text' ? 'cursor-text' : ''}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (currentTool === 'text') {
+                        startEditingExistingAnnotation(ann);
+                      } else if (currentTool === 'select') {
+                        setSelectedId(ann.id);
+                      }
+                    }}
+                    onDoubleClick={(e) => {
+                      e.stopPropagation();
+                      startEditingExistingAnnotation(ann);
+                    }}
+                  >
+                    {ann.text.split('\n').map((line, lIdx) => (
+                      <tspan
+                        key={lIdx}
+                        x={ann.x}
+                        dy={lIdx === 0 ? 0 : ann.fontSize * 1.25}
+                      >
+                        {line}
+                      </tspan>
+                    ))}
+                  </text>
+                )}
               </g>
             );
           }
@@ -785,10 +835,12 @@ export const CanvasOverlay: React.FC<CanvasOverlayProps> = ({
               );
               if (isReplaced) return null;
 
+              const isEditingThis = inlineEditor?.originalItem?.id === item.id;
+
               return (
                 <g
                   key={item.id}
-                  className="cursor-pointer group"
+                  className="cursor-text group"
                   onClick={(e) => {
                     e.stopPropagation();
                     startEditingNativeText(item);
@@ -798,17 +850,27 @@ export const CanvasOverlay: React.FC<CanvasOverlayProps> = ({
                     startEditingNativeText(item);
                   }}
                 >
-                  <rect
-                    x={item.x - 2}
-                    y={item.y - 2}
-                    width={item.width + 4}
-                    height={item.height + 4}
-                    fill="transparent"
-                    rx={2}
-                    className="transition-all hover:fill-amber-400/20 hover:stroke-amber-400/70 hover:stroke-[1px]"
-                  >
-                    <title>Click or double-click to edit this text</title>
-                  </rect>
+                  {isEditingThis ? (
+                    <rect
+                      x={item.x - 2}
+                      y={item.y - 2}
+                      width={item.width + 4}
+                      height={item.height + 4}
+                      fill="#ffffff"
+                    />
+                  ) : (
+                    <rect
+                      x={item.x - 2}
+                      y={item.y - 2}
+                      width={item.width + 4}
+                      height={item.height + 4}
+                      fill="transparent"
+                      rx={2}
+                      className="cursor-text transition-colors hover:fill-blue-500/10 hover:stroke-blue-500/50 hover:stroke-[1px]"
+                    >
+                      <title>Click to edit directly on the page</title>
+                    </rect>
+                  )}
                 </g>
               );
             })}
@@ -880,148 +942,147 @@ export const CanvasOverlay: React.FC<CanvasOverlayProps> = ({
         )}
       </svg>
 
-      {/* Rich In-Place Text Editor */}
+      {/* DIRECT IN-PAGE TEXT EDITOR (Edit directly on the document page, no separate popup modal) */}
       {inlineEditor && (
         <div
-          className="absolute z-50 rounded-2xl bg-[#09090f] border border-amber-400/80 shadow-[0_20px_50px_rgba(0,0,0,0.85)] flex flex-col p-2.5 gap-2 backdrop-blur-xl animate-in fade-in zoom-in-95 duration-100"
+          className="absolute z-50 inline-flex flex-col select-none"
           style={{
-            left: Math.max(10, Math.min(scaledWidth - 320, inlineEditor.x * zoomScale - 4)),
-            top: Math.max(10, inlineEditor.y * zoomScale - 48),
-            minWidth: '280px',
-            maxWidth: '650px'
+            left: `${inlineEditor.x * zoomScale}px`,
+            top: `${inlineEditor.y * zoomScale}px`,
+            maxWidth: `${Math.max(160, scaledWidth - inlineEditor.x * zoomScale - 10)}px`
           }}
           onClick={(e) => e.stopPropagation()}
           onMouseDown={(e) => e.stopPropagation()}
         >
-          {/* Top mini controls bar */}
-          <div className="flex items-center justify-between gap-2 pb-1.5 border-b border-white/10 text-[11px]">
-            <div className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
-              <span className="font-semibold text-white">
-                {inlineEditor.mode === 'native'
-                  ? 'Edit PDF Text'
-                  : inlineEditor.mode === 'annotation'
-                  ? 'Edit Text'
-                  : 'New Text'}
-              </span>
-              {inlineEditor.mode === 'native' && (
-                <span className="text-[10px] text-amber-400/80 bg-amber-400/10 px-1.5 py-0.2 rounded font-mono">
-                  Mask & Replace
-                </span>
-              )}
-            </div>
+          {/* Micro Floating Format Pill directly above the active text */}
+          <div
+            className="flex items-center gap-1 px-1.5 py-0.5 rounded-lg bg-[#0e0e14]/95 border border-white/20 shadow-2xl backdrop-blur-md text-white text-[10px] mb-1 self-start pointer-events-auto"
+            onMouseDown={(e) => {
+              // Prevent textarea blur when clicking format controls
+              e.preventDefault();
+            }}
+          >
+            {/* Bold toggle */}
+            <button
+              type="button"
+              onClick={() =>
+                setInlineEditor((prev) => (prev ? { ...prev, isBold: !prev.isBold } : null))
+              }
+              className={`w-4 h-4 rounded flex items-center justify-center font-bold transition-colors ${
+                inlineEditor.isBold ? 'bg-amber-400 text-black' : 'text-white/80 hover:bg-white/10'
+              }`}
+              title="Toggle Bold"
+            >
+              B
+            </button>
 
-            {/* Formatting controls */}
-            <div className="flex items-center gap-1">
-              {/* Font size adjustments */}
-              <div className="flex items-center bg-white/10 rounded-lg p-0.5 font-mono text-[10px]">
-                <button
-                  onClick={() =>
-                    setInlineEditor((prev) =>
-                      prev ? { ...prev, fontSize: Math.max(8, prev.fontSize - 1) } : null
-                    )
-                  }
-                  className="w-4 h-4 flex items-center justify-center text-white/70 hover:text-white rounded hover:bg-white/10"
-                  title="Decrease font size"
-                >
-                  <Minus className="w-2.5 h-2.5" />
-                </button>
-                <span className="px-1 text-white font-semibold">{inlineEditor.fontSize}px</span>
-                <button
-                  onClick={() =>
-                    setInlineEditor((prev) =>
-                      prev ? { ...prev, fontSize: Math.min(72, prev.fontSize + 1) } : null
-                    )
-                  }
-                  className="w-4 h-4 flex items-center justify-center text-white/70 hover:text-white rounded hover:bg-white/10"
-                  title="Increase font size"
-                >
-                  <Plus className="w-2.5 h-2.5" />
-                </button>
-              </div>
+            {/* Font size - */}
+            <button
+              type="button"
+              onClick={() =>
+                setInlineEditor((prev) =>
+                  prev ? { ...prev, fontSize: Math.max(8, prev.fontSize - 1) } : null
+                )
+              }
+              className="w-4 h-4 flex items-center justify-center text-white/70 hover:text-white rounded hover:bg-white/10"
+              title="Decrease size"
+            >
+              <Minus className="w-2.5 h-2.5" />
+            </button>
+            <span className="font-mono text-[9px] text-white/90 px-0.5 min-w-[14px] text-center">
+              {inlineEditor.fontSize}
+            </span>
+            {/* Font size + */}
+            <button
+              type="button"
+              onClick={() =>
+                setInlineEditor((prev) =>
+                  prev ? { ...prev, fontSize: Math.min(72, prev.fontSize + 1) } : null
+                )
+              }
+              className="w-4 h-4 flex items-center justify-center text-white/70 hover:text-white rounded hover:bg-white/10"
+              title="Increase size"
+            >
+              <Plus className="w-2.5 h-2.5" />
+            </button>
 
-              {/* Bold toggle */}
+            <div className="w-[1px] h-2.5 bg-white/20 mx-0.5" />
+
+            {/* Quick Colors */}
+            {['#000000', '#f59e0b', '#10b981', '#3b82f6', '#ef4444'].map((c) => (
               <button
+                key={c}
+                type="button"
                 onClick={() =>
-                  setInlineEditor((prev) =>
-                    prev ? { ...prev, isBold: !prev.isBold } : null
-                  )
+                  setInlineEditor((prev) => (prev ? { ...prev, color: c } : null))
                 }
-                className={`w-6 h-5 rounded flex items-center justify-center font-bold text-xs transition-colors ${
-                  inlineEditor.isBold ? 'bg-amber-400 text-black' : 'bg-white/10 text-white hover:bg-white/20'
+                className={`w-3 h-3 rounded-full border border-white/40 transition-transform ${
+                  inlineEditor.color === c ? 'scale-125 ring-1 ring-white' : 'hover:scale-110 opacity-70 hover:opacity-100'
                 }`}
-                title="Toggle Bold"
-              >
-                B
-              </button>
+                style={{ backgroundColor: c }}
+              />
+            ))}
 
-              {/* Color Swatch / Quick Toggle */}
-              <div className="flex items-center gap-1 pl-1">
-                {['#000000', '#f59e0b', '#10b981', '#f43f5e', '#06b6d4'].map((c) => (
-                  <button
-                    key={c}
-                    onClick={() => setInlineEditor((prev) => (prev ? { ...prev, color: c } : null))}
-                    className={`w-3.5 h-3.5 rounded-full border border-white/20 transition-transform ${
-                      inlineEditor.color === c ? 'scale-125 ring-2 ring-white' : 'opacity-70 hover:opacity-100'
-                    }`}
-                    style={{ backgroundColor: c }}
-                  />
-                ))}
-              </div>
-            </div>
+            <div className="w-[1px] h-2.5 bg-white/20 mx-0.5" />
+
+            {/* Quick check/apply */}
+            <button
+              type="button"
+              onClick={handleSaveInlineEditor}
+              className="w-4 h-4 rounded flex items-center justify-center bg-blue-600 hover:bg-blue-500 text-white transition-colors"
+              title="Done (Enter)"
+            >
+              <Check className="w-2.5 h-2.5 stroke-[3]" />
+            </button>
           </div>
 
-          {/* Textarea with clean masking background */}
-          <div className="relative">
-            <textarea
-              autoFocus
-              rows={Math.max(1, inlineEditor.text.split('\n').length)}
-              placeholder="Enter replacement text..."
-              value={inlineEditor.text}
-              onChange={(e) =>
-                setInlineEditor((prev) => (prev ? { ...prev, text: e.target.value } : null))
+          {/* In-Place Textarea right on the page */}
+          <textarea
+            autoFocus
+            value={inlineEditor.text}
+            onChange={(e) =>
+              setInlineEditor((prev) => (prev ? { ...prev, text: e.target.value } : null))
+            }
+            onFocus={(e) => {
+              const len = e.target.value.length;
+              e.target.setSelectionRange(len, len);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleSaveInlineEditor();
+              } else if (e.key === 'Escape') {
+                e.preventDefault();
+                setInlineEditor(null);
               }
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault();
+            }}
+            onBlur={(e) => {
+              const currentTarget = e.currentTarget;
+              setTimeout(() => {
+                if (!document.activeElement || !currentTarget.parentElement?.contains(document.activeElement)) {
                   handleSaveInlineEditor();
                 }
-                if (e.key === 'Escape') {
-                  e.preventDefault();
-                  setInlineEditor(null);
-                }
-              }}
-              className="w-full px-3 py-2 rounded-xl bg-white text-black font-sans leading-relaxed border border-white/20 focus:outline-none focus:ring-2 focus:ring-amber-400 shadow-inner resize-none text-xs"
-              style={{
-                color: inlineEditor.color,
-                fontWeight: inlineEditor.isBold ? 'bold' : 'normal',
-                fontSize: `${Math.max(12, inlineEditor.fontSize * zoomScale)}px`,
-                minHeight: `${Math.max(34, inlineEditor.height * zoomScale)}px`
-              }}
-            />
-          </div>
-
-          {/* Action buttons */}
-          <div className="flex items-center justify-between pt-1">
-            <span className="text-[10px] text-white/40 font-mono">
-              Press <kbd className="px-1 rounded bg-white/10 text-white/70">Enter</kbd> to apply • <kbd className="px-1 rounded bg-white/10 text-white/70">Esc</kbd> to cancel
-            </span>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => setInlineEditor(null)}
-                className="px-2.5 py-1 rounded-lg text-white/60 hover:text-white hover:bg-white/10 text-xs transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleSaveInlineEditor}
-                className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-amber-400 hover:bg-amber-300 text-black text-xs font-bold transition-all shadow-md active:scale-95"
-              >
-                <Check className="w-3.5 h-3.5 stroke-[3]" />
-                <span>Apply</span>
-              </button>
-            </div>
-          </div>
+              }, 120);
+            }}
+            rows={Math.max(1, inlineEditor.text.split('\n').length)}
+            className="rounded-[2px] bg-white border border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 shadow-sm resize-none"
+            style={{
+              color: inlineEditor.color,
+              fontSize: `${inlineEditor.fontSize * zoomScale}px`,
+              fontWeight: inlineEditor.isBold ? 700 : 400,
+              lineHeight: 1.15,
+              fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
+              minWidth: `${Math.max(
+                (inlineEditor.width || 60) * zoomScale,
+                (Math.max(...inlineEditor.text.split('\n').map((l) => l.length)) + 1) *
+                  (inlineEditor.fontSize * zoomScale * 0.62) +
+                  12
+              )}px`,
+              minHeight: `${Math.max(18, (inlineEditor.height || inlineEditor.fontSize * 1.25) * zoomScale)}px`,
+              padding: '1px 3px',
+              margin: 0
+            }}
+          />
         </div>
       )}
     </div>
