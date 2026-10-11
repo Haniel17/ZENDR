@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <defs>
+    <linearGradient id="zendrGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00D1FF" />
+      <stop offset="100%" stop-color="#8B5CF6" />
+    </linearGradient>
+  </defs>
+  <rect width="32" height="32" rx="8" fill="#09090B" />
+  <rect x="1" y="1" width="30" height="30" rx="7" stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+  <!-- Stylized Z with vector anchor nodes -->
+  <path d="M8 9h16l-12 14h12" stroke="url(#zendrGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+  <!-- Vector anchor points -->
+  <circle cx="8" cy="9" r="2" fill="#00D1FF" />
+  <circle cx="24" cy="9" r="2" fill="#00D1FF" />
+  <circle cx="12" cy="23" r="2" fill="#8B5CF6" />
+  <circle cx="24" cy="23" r="2" fill="#8B5CF6" />
+</svg>
