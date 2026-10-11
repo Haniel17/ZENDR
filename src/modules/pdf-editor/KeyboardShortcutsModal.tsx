@@ -14,7 +14,8 @@ const SHORTCUT_GROUPS = [
       { key: 'H', desc: 'Hand / Pan Document View' },
       { key: 'Space', desc: 'Hold Spacebar to Pan smoothly' },
       { key: 'S', desc: 'Open Digital Signature Studio' },
-      { key: 'T', desc: 'Insert Text Annotation' },
+      { key: 'T', desc: 'Edit PDF Text / Insert Text' },
+      { key: 'W', desc: 'Whiteout / Mask Eraser Tool' },
       { key: 'P / D', desc: 'Freehand Draw / Pen' },
       { key: 'E', desc: 'Document Highlighter' },
       { key: 'M', desc: 'Document Stamp & Status Badges' },
@@ -27,10 +28,11 @@ const SHORTCUT_GROUPS = [
   {
     category: 'Editing & Selection',
     shortcuts: [
+      { key: 'Double-Click', desc: 'Edit any PDF text or annotation in-place' },
       { key: '⌘Z / Ctrl+Z', desc: 'Undo last stroke or action' },
       { key: '⌘⇧Z / Ctrl+Y', desc: 'Redo previously undone action' },
       { key: 'Delete / ⌫', desc: 'Delete currently selected element' },
-      { key: 'Esc', desc: 'Deselect element or return to Select' }
+      { key: 'Esc', desc: 'Deselect element or dismiss editor' }
     ]
   },
   {

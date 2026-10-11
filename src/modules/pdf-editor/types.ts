@@ -2,6 +2,7 @@ export type EditorTool =
   | 'select'
   | 'hand'
   | 'text'
+  | 'whiteout'
   | 'signature'
   | 'stamp'
   | 'highlight'
@@ -14,6 +15,18 @@ export type EditorTool =
 export interface Point {
   x: number;
   y: number;
+}
+
+export interface PdfTextItem {
+  id: string;
+  str: string;
+  x: number;
+  y: number;
+  baselineY: number;
+  width: number;
+  height: number;
+  fontSize: number;
+  fontName?: string;
 }
 
 export interface BaseAnnotation {
@@ -29,6 +42,15 @@ export interface TextAnnotation extends BaseAnnotation {
   text: string;
   fontSize: number;
   isBold?: boolean;
+  width?: number;
+  height?: number;
+  whiteoutBounds?: {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  };
+  originalText?: string;
 }
 
 export interface DrawAnnotation extends BaseAnnotation {
@@ -40,7 +62,7 @@ export interface DrawAnnotation extends BaseAnnotation {
 
 export interface ShapeAnnotation extends BaseAnnotation {
   type: 'shape';
-  shapeType: 'rectangle' | 'circle' | 'line' | 'arrow';
+  shapeType: 'rectangle' | 'circle' | 'line' | 'arrow' | 'whiteout';
   x: number;
   y: number;
   width: number;

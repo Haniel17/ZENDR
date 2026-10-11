@@ -6,7 +6,7 @@ import { CanvasOverlay } from './CanvasOverlay';
 import { SignatureModal } from './SignatureModal';
 import { StampPickerModal } from './StampPickerModal';
 import { KeyboardShortcutsModal } from './KeyboardShortcutsModal';
-import { initializeEditorDocument, exportEditedPdf } from './editorEngine';
+import { initializeEditorDocument, exportEditedPdf, extractPageTextItems } from './editorEngine';
 import { extractPages, mergePdfs } from '../pdf/pdfEngine';
 import { flattenPdf } from '../pdf/pdfExtraEngine';
 import { triggerFileDownload } from '../../utils/fileValidation';
@@ -16,7 +16,8 @@ import type {
   AnnotationItem,
   EditorHistoryEntry,
   SignatureAnnotation,
-  StampAnnotation
+  StampAnnotation,
+  PdfTextItem
 } from './types';
 import { AlertCircle, CheckCircle2, Loader2, Upload } from 'lucide-react';
 
@@ -37,6 +38,8 @@ export const PdfEditorWorkspace: React.FC<PdfEditorWorkspaceProps> = ({
   const [pages, setPages] = useState<EditorPageState[]>([]);
   const [currentPageNumber, setCurrentPageNumber] = useState<number>(1);
   const [annotationsMap, setAnnotationsMap] = useState<Record<number, AnnotationItem[]>>({});
+  const [pageTextItems, setPageTextItems] = useState<PdfTextItem[]>([]);
+  const pageTextCacheRef = useRef<Record<string, PdfTextItem[]>>({});
 
   // History for Undo / Redo
   const [historyStack, setHistoryStack] = useState<EditorHistoryEntry[]>([]);
@@ -151,7 +154,7 @@ export const PdfEditorWorkspace: React.FC<PdfEditorWorkspaceProps> = ({
       case 'select':
         return {
           title: 'Select Mode (V)',
-          hint: 'Click signatures, text, or shapes to drag & resize. Press Delete to remove selected element.',
+          hint: 'Click signatures, text, or shapes to drag & resize. Double-click any text to edit in-place.',
           badge: 'Shortcuts: V for Select • H for Hand'
         };
       case 'hand':
@@ -162,9 +165,15 @@ export const PdfEditorWorkspace: React.FC<PdfEditorWorkspaceProps> = ({
         };
       case 'text':
         return {
-          title: 'Text Annotation (T)',
-          hint: 'Click anywhere on the document canvas to insert text. Adjust font size and color in the toolbar.',
+          title: 'Text Editor (T)',
+          hint: 'Click or double-click any text on the PDF to edit it in-place, or click anywhere to type new text.',
           badge: 'T for Text • Enter to apply'
+        };
+      case 'whiteout':
+        return {
+          title: 'Whiteout / Eraser (W)',
+          hint: 'Click and drag over text or areas to permanently conceal them with a clean opaque white mask.',
+          badge: 'W for Whiteout'
         };
       case 'draw':
         return {
@@ -291,6 +300,21 @@ export const PdfEditorWorkspace: React.FC<PdfEditorWorkspaceProps> = ({
         } as any);
 
         await renderTask.promise;
+
+        // Extract native PDF text items for inline text editing
+        const unscaledViewport = page.getViewport({
+          scale: 1.0,
+          rotation: totalRotation
+        });
+        const cacheKey = `${currentPageNumber}_${totalRotation}`;
+        if (pageTextCacheRef.current[cacheKey]) {
+          setPageTextItems(pageTextCacheRef.current[cacheKey]);
+        } else {
+          extractPageTextItems(page, unscaledViewport).then((items) => {
+            pageTextCacheRef.current[cacheKey] = items;
+            setPageTextItems(items);
+          });
+        }
       } catch (err: any) {
         if (err.name !== 'RenderingCancelledException') {
           console.error('Page render error:', err);
@@ -682,6 +706,9 @@ export const PdfEditorWorkspace: React.FC<PdfEditorWorkspaceProps> = ({
         case 't':
           setCurrentTool('text');
           break;
+        case 'w':
+          setCurrentTool('whiteout');
+          break;
         case 'p':
         case 'd':
           setCurrentTool('draw');
@@ -944,6 +971,7 @@ export const PdfEditorWorkspace: React.FC<PdfEditorWorkspaceProps> = ({
                 onUpdateAnnotation={handleUpdateAnnotation}
                 selectedId={selectedAnnotationId}
                 onSelectId={setSelectedAnnotationId}
+                pageTextItems={pageTextItems}
               />
             </div>
           )}

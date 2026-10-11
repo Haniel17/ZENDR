@@ -24,7 +24,8 @@ import {
   BookOpen,
   Keyboard,
   Shapes,
-  Check
+  Check,
+  Eraser
 } from 'lucide-react';
 import type { EditorTool } from './types';
 import { ThemedSelect } from '../../components/ThemedSelect';
@@ -172,12 +173,29 @@ export const EditorToolbar: React.FC<EditorToolbarProps> = ({
                 ? 'bg-amber-400 text-black shadow-md font-bold'
                 : 'hover:bg-white/10 text-white/70 hover:text-white'
             }`}
-            title="Insert Text Annotation (Shortcut: T)"
+            title="Edit existing PDF text or insert new text (Shortcut: T)"
           >
             <Type className="w-3.5 h-3.5" />
             <span className="hidden lg:inline text-[11px]">Text</span>
             <kbd className={`text-[9px] font-mono px-1 py-0.2 rounded ${currentTool === 'text' ? 'bg-black/20 text-black font-semibold' : 'bg-white/10 text-white/40'}`}>
               T
+            </kbd>
+          </button>
+
+          {/* Whiteout / Mask Tool */}
+          <button
+            onClick={() => onSelectTool('whiteout')}
+            className={`flex items-center gap-1 px-2.5 py-1.5 rounded-lg transition-transform transition-colors duration-75 active:scale-95 cursor-pointer select-none ${
+              currentTool === 'whiteout'
+                ? 'bg-amber-400 text-black shadow-md font-bold'
+                : 'hover:bg-white/10 text-white/70 hover:text-white'
+            }`}
+            title="Whiteout / Mask Eraser: erase areas with a clean white mask (Shortcut: W)"
+          >
+            <Eraser className="w-3.5 h-3.5" />
+            <span className="hidden lg:inline text-[11px]">Whiteout</span>
+            <kbd className={`text-[9px] font-mono px-1 py-0.2 rounded ${currentTool === 'whiteout' ? 'bg-black/20 text-black font-semibold' : 'bg-white/10 text-white/40'}`}>
+              W
             </kbd>
           </button>
 

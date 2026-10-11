@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
-import type { EditorTool, AnnotationItem, Point } from './types';
+import { Check, Minus, Plus } from 'lucide-react';
+import type { EditorTool, AnnotationItem, Point, PdfTextItem, TextAnnotation } from './types';
 
 interface CanvasOverlayProps {
   pageWidth: number;
@@ -15,6 +16,21 @@ interface CanvasOverlayProps {
   onUpdateAnnotation?: (id: string, updates: Partial<AnnotationItem>) => void;
   selectedId?: string | null;
   onSelectId?: (id: string | null) => void;
+  pageTextItems?: PdfTextItem[];
+}
+
+interface InlineEditorState {
+  mode: 'native' | 'annotation' | 'new';
+  annotationId?: string;
+  originalItem?: PdfTextItem;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  text: string;
+  fontSize: number;
+  color: string;
+  isBold: boolean;
 }
 
 export const CanvasOverlay: React.FC<CanvasOverlayProps> = ({
@@ -30,14 +46,15 @@ export const CanvasOverlay: React.FC<CanvasOverlayProps> = ({
   onRemoveAnnotation,
   onUpdateAnnotation,
   selectedId: externalSelectedId,
-  onSelectId
+  onSelectId,
+  pageTextItems = []
 }) => {
   const svgRef = useRef<SVGSVGElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [startPoint, setStartPoint] = useState<Point | null>(null);
   const [currentPath, setCurrentPath] = useState<Point[]>([]);
   const [tempShape, setTempShape] = useState<{
-    type: 'rectangle' | 'circle' | 'line' | 'arrow';
+    type: 'rectangle' | 'circle' | 'line' | 'arrow' | 'whiteout';
     x: number;
     y: number;
     w: number;
@@ -60,12 +77,8 @@ export const CanvasOverlay: React.FC<CanvasOverlayProps> = ({
     height: number;
   } | null>(null);
 
-  // Text insertion dialog/inline state
-  const [activeTextInput, setActiveTextInput] = useState<{
-    x: number;
-    y: number;
-    value: string;
-  } | null>(null);
+  // In-place text editor state for native PDF text, existing annotations, or new text
+  const [inlineEditor, setInlineEditor] = useState<InlineEditorState | null>(null);
 
   // Helper to convert screen mouse event to unscaled PDF page coordinates
   const getPageCoords = (e: React.MouseEvent): Point => {
@@ -93,7 +106,17 @@ export const CanvasOverlay: React.FC<CanvasOverlayProps> = ({
     if (currentTool === 'hand') return;
 
     if (currentTool === 'text') {
-      setActiveTextInput({ x: pt.x, y: pt.y, value: '' });
+      setInlineEditor({
+        mode: 'new',
+        x: pt.x,
+        y: pt.y,
+        width: 140,
+        height: fontSize * 1.4,
+        text: '',
+        fontSize,
+        color: currentColor === '#ffffff' ? '#000000' : currentColor,
+        isBold: true
+      });
       return;
     }
 
@@ -118,8 +141,8 @@ export const CanvasOverlay: React.FC<CanvasOverlayProps> = ({
         const newY = Math.max(0, Math.min(pageHeight - 20, initialAnnBounds.y + dy));
         onUpdateAnnotation(selectedId, { x: newX, y: newY });
       } else if (dragAction === 'resize') {
-        const newW = Math.max(30, initialAnnBounds.width + dx);
-        const newH = Math.max(20, initialAnnBounds.height + dy);
+        const newW = Math.max(20, initialAnnBounds.width + dx);
+        const newH = Math.max(15, initialAnnBounds.height + dy);
         onUpdateAnnotation(selectedId, { width: newW, height: newH });
       }
       return;
@@ -129,6 +152,14 @@ export const CanvasOverlay: React.FC<CanvasOverlayProps> = ({
 
     if (currentTool === 'draw' || currentTool === 'highlight') {
       setCurrentPath((prev) => [...prev, pt]);
+    } else if (currentTool === 'whiteout') {
+      setTempShape({
+        type: 'whiteout',
+        x: Math.min(startPoint.x, pt.x),
+        y: Math.min(startPoint.y, pt.y),
+        w: Math.abs(pt.x - startPoint.x),
+        h: Math.abs(pt.y - startPoint.y)
+      });
     } else if (
       currentTool === 'rectangle' ||
       currentTool === 'circle' ||
@@ -166,6 +197,20 @@ export const CanvasOverlay: React.FC<CanvasOverlayProps> = ({
         strokeWidth,
         isHighlight: currentTool === 'highlight'
       });
+    } else if (tempShape && tempShape.type === 'whiteout' && (tempShape.w > 2 || tempShape.h > 2)) {
+      onAddAnnotation({
+        id: `whiteout_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+        pageNumber: 1,
+        color: '#ffffff',
+        fill: '#ffffff',
+        type: 'shape',
+        shapeType: 'whiteout',
+        x: tempShape.x,
+        y: tempShape.y,
+        width: Math.max(10, tempShape.w),
+        height: Math.max(10, tempShape.h),
+        strokeWidth: 1
+      });
     } else if (tempShape && (Math.abs(tempShape.w) > 3 || Math.abs(tempShape.h) > 3)) {
       onAddAnnotation({
         id: `shape_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
@@ -186,21 +231,95 @@ export const CanvasOverlay: React.FC<CanvasOverlayProps> = ({
     setTempShape(null);
   };
 
-  const handleCommitText = () => {
-    if (activeTextInput && activeTextInput.value.trim()) {
-      onAddAnnotation({
+  const startEditingNativeText = (item: PdfTextItem) => {
+    setInlineEditor({
+      mode: 'native',
+      originalItem: item,
+      x: item.x,
+      y: item.y,
+      width: Math.max(100, item.width),
+      height: Math.max(20, item.height),
+      text: item.str,
+      fontSize: item.fontSize,
+      color: currentColor === '#ffffff' ? '#000000' : currentColor,
+      isBold: true
+    });
+  };
+
+  const startEditingExistingAnnotation = (ann: TextAnnotation) => {
+    setInlineEditor({
+      mode: 'annotation',
+      annotationId: ann.id,
+      x: ann.x,
+      y: ann.y,
+      width: ann.width || Math.max(100, ann.text.length * ann.fontSize * 0.6),
+      height: ann.height || ann.fontSize * 1.4,
+      text: ann.text,
+      fontSize: ann.fontSize,
+      color: ann.color,
+      isBold: Boolean(ann.isBold)
+    });
+  };
+
+  const handleSaveInlineEditor = () => {
+    if (!inlineEditor) return;
+    const trimmed = inlineEditor.text.trim();
+    if (!trimmed) {
+      if (inlineEditor.mode === 'annotation' && inlineEditor.annotationId) {
+        onRemoveAnnotation(inlineEditor.annotationId);
+      }
+      setInlineEditor(null);
+      return;
+    }
+
+    if (inlineEditor.mode === 'native' && inlineEditor.originalItem) {
+      const orig = inlineEditor.originalItem;
+      const newAnn: TextAnnotation = {
         id: `text_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
         pageNumber: 1,
-        color: currentColor,
         type: 'text',
-        x: activeTextInput.x,
-        y: activeTextInput.y,
-        text: activeTextInput.value.trim(),
-        fontSize,
-        isBold: true
+        x: inlineEditor.x,
+        y: inlineEditor.y,
+        text: trimmed,
+        fontSize: inlineEditor.fontSize,
+        color: inlineEditor.color,
+        isBold: inlineEditor.isBold,
+        width: inlineEditor.width,
+        height: inlineEditor.height,
+        whiteoutBounds: {
+          x: Math.max(0, orig.x - 2),
+          y: Math.max(0, orig.y - 2),
+          width: orig.width + 4,
+          height: orig.height + 4
+        },
+        originalText: orig.str
+      };
+      onAddAnnotation(newAnn);
+      setSelectedId(newAnn.id);
+    } else if (inlineEditor.mode === 'annotation' && inlineEditor.annotationId && onUpdateAnnotation) {
+      onUpdateAnnotation(inlineEditor.annotationId, {
+        text: trimmed,
+        fontSize: inlineEditor.fontSize,
+        color: inlineEditor.color,
+        isBold: inlineEditor.isBold
       });
+    } else if (inlineEditor.mode === 'new') {
+      const newAnn: TextAnnotation = {
+        id: `text_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+        pageNumber: 1,
+        type: 'text',
+        x: inlineEditor.x,
+        y: inlineEditor.y,
+        text: trimmed,
+        fontSize: inlineEditor.fontSize,
+        color: inlineEditor.color,
+        isBold: inlineEditor.isBold
+      };
+      onAddAnnotation(newAnn);
+      setSelectedId(newAnn.id);
     }
-    setActiveTextInput(null);
+
+    setInlineEditor(null);
   };
 
   // Helper to initiate drag moving
@@ -299,21 +418,36 @@ export const CanvasOverlay: React.FC<CanvasOverlayProps> = ({
           // 1. Text Annotation
           if (ann.type === 'text') {
             return (
-              <text
-                key={ann.id}
-                x={ann.x}
-                y={ann.y + ann.fontSize}
-                fill={ann.color}
-                fontSize={ann.fontSize}
-                fontWeight={ann.isBold ? 'bold' : 'normal'}
-                className={`select-none font-sans ${currentTool === 'select' ? 'cursor-pointer' : ''}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  if (currentTool === 'select') setSelectedId(ann.id);
-                }}
-              >
-                {ann.text}
-              </text>
+              <g key={ann.id}>
+                {/* If this annotation replaced existing PDF text, draw solid white mask rectangle */}
+                {ann.whiteoutBounds && (
+                  <rect
+                    x={ann.whiteoutBounds.x}
+                    y={ann.whiteoutBounds.y}
+                    width={ann.whiteoutBounds.width}
+                    height={ann.whiteoutBounds.height}
+                    fill="#ffffff"
+                  />
+                )}
+                <text
+                  x={ann.x}
+                  y={ann.y + ann.fontSize}
+                  fill={ann.color}
+                  fontSize={ann.fontSize}
+                  fontWeight={ann.isBold ? 'bold' : 'normal'}
+                  className={`select-none font-sans ${currentTool === 'select' || currentTool === 'text' ? 'cursor-pointer' : ''}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (currentTool === 'select') setSelectedId(ann.id);
+                  }}
+                  onDoubleClick={(e) => {
+                    e.stopPropagation();
+                    startEditingExistingAnnotation(ann);
+                  }}
+                >
+                  {ann.text}
+                </text>
+              </g>
             );
           }
 
@@ -341,6 +475,26 @@ export const CanvasOverlay: React.FC<CanvasOverlayProps> = ({
 
           // 3. Shape Annotations
           if (ann.type === 'shape') {
+            if (ann.shapeType === 'whiteout') {
+              return (
+                <rect
+                  key={ann.id}
+                  x={ann.x}
+                  y={ann.y}
+                  width={Math.abs(ann.width)}
+                  height={Math.abs(ann.height)}
+                  fill="#ffffff"
+                  stroke="#cbd5e1"
+                  strokeWidth={0.5}
+                  strokeDasharray="3 3"
+                  className={currentTool === 'select' ? 'cursor-pointer' : ''}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (currentTool === 'select') setSelectedId(ann.id);
+                  }}
+                />
+              );
+            }
             if (ann.shapeType === 'rectangle') {
               return (
                 <rect
@@ -617,9 +771,66 @@ export const CanvasOverlay: React.FC<CanvasOverlayProps> = ({
           />
         )}
 
+        {/* Interactive Native PDF Text Layer */}
+        {(currentTool === 'text' || currentTool === 'select') && (
+          <g className="native-text-layer">
+            {pageTextItems.map((item) => {
+              // Check if this item is already replaced by a text annotation
+              const isReplaced = annotations.some(
+                (a) =>
+                  a.type === 'text' &&
+                  a.whiteoutBounds &&
+                  Math.abs(a.whiteoutBounds.x - (item.x - 2)) < 8 &&
+                  Math.abs(a.whiteoutBounds.y - (item.y - 2)) < 8
+              );
+              if (isReplaced) return null;
+
+              return (
+                <g
+                  key={item.id}
+                  className="cursor-pointer group"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    startEditingNativeText(item);
+                  }}
+                  onDoubleClick={(e) => {
+                    e.stopPropagation();
+                    startEditingNativeText(item);
+                  }}
+                >
+                  <rect
+                    x={item.x - 2}
+                    y={item.y - 2}
+                    width={item.width + 4}
+                    height={item.height + 4}
+                    fill="transparent"
+                    rx={2}
+                    className="transition-all hover:fill-amber-400/20 hover:stroke-amber-400/70 hover:stroke-[1px]"
+                  >
+                    <title>Click or double-click to edit this text</title>
+                  </rect>
+                </g>
+              );
+            })}
+          </g>
+        )}
+
         {/* Active Shape In-Progress */}
         {tempShape && (
           <>
+            {tempShape.type === 'whiteout' && (
+              <rect
+                x={tempShape.x}
+                y={tempShape.y}
+                width={tempShape.w}
+                height={tempShape.h}
+                fill="#ffffff"
+                fillOpacity={0.85}
+                stroke="#f59e0b"
+                strokeWidth={1}
+                strokeDasharray="4 4"
+              />
+            )}
             {tempShape.type === 'rectangle' && (
               <rect
                 x={tempShape.x}
@@ -669,42 +880,148 @@ export const CanvasOverlay: React.FC<CanvasOverlayProps> = ({
         )}
       </svg>
 
-      {/* Inline Text Input Bubble */}
-      {activeTextInput && (
+      {/* Rich In-Place Text Editor */}
+      {inlineEditor && (
         <div
-          className="absolute z-30 p-2 rounded-xl bg-zinc-900 border border-amber-400 shadow-2xl flex items-center gap-2"
+          className="absolute z-50 rounded-2xl bg-[#09090f] border border-amber-400/80 shadow-[0_20px_50px_rgba(0,0,0,0.85)] flex flex-col p-2.5 gap-2 backdrop-blur-xl animate-in fade-in zoom-in-95 duration-100"
           style={{
-            left: activeTextInput.x * zoomScale,
-            top: activeTextInput.y * zoomScale
+            left: Math.max(10, Math.min(scaledWidth - 320, inlineEditor.x * zoomScale - 4)),
+            top: Math.max(10, inlineEditor.y * zoomScale - 48),
+            minWidth: '280px',
+            maxWidth: '650px'
           }}
+          onClick={(e) => e.stopPropagation()}
+          onMouseDown={(e) => e.stopPropagation()}
         >
-          <input
-            type="text"
-            autoFocus
-            placeholder="Type text annotation..."
-            value={activeTextInput.value}
-            onChange={(e) =>
-              setActiveTextInput({ ...activeTextInput, value: e.target.value })
-            }
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') handleCommitText();
-              if (e.key === 'Escape') setActiveTextInput(null);
-            }}
-            className="px-2 py-1 rounded bg-black text-white text-xs font-medium border border-white/20 focus:outline-none min-w-[200px]"
-            style={{ color: currentColor, fontSize: `${fontSize}px` }}
-          />
-          <button
-            onClick={handleCommitText}
-            className="px-2.5 py-1 rounded bg-amber-400 text-black text-xs font-semibold hover:bg-amber-300 transition-colors"
-          >
-            Add
-          </button>
-          <button
-            onClick={() => setActiveTextInput(null)}
-            className="px-1.5 py-1 text-white/50 hover:text-white text-xs"
-          >
-            ✕
-          </button>
+          {/* Top mini controls bar */}
+          <div className="flex items-center justify-between gap-2 pb-1.5 border-b border-white/10 text-[11px]">
+            <div className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
+              <span className="font-semibold text-white">
+                {inlineEditor.mode === 'native'
+                  ? 'Edit PDF Text'
+                  : inlineEditor.mode === 'annotation'
+                  ? 'Edit Text'
+                  : 'New Text'}
+              </span>
+              {inlineEditor.mode === 'native' && (
+                <span className="text-[10px] text-amber-400/80 bg-amber-400/10 px-1.5 py-0.2 rounded font-mono">
+                  Mask & Replace
+                </span>
+              )}
+            </div>
+
+            {/* Formatting controls */}
+            <div className="flex items-center gap-1">
+              {/* Font size adjustments */}
+              <div className="flex items-center bg-white/10 rounded-lg p-0.5 font-mono text-[10px]">
+                <button
+                  onClick={() =>
+                    setInlineEditor((prev) =>
+                      prev ? { ...prev, fontSize: Math.max(8, prev.fontSize - 1) } : null
+                    )
+                  }
+                  className="w-4 h-4 flex items-center justify-center text-white/70 hover:text-white rounded hover:bg-white/10"
+                  title="Decrease font size"
+                >
+                  <Minus className="w-2.5 h-2.5" />
+                </button>
+                <span className="px-1 text-white font-semibold">{inlineEditor.fontSize}px</span>
+                <button
+                  onClick={() =>
+                    setInlineEditor((prev) =>
+                      prev ? { ...prev, fontSize: Math.min(72, prev.fontSize + 1) } : null
+                    )
+                  }
+                  className="w-4 h-4 flex items-center justify-center text-white/70 hover:text-white rounded hover:bg-white/10"
+                  title="Increase font size"
+                >
+                  <Plus className="w-2.5 h-2.5" />
+                </button>
+              </div>
+
+              {/* Bold toggle */}
+              <button
+                onClick={() =>
+                  setInlineEditor((prev) =>
+                    prev ? { ...prev, isBold: !prev.isBold } : null
+                  )
+                }
+                className={`w-6 h-5 rounded flex items-center justify-center font-bold text-xs transition-colors ${
+                  inlineEditor.isBold ? 'bg-amber-400 text-black' : 'bg-white/10 text-white hover:bg-white/20'
+                }`}
+                title="Toggle Bold"
+              >
+                B
+              </button>
+
+              {/* Color Swatch / Quick Toggle */}
+              <div className="flex items-center gap-1 pl-1">
+                {['#000000', '#f59e0b', '#10b981', '#f43f5e', '#06b6d4'].map((c) => (
+                  <button
+                    key={c}
+                    onClick={() => setInlineEditor((prev) => (prev ? { ...prev, color: c } : null))}
+                    className={`w-3.5 h-3.5 rounded-full border border-white/20 transition-transform ${
+                      inlineEditor.color === c ? 'scale-125 ring-2 ring-white' : 'opacity-70 hover:opacity-100'
+                    }`}
+                    style={{ backgroundColor: c }}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Textarea with clean masking background */}
+          <div className="relative">
+            <textarea
+              autoFocus
+              rows={Math.max(1, inlineEditor.text.split('\n').length)}
+              placeholder="Enter replacement text..."
+              value={inlineEditor.text}
+              onChange={(e) =>
+                setInlineEditor((prev) => (prev ? { ...prev, text: e.target.value } : null))
+              }
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  handleSaveInlineEditor();
+                }
+                if (e.key === 'Escape') {
+                  e.preventDefault();
+                  setInlineEditor(null);
+                }
+              }}
+              className="w-full px-3 py-2 rounded-xl bg-white text-black font-sans leading-relaxed border border-white/20 focus:outline-none focus:ring-2 focus:ring-amber-400 shadow-inner resize-none text-xs"
+              style={{
+                color: inlineEditor.color,
+                fontWeight: inlineEditor.isBold ? 'bold' : 'normal',
+                fontSize: `${Math.max(12, inlineEditor.fontSize * zoomScale)}px`,
+                minHeight: `${Math.max(34, inlineEditor.height * zoomScale)}px`
+              }}
+            />
+          </div>
+
+          {/* Action buttons */}
+          <div className="flex items-center justify-between pt-1">
+            <span className="text-[10px] text-white/40 font-mono">
+              Press <kbd className="px-1 rounded bg-white/10 text-white/70">Enter</kbd> to apply • <kbd className="px-1 rounded bg-white/10 text-white/70">Esc</kbd> to cancel
+            </span>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setInlineEditor(null)}
+                className="px-2.5 py-1 rounded-lg text-white/60 hover:text-white hover:bg-white/10 text-xs transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSaveInlineEditor}
+                className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-amber-400 hover:bg-amber-300 text-black text-xs font-bold transition-all shadow-md active:scale-95"
+              >
+                <Check className="w-3.5 h-3.5 stroke-[3]" />
+                <span>Apply</span>
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

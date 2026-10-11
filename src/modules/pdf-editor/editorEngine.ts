@@ -1,10 +1,92 @@
 import { PDFDocument, degrees, rgb, StandardFonts } from 'pdf-lib';
 import * as pdfjsLib from 'pdfjs-dist';
-import type { EditorPageState, AnnotationItem } from './types';
+import type { EditorPageState, AnnotationItem, PdfTextItem } from './types';
 
 // Ensure worker is configured
 if (typeof window !== 'undefined' && pdfjsLib.GlobalWorkerOptions) {
   pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
+}
+
+/**
+ * Extracts all native text items on a page and groups adjacent words on the same line into editable blocks
+ */
+export async function extractPageTextItems(
+  page: any,
+  viewport: any
+): Promise<PdfTextItem[]> {
+  try {
+    const textContent = await page.getTextContent();
+    const rawItems: PdfTextItem[] = [];
+
+    for (let idx = 0; idx < textContent.items.length; idx++) {
+      const item = textContent.items[idx];
+      if (!('str' in item) || !item.str || !item.str.trim()) continue;
+
+      const [vx, vy] = viewport.convertToViewportPoint(item.transform[4], item.transform[5]);
+      const fontSize = Math.max(9, Math.round(Math.hypot(item.transform[0], item.transform[1])));
+      const width = item.width || (item.str.length * fontSize * 0.55);
+      const height = item.height || fontSize;
+      const top = vy - height;
+
+      rawItems.push({
+        id: `pdf_line_${idx}`,
+        str: item.str,
+        x: Math.round(vx * 10) / 10,
+        y: Math.max(0, Math.round(top * 10) / 10),
+        baselineY: Math.round(vy * 10) / 10,
+        width: Math.round(width * 10) / 10,
+        height: Math.round(height * 10) / 10,
+        fontSize,
+        fontName: item.fontName
+      });
+    }
+
+    // Sort top-to-bottom, left-to-right
+    rawItems.sort((a, b) => {
+      if (Math.abs(a.baselineY - b.baselineY) > 4) {
+        return a.baselineY - b.baselineY;
+      }
+      return a.x - b.x;
+    });
+
+    // Group adjacent items on the same baseline into editable lines
+    const lines: PdfTextItem[] = [];
+    let currentLine: PdfTextItem | null = null;
+
+    for (const item of rawItems) {
+      if (!currentLine) {
+        currentLine = { ...item };
+        continue;
+      }
+
+      const sameLine = Math.abs(item.baselineY - currentLine.baselineY) <= 4;
+      const gap = item.x - (currentLine.x + currentLine.width);
+      const isAdjacent = gap <= Math.max(16, currentLine.fontSize * 1.5);
+
+      if (sameLine && isAdjacent) {
+        const needsSpace = gap > 1 && !currentLine.str.endsWith(' ') && !item.str.startsWith(' ');
+        currentLine.str += (needsSpace ? ' ' : '') + item.str;
+        currentLine.width = Math.round(((item.x + item.width) - currentLine.x) * 10) / 10;
+        currentLine.height = Math.max(currentLine.height, item.height);
+        currentLine.y = Math.min(currentLine.y, item.y);
+        currentLine.fontSize = Math.max(currentLine.fontSize, item.fontSize);
+      } else {
+        if (currentLine.str.trim()) {
+          lines.push(currentLine);
+        }
+        currentLine = { ...item };
+      }
+    }
+
+    if (currentLine && currentLine.str.trim()) {
+      lines.push(currentLine);
+    }
+
+    return lines;
+  } catch (err) {
+    console.error('Error extracting page text items:', err);
+    return [];
+  }
 }
 
 /**
@@ -111,6 +193,20 @@ export async function exportEditedPdf(
 
       if (ann.type === 'text') {
         const textFont = ann.isBold ? boldFont : font;
+
+        // If this text edited an original PDF text or has whiteoutBounds, conceal the original raster text underneath:
+        if (ann.whiteoutBounds) {
+          const pdfYWhiteout = pageHeight - ann.whiteoutBounds.y - ann.whiteoutBounds.height;
+          copiedPage.drawRectangle({
+            x: Math.max(0, ann.whiteoutBounds.x),
+            y: Math.max(0, pdfYWhiteout),
+            width: ann.whiteoutBounds.width,
+            height: ann.whiteoutBounds.height,
+            color: rgb(1, 1, 1),
+            opacity: 1
+          });
+        }
+
         // In PDF coordinates: Y starts at bottom
         const pdfY = pageHeight - ann.y - ann.fontSize;
         copiedPage.drawText(ann.text, {
@@ -123,7 +219,17 @@ export async function exportEditedPdf(
       } else if (ann.type === 'shape') {
         const { shapeType, x, y, width, height, strokeWidth } = ann;
 
-        if (shapeType === 'rectangle') {
+        if (shapeType === 'whiteout') {
+          const pdfY = pageHeight - y - height;
+          copiedPage.drawRectangle({
+            x,
+            y: Math.max(0, pdfY),
+            width: Math.abs(width),
+            height: Math.abs(height),
+            color: rgb(1, 1, 1),
+            opacity: 1
+          });
+        } else if (shapeType === 'rectangle') {
           const pdfY = pageHeight - y - height;
           copiedPage.drawRectangle({
             x,
