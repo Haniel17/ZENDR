@@ -1,10 +1,14 @@
-# ZENDR — Pixels in. Vectors out.
+# ZENDR — Every File. One Workspace.
 
 <p align="center">
   <img src="/public/favicon.svg" alt="ZENDR Logo" width="80" height="80" />
 </p>
 
-> **ZENDR** is a free, modern in-browser image conversion workstation. Vectorize raster PNGs into crisp, scalable SVG vector paths with true bezier contour tracing, and render intricate SVGs into pixel-perfect PNGs with custom resolutions up to 4K.
+<p align="center">
+  <a href="https://zendr-web.vercel.app" target="_blank"><strong>🚀 Live Web App: zendr-web.vercel.app</strong></a>
+</p>
+
+> **ZENDR** is a fast, 100% private in-browser file transformation workstation. Vectorize images, edit and manipulate PDFs, convert office documents, compress media, and transform data structures—all processed securely within your client browser.
 
 ---
 
