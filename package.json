@@ -10,15 +10,29 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "canvg": "^4.0.3",
+    "docx": "^9.10.0",
+    "heic2any": "^0.0.4",
     "imagetracerjs": "^1.2.6",
+    "jsonwebtoken": "^9.0.3",
+    "jszip": "^3.10.2",
     "lucide-react": "^1.55.0",
+    "mammoth": "^1.13.0",
+    "mongoose": "^9.11.1",
     "motion": "^14.1.0",
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^6.4.299",
+    "pptxgenjs": "^4.0.1",
     "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "react-dom": "^19.2.8",
+    "react-router-dom": "^7.18.4",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.13.3",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",

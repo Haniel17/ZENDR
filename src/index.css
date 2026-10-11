@@ -2,31 +2,14 @@
 
 @layer base {
   :root {
-    --bg-main: #09090b;
-    --bg-card: #131318;
-    --bg-card-subtle: #1c1c24;
-    --text-primary: #fafafa;
-    --text-secondary: #a1a1aa;
-    --border-subtle: rgba(255, 255, 255, 0.08);
-    --border-focus: rgba(0, 209, 255, 0.4);
-    --neon-cyan: #00d1ff;
-    --electric-purple: #8b5cf6;
-    --glow-cyan: rgba(0, 209, 255, 0.15);
-    --glow-purple: rgba(139, 92, 246, 0.15);
-  }
-
-  .light {
-    --bg-main: #f8fafc;
-    --bg-card: #ffffff;
-    --bg-card-subtle: #f1f5f9;
-    --text-primary: #0f172a;
-    --text-secondary: #64748b;
-    --border-subtle: rgba(0, 0, 0, 0.08);
-    --border-focus: rgba(0, 209, 255, 0.5);
-    --neon-cyan: #0284c7;
-    --electric-purple: #7c3aed;
-    --glow-cyan: rgba(2, 132, 199, 0.1);
-    --glow-purple: rgba(124, 58, 237, 0.1);
+    --bg-main: #040406;
+    --bg-glass: rgba(255, 255, 255, 0.03);
+    --border-glass: rgba(255, 255, 255, 0.14);
+    --amber-gold: #f59e0b;
+    --amber-light: #fde68a;
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.65);
+    --text-muted: rgba(255, 255, 255, 0.4);
   }
 
   * {
@@ -36,92 +19,138 @@
   body {
     background-color: var(--bg-main);
     color: var(--text-primary);
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     min-height: 100vh;
     overflow-x: hidden;
-    transition: background-color 0.25s ease, color 0.25s ease;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
+
+  /* Ultra-responsive interactive controls */
+  button, 
+  a, 
+  [role="button"],
+  input[type="button"],
+  input[type="submit"] {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+    transition-property: transform, opacity, background-color, border-color, color;
+    transition-duration: 90ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Tactile physical click feedback */
+  button:active:not(:disabled),
+  a:active:not([aria-disabled="true"]),
+  [role="button"]:active:not(:disabled) {
+    transform: scale(0.975) translateZ(0);
+    transition-duration: 40ms;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+/* Elegant Editorial Italic Serif Typography */
+.font-editorial {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
 }
 
 /* Custom scrollbars */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(161, 161, 170, 0.2);
-  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(161, 161, 170, 0.4);
+  background: rgba(255, 255, 255, 0.28);
 }
 
-/* Glassmorphism & Glow Utilities */
-.glass-panel {
-  background-color: var(--bg-card);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border-subtle);
+/* Hardware-Accelerated Glassmorphism (Fast & Crisp) */
+.futuristic-card {
+  background: rgba(10, 10, 14, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px dashed rgba(255, 255, 255, 0.16);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+  transform: translateZ(0);
 }
 
-.glass-panel-subtle {
-  background-color: var(--bg-card-subtle);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid var(--border-subtle);
+.futuristic-card:hover {
+  border-color: rgba(245, 158, 11, 0.35);
+  background: rgba(14, 14, 20, 0.82);
 }
 
-.glow-border {
-  border-color: rgba(0, 209, 255, 0.3);
-  box-shadow: 0 0 25px -5px rgba(0, 209, 255, 0.25);
+.futuristic-pill {
+  background: rgba(16, 16, 22, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
+  transform: translateZ(0);
 }
 
-.glow-purple-border {
-  border-color: rgba(139, 92, 246, 0.3);
-  box-shadow: 0 0 25px -5px rgba(139, 92, 246, 0.25);
+/* Custom Range Input with Amber Track */
+input[type="range"] {
+  accent-color: #f59e0b;
 }
 
-.gradient-text {
-  background: linear-gradient(135deg, #00d1ff 0%, #8b5cf6 50%, #d946ef 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+/* Custom Themed Select Elements */
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f59e0b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.65rem center;
+  background-size: 0.85em;
+  padding-right: 2rem !important;
+  background-color: rgba(14, 14, 20, 0.95);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0.75rem;
+  font-family: inherit;
+  transition: all 90ms ease;
+  cursor: pointer;
 }
 
-.grid-background {
-  background-size: 32px 32px;
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+select:hover {
+  border-color: rgba(245, 158, 11, 0.4);
+  background-color: rgba(20, 20, 28, 0.95);
 }
 
-.light .grid-background {
-  background-image: 
-    linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+select:focus {
+  outline: none;
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.2);
 }
 
-/* Transparency checkerboard background for image previews */
+select option,
+select optgroup {
+  background-color: #0a0a0f;
+  color: #ffffff;
+  padding: 0.5rem;
+}
+
+/* Checkerboard for transparent image preview */
 .checkerboard-pattern {
-  background-color: #121217;
+  background-color: #0c0d10;
   background-image: 
-    linear-gradient(45deg, #1d1d24 25%, transparent 25%), 
-    linear-gradient(-45deg, #1d1d24 25%, transparent 25%), 
-    linear-gradient(45deg, transparent 75%, #1d1d24 75%), 
-    linear-gradient(-45deg, transparent 75%, #1d1d24 75%);
-  background-size: 16px 16px;
-  background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
-}
-
-.light .checkerboard-pattern {
-  background-color: #f1f5f9;
-  background-image: 
-    linear-gradient(45deg, #e2e8f0 25%, transparent 25%), 
-    linear-gradient(-45deg, #e2e8f0 25%, transparent 25%), 
-    linear-gradient(45deg, transparent 75%, #e2e8f0 75%), 
-    linear-gradient(-45deg, transparent 75%, #e2e8f0 75%);
+    linear-gradient(45deg, #16181f 25%, transparent 25%), 
+    linear-gradient(-45deg, #16181f 25%, transparent 25%), 
+    linear-gradient(45deg, transparent 75%, #16181f 75%), 
+    linear-gradient(-45deg, transparent 75%, #16181f 75%);
   background-size: 16px 16px;
   background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
 }
