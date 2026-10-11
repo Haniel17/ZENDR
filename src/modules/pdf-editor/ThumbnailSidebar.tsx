@@ -8,6 +8,7 @@ interface ThumbnailSidebarProps {
   onSelectPage: (pageNumber: number) => void;
   onRotatePage: (pageNumber: number) => void;
   onMovePage: (index: number, direction: 'up' | 'down') => void;
+  onReorderPage?: (fromIndex: number, toIndex: number) => void;
   onDeletePage: (pageNumber: number) => void;
   onExtractPage: (pageNumber: number) => void;
   onMergePdf: (file: File) => void;
@@ -19,12 +20,15 @@ export const ThumbnailSidebar: React.FC<ThumbnailSidebarProps> = ({
   onSelectPage,
   onRotatePage,
   onMovePage,
+  onReorderPage,
   onDeletePage,
   onExtractPage,
   onMergePdf
 }) => {
   const fileInputRef = React.useRef<HTMLInputElement>(null);
   const selectedThumbnailRef = React.useRef<HTMLDivElement>(null);
+  const [draggedIndex, setDraggedIndex] = React.useState<number | null>(null);
+  const [dragOverIndex, setDragOverIndex] = React.useState<number | null>(null);
   const activePages = pages.filter((p) => !p.isDeleted);
 
   React.useEffect(() => {
@@ -74,13 +78,44 @@ export const ThumbnailSidebar: React.FC<ThumbnailSidebarProps> = ({
           if (page.isDeleted) return null;
           const isSelected = page.pageNumber === currentPageNumber;
 
+          const isDraggingThis = draggedIndex === index;
+          const isDragTarget = dragOverIndex === index && !isDraggingThis;
+
           return (
             <div
               key={page.pageNumber}
               ref={isSelected ? selectedThumbnailRef : undefined}
               onClick={() => onSelectPage(page.pageNumber)}
+              draggable
+              onDragStart={(e) => {
+                setDraggedIndex(index);
+                e.dataTransfer.effectAllowed = 'move';
+              }}
+              onDragOver={(e) => {
+                e.preventDefault();
+                setDragOverIndex(index);
+              }}
+              onDragLeave={() => {
+                if (dragOverIndex === index) setDragOverIndex(null);
+              }}
+              onDrop={(e) => {
+                e.preventDefault();
+                if (draggedIndex !== null && draggedIndex !== index) {
+                  if (onReorderPage) {
+                    onReorderPage(draggedIndex, index);
+                  } else {
+                    onMovePage(draggedIndex, index > draggedIndex ? 'down' : 'up');
+                  }
+                }
+                setDraggedIndex(null);
+                setDragOverIndex(null);
+              }}
               className={`group relative rounded-xl border p-2 transition-all cursor-pointer ${
-                isSelected
+                isDraggingThis
+                  ? 'opacity-40 border-amber-400/40 border-dashed scale-95'
+                  : isDragTarget
+                  ? 'border-amber-400 bg-amber-400/20 scale-[1.02] shadow-[0_0_20px_rgba(245,158,11,0.3)] ring-2 ring-amber-400/50'
+                  : isSelected
                   ? 'border-amber-400 bg-amber-400/[0.07] shadow-[0_0_15px_rgba(245,158,11,0.15)]'
                   : 'border-white/[0.06] bg-white/[0.02] hover:border-white/20 hover:bg-white/[0.04]'
               }`}

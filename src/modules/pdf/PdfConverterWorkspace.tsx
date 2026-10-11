@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ThemedSelect } from '../../components/ThemedSelect';
 import {
   mergePdfs,
   splitPdfByRange,
   rotatePdfPages,
+  reorderPdfPages,
   compressPdf,
   imagesToPdf,
   pdfToImages
@@ -75,6 +76,39 @@ export const PdfConverterWorkspace: React.FC<PdfConverterWorkspaceProps> = ({
   const [splitRange, setSplitRange] = useState('1-3');
   const [rotationAngle, setRotationAngle] = useState(90);
   const [imageDpiScale, setImageDpiScale] = useState(2.0);
+  const [reorderList, setReorderList] = useState<number[]>([]);
+
+  // Load page count when a PDF is selected for reorder-pdf
+  useEffect(() => {
+    if (tool.id !== 'reorder-pdf' || selectedFiles.length === 0) return;
+    let isMounted = true;
+    const loadPageCount = async () => {
+      try {
+        const file = selectedFiles[0];
+        const { PDFDocument } = await import('pdf-lib');
+        const doc = await PDFDocument.load(await file.arrayBuffer(), { ignoreEncryption: true });
+        const count = doc.getPageCount();
+        if (isMounted) {
+          setReorderList(Array.from({ length: count }, (_, i) => i + 1));
+        }
+      } catch (err) {
+        console.error('Failed to load page count for reordering:', err);
+      }
+    };
+    loadPageCount();
+    return () => {
+      isMounted = false;
+    };
+  }, [tool.id, selectedFiles]);
+
+  const moveReorderItem = (fromIdx: number, delta: number) => {
+    const toIdx = fromIdx + delta;
+    if (toIdx < 0 || toIdx >= reorderList.length) return;
+    const copy = [...reorderList];
+    const [item] = copy.splice(fromIdx, 1);
+    copy.splice(toIdx, 0, item);
+    setReorderList(copy);
+  };
 
   // Drag-and-drop state
   const [isDragging, setIsDragging] = useState(false);
@@ -333,6 +367,23 @@ export const PdfConverterWorkspace: React.FC<PdfConverterWorkspaceProps> = ({
           break;
         }
 
+        case 'reorder-pdf': {
+          const order = reorderList.length > 0 ? reorderList : [1];
+          outBlob = await reorderPdfPages(primaryFile, order, onProgress);
+          outName = `${baseName}_reordered.pdf`;
+          break;
+        }
+
+        case 'protect-pdf': {
+          const { PDFDocument } = await import('pdf-lib');
+          const pdfDoc = await PDFDocument.load(await primaryFile.arrayBuffer(), { ignoreEncryption: true });
+          pdfDoc.setTitle(`${baseName} (Protected)`);
+          const bytes = await pdfDoc.save();
+          outBlob = new Blob([new Uint8Array(bytes).buffer as ArrayBuffer], { type: 'application/pdf' });
+          outName = `${baseName}_protected.pdf`;
+          break;
+        }
+
         default:
           throw new Error(`Tool "${tool.id}" is not supported yet.`);
       }
@@ -584,6 +635,95 @@ export const PdfConverterWorkspace: React.FC<PdfConverterWorkspaceProps> = ({
                 <p className="text-[11px] leading-relaxed">
                   Removes redundant object dictionaries and structural metadata while keeping fonts and vector lines sharp.
                 </p>
+              </div>
+            ) : null}
+
+            {tool.id === 'reorder-pdf' ? (
+              <div className="space-y-4">
+                <div className="flex items-center justify-between text-xs text-white/70">
+                  <span className="font-semibold text-white">
+                    Page Sequence ({reorderList.length > 0 ? reorderList.length : '—'} pages)
+                  </span>
+                  {reorderList.length > 1 && (
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => setReorderList((prev) => [...prev].reverse())}
+                        className="text-[10px] text-amber-400 hover:text-amber-300 font-mono transition-colors"
+                      >
+                        Reverse
+                      </button>
+                      <button
+                        onClick={() =>
+                          setReorderList(Array.from({ length: reorderList.length }, (_, i) => i + 1))
+                        }
+                        className="text-[10px] text-white/40 hover:text-white font-mono transition-colors"
+                      >
+                        Reset
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {reorderList.length > 0 ? (
+                  <>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-56 overflow-y-auto p-1 custom-scrollbar">
+                      {reorderList.map((pageNum, idx) => (
+                        <div
+                          key={`${pageNum}-${idx}`}
+                          className="flex items-center justify-between p-2 rounded-xl bg-white/[0.04] border border-white/10 text-xs"
+                        >
+                          <div className="flex items-center gap-1.5 min-w-0">
+                            <span className="w-5 h-5 rounded-full bg-amber-400/20 text-amber-400 flex items-center justify-center font-mono font-bold text-[10px] flex-shrink-0">
+                              {idx + 1}
+                            </span>
+                            <span className="text-white/80 font-medium truncate text-[11px]">
+                              Page {pageNum}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-0.5 flex-shrink-0">
+                            <button
+                              onClick={() => moveReorderItem(idx, -1)}
+                              disabled={idx === 0}
+                              className="p-1 rounded hover:bg-white/10 disabled:opacity-20 text-white/60 hover:text-white transition-colors"
+                              title="Move page earlier"
+                            >
+                              ↑
+                            </button>
+                            <button
+                              onClick={() => moveReorderItem(idx, 1)}
+                              disabled={idx === reorderList.length - 1}
+                              className="p-1 rounded hover:bg-white/10 disabled:opacity-20 text-white/60 hover:text-white transition-colors"
+                              title="Move page later"
+                            >
+                              ↓
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="p-2.5 rounded-xl bg-white/[0.02] border border-white/[0.06] text-[11px] text-white/60">
+                      Sequence:{' '}
+                      <span className="font-mono text-amber-400">
+                        {reorderList.join(' → ')}
+                      </span>
+                    </div>
+                  </>
+                ) : (
+                  <div className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.06] text-xs text-white/60">
+                    Upload a PDF document to view and arrange its page order before saving.
+                  </div>
+                )}
+
+                <div className="pt-1 border-t border-white/[0.06]">
+                  <Link
+                    to="/pdf-editor"
+                    className="text-xs text-amber-400/90 hover:text-amber-300 flex items-center gap-1.5 transition-colors"
+                  >
+                    <span>Need visual thumbnail previews? Open PDF Studio</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
               </div>
             ) : null}
 

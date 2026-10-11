@@ -361,6 +361,16 @@ export const PdfEditorWorkspace: React.FC<PdfEditorWorkspaceProps> = ({
     pushHistory(`Move Page ${direction}`, copy, annotationsMap);
   };
 
+  const handleReorderPages = (fromIndex: number, toIndex: number) => {
+    if (fromIndex === toIndex || fromIndex < 0 || toIndex < 0 || fromIndex >= pages.length || toIndex >= pages.length) return;
+    const copy = [...pages];
+    const [moved] = copy.splice(fromIndex, 1);
+    copy.splice(toIndex, 0, moved);
+
+    setPages(copy);
+    pushHistory('Reorder Pages', copy, annotationsMap);
+  };
+
   const handleDeletePage = (pageNum: number) => {
     const activeRemaining = pages.filter((p) => !p.isDeleted && p.pageNumber !== pageNum);
     if (activeRemaining.length === 0) {
@@ -914,6 +924,7 @@ export const PdfEditorWorkspace: React.FC<PdfEditorWorkspaceProps> = ({
             onSelectPage={setCurrentPageNumber}
             onRotatePage={handleRotatePage}
             onMovePage={handleMovePage}
+            onReorderPage={handleReorderPages}
             onDeletePage={handleDeletePage}
             onExtractPage={handleExtractPage}
             onMergePdf={handleMergePdf}
