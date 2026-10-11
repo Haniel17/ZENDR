@@ -205,27 +205,27 @@ export const ConversionDirectory: React.FC = () => {
 
       {/* Two-Column Directory Panel */}
       <div 
-        className="w-full rounded-[28px] border border-white/[0.08] bg-white/[0.02] backdrop-blur-2xl overflow-hidden shadow-[0_12px_40px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.12)]"
+        className="w-full rounded-[28px] border border-white/[0.08] bg-gradient-to-b from-white/[0.04] via-[#090a0f]/90 to-[#06060a]/95 backdrop-blur-2xl overflow-hidden shadow-[0_16px_40px_-10px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.16)]"
         style={{ transform: 'translateZ(0)' }}
       >
         {/* Table Headers */}
         <div className="grid grid-cols-1 md:grid-cols-12 border-b border-white/[0.08]">
           {/* Left Column Header: Image */}
-          <div className="md:col-span-4 px-6 sm:px-8 py-5 flex items-center justify-between border-b md:border-b-0 md:border-r border-white/[0.08] bg-white/[0.01]">
+          <div className="md:col-span-4 px-6 sm:px-8 py-5 flex items-center justify-between border-b md:border-b-0 md:border-r border-white/[0.08] bg-white/[0.02]">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-2xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]">
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-b from-amber-400/20 to-amber-400/5 border border-amber-400/30 flex items-center justify-center text-amber-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.25)]">
                 <ImageIcon className="w-4 h-4" />
               </div>
               <div>
                 <h2 className="text-base sm:text-lg font-bold text-white tracking-tight">{imageColTitle}</h2>
-                <p className="text-[11px] text-white/50">
+                <p className="text-[11px] text-white/50 font-mono">
                   {imageItems.length} {activeTab === 'convert' ? 'Converters' : activeTab === 'compress' ? 'Compressors' : 'Editor Tools'}
                 </p>
               </div>
             </div>
             <Link
               to={leftExploreLink}
-              className="text-[11px] font-mono text-amber-400 hover:text-amber-300 flex items-center gap-1 transition-colors px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] hover:bg-white/[0.08] active:scale-[0.95]"
+              className="text-[11px] font-mono text-amber-400 hover:text-black hover:bg-amber-400 flex items-center gap-1 transition-all px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/20 active:scale-95 shadow-sm"
             >
               <span>Explore</span>
               <ArrowUpRight className="w-3 h-3" />
@@ -233,21 +233,21 @@ export const ConversionDirectory: React.FC = () => {
           </div>
 
           {/* Right Column Header: PDF */}
-          <div className="md:col-span-8 px-6 sm:px-8 py-5 flex items-center justify-between bg-white/[0.01]">
+          <div className="md:col-span-8 px-6 sm:px-8 py-5 flex items-center justify-between bg-white/[0.02]">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-2xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]">
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-b from-amber-400/20 to-amber-400/5 border border-amber-400/30 flex items-center justify-center text-amber-400 shadow-[inset_0_1px_0_rgba(255,255,255,0.25)]">
                 <FileText className="w-4 h-4" />
               </div>
               <div>
                 <h2 className="text-base sm:text-lg font-bold text-white tracking-tight">{pdfColTitle}</h2>
-                <p className="text-[11px] text-white/50">
+                <p className="text-[11px] text-white/50 font-mono">
                   {pdfDocItems.length} {activeTab === 'convert' ? 'Converters' : activeTab === 'compress' ? 'Compressor' : activeTab === 'data' ? 'Formats' : 'PDF Tools'}
                 </p>
               </div>
             </div>
             <Link
               to={rightExploreLink}
-              className="text-[11px] font-mono text-amber-400 hover:text-amber-300 flex items-center gap-1 transition-colors px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] hover:bg-white/[0.08] active:scale-[0.95]"
+              className="text-[11px] font-mono text-amber-400 hover:text-black hover:bg-amber-400 flex items-center gap-1 transition-all px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/20 active:scale-95 shadow-sm"
             >
               <span>Explore</span>
               <ArrowUpRight className="w-3 h-3" />
@@ -263,7 +263,7 @@ export const ConversionDirectory: React.FC = () => {
               <Link
                 key={item.name}
                 to={item.route}
-                className="group flex items-center justify-between px-4 py-3 rounded-2xl hover:bg-white/[0.06] transition-all duration-200 active:scale-[0.98] cursor-pointer select-none"
+                className="group flex items-center justify-between px-3.5 py-2.5 rounded-full hover:bg-white/[0.06] hover:border hover:border-white/10 border border-transparent transition-all duration-150 active:scale-[0.98] cursor-pointer select-none"
               >
                 <div className="flex items-center gap-3">
                   <span className="w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-amber-400 transition-colors duration-150" />
@@ -291,7 +291,7 @@ export const ConversionDirectory: React.FC = () => {
                 <Link
                   key={item.name}
                   to={item.route}
-                  className="group flex items-center justify-between px-4 py-3 rounded-2xl hover:bg-white/[0.06] transition-all duration-200 active:scale-[0.98] cursor-pointer select-none"
+                  className="group flex items-center justify-between px-3.5 py-2.5 rounded-full hover:bg-white/[0.06] hover:border hover:border-white/10 border border-transparent transition-all duration-150 active:scale-[0.98] cursor-pointer select-none"
                 >
                   <div className="flex items-center gap-3 min-w-0">
                     <span className="w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-amber-400 shrink-0 transition-colors" />
