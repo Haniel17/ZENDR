@@ -6,6 +6,7 @@ import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { AuthModal } from './components/AuthModal';
 import { VaultModal } from './components/VaultModal';
+import { ZendrLoadingScreen } from './components/ZendrLoadingScreen';
 import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
 import { VaultProvider } from './context/VaultContext';
@@ -34,23 +35,27 @@ const DataConverterPage = lazy(() =>
 );
 
 const PageLoader = () => (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    transition={{ duration: 0.15 }}
-    className="flex-1 flex flex-col items-center justify-center p-12 space-y-3 min-h-[400px]"
-  >
-    <div className="w-7 h-7 rounded-full border-2 border-amber-400 border-t-transparent animate-spin" />
-    <span className="text-xs font-mono text-white/50 tracking-wide">Loading workspace...</span>
-  </motion.div>
+  <ZendrLoadingScreen
+    fullScreen={false}
+    message="Loading workspace..."
+    size="md"
+  />
 );
 
 export function AppContent() {
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [isVaultOpen, setIsVaultOpen] = useState(false);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
   const location = useLocation();
   const isPdfEditor = location.pathname.startsWith('/pdf-editor');
+
+  // Smooth initial launch branding experience
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsInitialLoading(false);
+    }, 700);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Smooth scroll restoration on page change (except full-height editor)
   useEffect(() => {
@@ -61,6 +66,21 @@ export function AppContent() {
 
   return (
     <div className={`min-h-screen flex flex-col relative text-white selection:bg-amber-400 selection:text-black ${isPdfEditor ? 'h-screen overflow-hidden' : ''}`}>
+      {/* Initial Clean Brand Launch Loader */}
+      <AnimatePresence>
+        {isInitialLoading && (
+          <motion.div
+            key="initial-app-loader"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-0 z-[100] pointer-events-none"
+          >
+            <ZendrLoadingScreen fullScreen={true} message="Initializing workspace..." />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Flowing Chromatic Aurora Waves Background */}
       <ChromaticWaves />
 
