@@ -262,7 +262,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenAuth,
   onOpenVault,
 }) => {
-  const { user, logout, dbStatus } = useAuth();
+  const { user, logout } = useAuth();
   const { conversions } = useVault();
   const [isPdfDropdownOpen, setIsPdfDropdownOpen] = useState(false);
   const [isDataDropdownOpen, setIsDataDropdownOpen] = useState(false);
@@ -694,21 +694,6 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Right Tools & Optional Auth Actions */}
         <div className="flex items-center gap-2.5 sm:gap-3">
-          {/* MongoDB Status Indicator */}
-          <div 
-            className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.04] border border-white/[0.1] backdrop-blur-xl shadow-[inset_0_1px_0_rgba(255,255,255,0.12)] text-white/70 text-xs font-mono"
-            title={dbStatus.isConnected ? 'MongoDB Connected' : 'Local Storage Fallback'}
-          >
-            <span
-              className={`w-1.5 h-1.5 rounded-full ${
-                dbStatus.isConnected ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'
-              }`}
-            />
-            <span className="text-[11px]">
-              {dbStatus.isConnected ? 'MongoDB Active' : 'Local Engine'}
-            </span>
-          </div>
-
           {/* User Vault & Profile Controls */}
           {user ? (
             <div className="flex items-center gap-2">

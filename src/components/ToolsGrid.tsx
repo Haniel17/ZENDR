@@ -34,9 +34,8 @@ export const ToolsGrid: React.FC = () => {
                 <FileText className="w-6 h-6" />
               </div>
 
-              <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-white/70 font-mono text-[11px] shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span>{pdfCount} Tools • Private</span>
+              <div className="px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-white/60 font-mono text-[11px] shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
+                <span>{pdfCount} Tools</span>
               </div>
             </div>
 
@@ -112,9 +111,8 @@ export const ToolsGrid: React.FC = () => {
                 <Image className="w-6 h-6" />
               </div>
 
-              <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-white/70 font-mono text-[11px] shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span>{imageCount} Tools • Client-Side</span>
+              <div className="px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-white/60 font-mono text-[11px] shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
+                <span>{imageCount} Tools</span>
               </div>
             </div>
 
@@ -189,9 +187,8 @@ export const ToolsGrid: React.FC = () => {
                 <Braces className="w-6 h-6" />
               </div>
 
-              <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-white/70 font-mono text-[11px] shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span>{dataCount} Tools • Client-Side</span>
+              <div className="px-3 py-1 rounded-full bg-white/[0.04] border border-white/10 text-white/60 font-mono text-[11px] shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
+                <span>{dataCount} Tools</span>
               </div>
             </div>
 
