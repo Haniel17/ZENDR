@@ -118,13 +118,13 @@ export const PreviewWorkspace: React.FC<PreviewWorkspaceProps> = ({
       {/* Top Workspace Toolbar */}
       <div className="p-4 border-b border-white/10 flex flex-wrap items-center justify-between gap-3 bg-white/[0.02]">
         {/* View Mode Tabs */}
-        <div className="flex items-center gap-1 p-1 rounded-2xl futuristic-pill">
+        <div className="flex items-center gap-1 p-1 rounded-xl bg-[#0c0d10] border border-white/[0.08]">
           <button
             onClick={() => setViewMode('split')}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-transform transition-colors duration-75 active:scale-95 cursor-pointer select-none ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-100 cursor-pointer select-none ${
               viewMode === 'split'
-                ? 'bg-amber-400 text-black shadow-md shadow-amber-400/20'
-                : 'text-white/60 hover:text-white'
+                ? 'bg-amber-400 text-black font-semibold shadow-sm'
+                : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
             }`}
           >
             <Split className="w-3.5 h-3.5" />
@@ -133,10 +133,10 @@ export const PreviewWorkspace: React.FC<PreviewWorkspaceProps> = ({
 
           <button
             onClick={() => setViewMode('side-by-side')}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-transform transition-colors duration-75 active:scale-95 cursor-pointer select-none ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-100 cursor-pointer select-none ${
               viewMode === 'side-by-side'
-                ? 'bg-amber-400 text-black shadow-md shadow-amber-400/20'
-                : 'text-white/60 hover:text-white'
+                ? 'bg-amber-400 text-black font-semibold shadow-sm'
+                : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
             }`}
           >
             <Eye className="w-3.5 h-3.5" />
@@ -145,10 +145,10 @@ export const PreviewWorkspace: React.FC<PreviewWorkspaceProps> = ({
 
           <button
             onClick={() => setViewMode('result')}
-            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-transform transition-colors duration-75 active:scale-95 cursor-pointer select-none ${
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-100 cursor-pointer select-none ${
               viewMode === 'result'
-                ? 'bg-amber-400 text-black shadow-md shadow-amber-400/20'
-                : 'text-white/60 hover:text-white'
+                ? 'bg-amber-400 text-black font-semibold shadow-sm'
+                : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
             }`}
           >
             <span>Result</span>
@@ -157,10 +157,10 @@ export const PreviewWorkspace: React.FC<PreviewWorkspaceProps> = ({
           {mode === 'png-to-svg' && convertedSvgString && (
             <button
               onClick={() => setViewMode('code')}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-transform transition-colors duration-75 active:scale-95 cursor-pointer select-none ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-100 cursor-pointer select-none ${
                 viewMode === 'code'
-                  ? 'bg-amber-400 text-black shadow-md shadow-amber-400/20'
-                  : 'text-white/60 hover:text-white'
+                  ? 'bg-amber-400 text-black font-semibold shadow-sm'
+                  : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
               }`}
             >
               <Code className="w-3.5 h-3.5" />
@@ -396,14 +396,12 @@ export const PreviewWorkspace: React.FC<PreviewWorkspaceProps> = ({
         </div>
 
         {/* Action Buttons */}
-        <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+        <div className="flex flex-wrap items-center gap-2.5 w-full sm:w-auto">
           {onSaveVault && (
             <button
               onClick={onSaveVault}
-              className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 py-3 px-4 rounded-2xl border transition-transform transition-colors duration-75 active:scale-95 text-xs font-semibold cursor-pointer select-none ${
-                isSavedToVault
-                  ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-400'
-                  : 'border-white/10 bg-white/[0.04] hover:bg-white/[0.08] hover:border-amber-400/40 text-white'
+              className={`flex-1 sm:flex-initial btn-secondary text-xs px-3.5 py-2 rounded-lg ${
+                isSavedToVault ? 'text-emerald-400 border-emerald-500/40 bg-emerald-500/10' : ''
               }`}
             >
               {isSavedToVault ? (
@@ -423,7 +421,7 @@ export const PreviewWorkspace: React.FC<PreviewWorkspaceProps> = ({
           {mode === 'png-to-svg' && convertedSvgString && (
             <button
               onClick={handleCopySvgCode}
-              className="flex-1 sm:flex-initial flex items-center justify-center gap-2 py-3 px-4 rounded-2xl border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] text-white text-xs font-semibold transition-transform transition-colors duration-75 active:scale-95 cursor-pointer select-none"
+              className="flex-1 sm:flex-initial btn-secondary text-xs px-3.5 py-2 rounded-lg"
             >
               {copiedCode ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
               <span>{copiedCode ? 'Copied!' : 'Copy SVG'}</span>
@@ -432,9 +430,9 @@ export const PreviewWorkspace: React.FC<PreviewWorkspaceProps> = ({
 
           <button
             onClick={handleDownload}
-            className="flex-1 sm:flex-initial flex items-center justify-center gap-2.5 py-3 px-6 rounded-2xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black font-extrabold text-xs sm:text-sm shadow-xl shadow-amber-500/20 transition-transform transition-colors duration-75 active:scale-95 cursor-pointer select-none"
+            className="flex-1 sm:flex-initial btn-primary text-xs sm:text-sm px-5 py-2 rounded-lg font-semibold"
           >
-            <Download className="w-4 h-4" />
+            <Download className="w-4 h-4 text-black" />
             <span>
               Download {mode === 'png-to-svg' ? 'SVG Vector' : 'PNG Image'} ({formatFileSize(convertedSizeBytes)})
             </span>

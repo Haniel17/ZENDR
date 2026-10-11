@@ -268,7 +268,7 @@ export const CompressorWorkspacePage: React.FC<CompressorWorkspaceProps> = ({ in
               className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
             />
 
-            <div className="w-16 h-16 rounded-2xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-400 mb-4 group-hover:scale-105 transition-transform">
+            <div className="w-16 h-16 rounded-2xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-400 mb-4 transition-opacity group-hover:opacity-90">
               <Minimize2 className="w-8 h-8" />
             </div>
 
@@ -279,7 +279,7 @@ export const CompressorWorkspacePage: React.FC<CompressorWorkspaceProps> = ({ in
               Supported: {meta.accept.toUpperCase().replace(/\./g, ' ')}
             </p>
 
-            <span className="px-5 py-2.5 rounded-full bg-amber-400 hover:bg-amber-300 text-black text-xs font-bold transition-all shadow-lg shadow-amber-400/20">
+            <span className="btn-primary text-xs px-4 py-2 rounded-lg">
               Select File to Compress
             </span>
           </div>
@@ -305,7 +305,7 @@ export const CompressorWorkspacePage: React.FC<CompressorWorkspaceProps> = ({ in
 
                 <button
                   onClick={handleClear}
-                  className="self-start sm:self-center flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] text-white/70 hover:text-white border border-white/10 text-xs transition-colors cursor-pointer"
+                  className="self-start sm:self-center btn-secondary text-xs px-3 py-1.5 rounded-lg"
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
                   <span>Choose Another</span>
@@ -474,7 +474,7 @@ export const CompressorWorkspacePage: React.FC<CompressorWorkspaceProps> = ({ in
                   <button
                     onClick={handleRecompress}
                     disabled={isProcessing}
-                    className="flex items-center gap-2 px-5 py-2 rounded-full bg-white/[0.06] hover:bg-white/[0.1] text-white border border-white/10 text-xs font-semibold transition-all hover:border-amber-400/40 cursor-pointer disabled:opacity-50"
+                    className="btn-secondary text-xs px-4 py-2 rounded-lg"
                   >
                     <RefreshCw className="w-3.5 h-3.5 text-amber-400" />
                     <span>Apply &amp; Recompress</span>
@@ -510,7 +510,7 @@ export const CompressorWorkspacePage: React.FC<CompressorWorkspaceProps> = ({ in
                         ? `${file.name.replace(/\.[^/.]+$/, '')}_compressed.pdf`
                         : `${file.name.replace(/\.[^/.]+$/, '')}_compressed.${file.name.split('.').pop() || 'jpg'}`
                     }
-                    className="flex items-center justify-center gap-2.5 px-6 py-3 rounded-full bg-amber-400 hover:bg-amber-300 text-black text-sm font-bold transition-all shadow-lg shadow-amber-400/20 cursor-pointer"
+                    className="btn-primary text-sm px-6 py-2.5 rounded-lg font-semibold"
                   >
                     <Download className="w-4 h-4 text-black" />
                     <span>Download Compressed File</span>

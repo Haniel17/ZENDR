@@ -111,12 +111,12 @@ export const PdfToolsMenu: React.FC = () => {
         <div className="space-y-3.5">
           {/* Top Row: Icon & Badges */}
           <div className="flex items-center justify-between">
-            <div className="w-11 h-11 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-center transition-transform group-hover:scale-105 group-hover:border-amber-400/30">
+            <div className="w-11 h-11 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center transition-colors group-hover:border-amber-400/30">
               {renderIcon(tool.iconName)}
             </div>
 
             <div className="flex items-center gap-1.5">
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-white/[0.04] border border-white/10 text-white/70 group-hover:text-amber-400 group-hover:border-amber-400/30 transition-colors">
+              <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-medium bg-white/[0.04] border border-white/10 text-white/70 group-hover:text-amber-400 group-hover:border-amber-400/30 transition-colors">
                 {tool.badge || 'Tool'}
               </span>
             </div>
@@ -176,17 +176,17 @@ export const PdfToolsMenu: React.FC = () => {
       <div className="space-y-4 pt-2">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/[0.08] pb-5">
           {/* Category Tabs */}
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs">
+          <div className="flex items-center gap-1 overflow-x-auto p-1 bg-[#0c0d10] border border-white/[0.08] rounded-xl text-xs">
             {CATEGORY_TABS.map((tab) => {
               const isSelected = selectedCategory === tab.id;
               return (
                 <button
                   key={tab.id}
                   onClick={() => setSelectedCategory(tab.id)}
-                  className={`px-4 py-2 rounded-full font-medium transition-all whitespace-nowrap cursor-pointer ${
+                  className={`px-3.5 py-1.5 rounded-lg font-medium transition-all duration-100 whitespace-nowrap cursor-pointer ${
                     isSelected
-                      ? 'bg-amber-400 text-black font-semibold shadow-md shadow-amber-400/20'
-                      : 'bg-white/[0.03] text-white/70 hover:text-white hover:bg-white/[0.07] border border-white/5'
+                      ? 'bg-amber-400 text-black font-semibold shadow-sm'
+                      : 'text-white/70 hover:text-white hover:bg-white/[0.04]'
                   }`}
                 >
                   {tab.label}
@@ -203,7 +203,7 @@ export const PdfToolsMenu: React.FC = () => {
               placeholder="Search PDF tools (e.g. word, merge, sign)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-8 py-2 rounded-full bg-white/[0.04] border border-white/10 text-white placeholder-white/40 text-xs focus:outline-none focus:border-amber-400 transition-colors"
+              className="w-full pl-10 pr-8 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder-white/40 text-xs focus:outline-none focus:border-amber-400 transition-colors"
             />
             {searchQuery && (
               <button

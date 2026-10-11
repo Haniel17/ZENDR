@@ -88,27 +88,33 @@ export const VaultModal: React.FC<VaultModalProps> = ({ isOpen, onClose }) => {
 
         {/* Filter Pills */}
         <div className="px-6 py-3 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
-          <div className="flex items-center gap-1.5 p-1 rounded-xl futuristic-pill text-xs">
+          <div className="flex items-center gap-1 p-1 rounded-xl bg-[#0c0d10] border border-white/[0.08] text-xs">
             <button
               onClick={() => setFilter('all')}
-              className={`px-3 py-1 rounded-lg transition-all ${
-                filter === 'all' ? 'bg-amber-400 text-black font-bold' : 'text-white/60 hover:text-white'
+              className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
+                filter === 'all'
+                  ? 'bg-amber-400 text-black shadow-sm'
+                  : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
               }`}
             >
               All ({conversions.length})
             </button>
             <button
               onClick={() => setFilter('png-to-svg')}
-              className={`px-3 py-1 rounded-lg transition-all ${
-                filter === 'png-to-svg' ? 'bg-amber-400 text-black font-bold' : 'text-white/60 hover:text-white'
+              className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
+                filter === 'png-to-svg'
+                  ? 'bg-amber-400 text-black shadow-sm'
+                  : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
               }`}
             >
               PNG → SVG
             </button>
             <button
               onClick={() => setFilter('svg-to-png')}
-              className={`px-3 py-1 rounded-lg transition-all ${
-                filter === 'svg-to-png' ? 'bg-amber-400 text-black font-bold' : 'text-white/60 hover:text-white'
+              className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
+                filter === 'svg-to-png'
+                  ? 'bg-amber-400 text-black shadow-sm'
+                  : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
               }`}
             >
               SVG → PNG
@@ -189,7 +195,7 @@ export const VaultModal: React.FC<VaultModalProps> = ({ isOpen, onClose }) => {
                   {item.previewSvgSnippet && (
                     <button
                       onClick={() => handleCopyCode(item._id, item.previewSvgSnippet)}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/[0.05] hover:bg-white/10 text-white text-xs font-medium border border-white/10 transition-colors"
+                      className="btn-secondary text-xs px-3 py-1.5 rounded-lg"
                       title="Copy SVG XML"
                     >
                       {copiedId === item._id ? (

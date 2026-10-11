@@ -454,7 +454,7 @@ export const PdfConverterWorkspace: React.FC<PdfConverterWorkspaceProps> = ({
               Supported formats: {tool.supportedInputExtensions.map((e) => `.${e.toUpperCase()}`).join(', ')} • Up to 50MB
             </p>
 
-            <label className="px-5 py-2.5 rounded-full bg-white/[0.06] hover:bg-white/[0.1] text-white border border-white/15 text-xs font-semibold cursor-pointer transition-all hover:border-amber-400/50">
+            <label className="btn-secondary text-xs px-4 py-2 rounded-lg cursor-pointer">
               <span>Browse Files</span>
               <input
                 type="file"
@@ -618,7 +618,7 @@ export const PdfConverterWorkspace: React.FC<PdfConverterWorkspaceProps> = ({
             <button
               onClick={handleExecute}
               disabled={isProcessing || selectedFiles.length === 0}
-              className="w-full py-3.5 rounded-2xl bg-amber-400 hover:bg-amber-300 disabled:opacity-40 text-black font-bold text-xs tracking-wide uppercase transition-transform transition-colors duration-75 active:scale-95 shadow-lg shadow-amber-400/25 flex items-center justify-center gap-2 cursor-pointer select-none disabled:cursor-not-allowed"
+              className="w-full btn-primary py-3 rounded-lg text-sm font-semibold flex items-center justify-center gap-2"
             >
               {isProcessing ? (
                 <>
@@ -656,7 +656,7 @@ export const PdfConverterWorkspace: React.FC<PdfConverterWorkspaceProps> = ({
 
               <button
                 onClick={handleDownload}
-                className="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-xs tracking-wide uppercase transition-transform transition-colors duration-75 active:scale-95 shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2 cursor-pointer select-none"
+                className="w-full btn-success py-3 rounded-lg text-sm font-semibold flex items-center justify-center gap-2"
               >
                 <Download className="w-4 h-4" />
                 <span>Download Result</span>
@@ -665,7 +665,7 @@ export const PdfConverterWorkspace: React.FC<PdfConverterWorkspaceProps> = ({
               {resultFileName.endsWith('.pdf') && (
                 <Link
                   to="/pdf-editor"
-                  className="w-full py-2.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-white/80 hover:text-white border border-white/10 text-xs font-medium flex items-center justify-center gap-2 transition-transform transition-colors duration-75 active:scale-95 select-none"
+                  className="w-full btn-secondary py-2.5 rounded-lg text-xs font-medium flex items-center justify-center gap-2"
                 >
                   <ExternalLink className="w-3.5 h-3.5 text-amber-400" />
                   <span>Open in PDF Editor</span>

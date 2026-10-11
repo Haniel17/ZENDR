@@ -9,13 +9,13 @@ interface ModeSelectorProps {
 export const ModeSelector: React.FC<ModeSelectorProps> = ({ activeMode, onSelectMode }) => {
   return (
     <div className="flex items-center justify-center">
-      <div className="inline-flex items-center p-1 rounded-full futuristic-pill">
+      <div className="inline-flex items-center gap-1 p-1 rounded-xl bg-[#0c0d10] border border-white/[0.08]">
         <button
           onClick={() => onSelectMode('png-to-svg')}
-          className={`flex items-center gap-2 px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-transform transition-colors duration-75 active:scale-95 cursor-pointer select-none ${
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all duration-100 cursor-pointer select-none ${
             activeMode === 'png-to-svg'
-              ? 'bg-amber-400 text-black shadow-lg shadow-amber-400/20'
-              : 'text-white/70 hover:text-white hover:bg-white/5'
+              ? 'bg-amber-400 text-black font-semibold shadow-sm'
+              : 'text-white/70 hover:text-white hover:bg-white/[0.04]'
           }`}
         >
           <PenTool className="w-3.5 h-3.5" />
@@ -24,10 +24,10 @@ export const ModeSelector: React.FC<ModeSelectorProps> = ({ activeMode, onSelect
 
         <button
           onClick={() => onSelectMode('svg-to-png')}
-          className={`flex items-center gap-2 px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-transform transition-colors duration-75 active:scale-95 cursor-pointer select-none ${
+          className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all duration-100 cursor-pointer select-none ${
             activeMode === 'svg-to-png'
-              ? 'bg-amber-400 text-black shadow-lg shadow-amber-400/20'
-              : 'text-white/70 hover:text-white hover:bg-white/5'
+              ? 'bg-amber-400 text-black font-semibold shadow-sm'
+              : 'text-white/70 hover:text-white hover:bg-white/[0.04]'
           }`}
         >
           <Layers className="w-3.5 h-3.5" />

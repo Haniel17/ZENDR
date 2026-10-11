@@ -120,7 +120,7 @@ export const KeyboardShortcutsModal: React.FC<KeyboardShortcutsModalProps> = ({
           </span>
           <button
             onClick={onClose}
-            className="px-4 py-1.5 rounded-full bg-white/[0.06] hover:bg-white/[0.1] text-white text-xs font-semibold cursor-pointer transition-colors"
+            className="btn-secondary text-xs px-3.5 py-1.5 rounded-lg"
           >
             Got it (Esc)
           </button>

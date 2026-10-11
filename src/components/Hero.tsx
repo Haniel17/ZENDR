@@ -23,10 +23,10 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToTools }) => {
       </p>
 
       {/* Direct Workspace Quick Launch Buttons */}
-      <div className="flex flex-wrap items-center justify-center gap-3.5 pt-8">
+      <div className="flex flex-wrap items-center justify-center gap-3 pt-8">
         <Link
           to="/pdf-converter"
-          className="flex items-center gap-2.5 px-6 py-3 rounded-full bg-amber-400 hover:bg-amber-300 text-black text-sm font-semibold transition-all shadow-lg shadow-amber-400/20 hover:scale-105 cursor-pointer"
+          className="btn-primary text-sm px-5 py-2.5 rounded-lg"
         >
           <FileText className="w-4 h-4 text-black" />
           <span>Explore PDF Tools</span>
@@ -34,7 +34,7 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToTools }) => {
 
         <Link
           to="/image-converter"
-          className="flex items-center gap-2.5 px-6 py-3 rounded-full bg-white/[0.05] hover:bg-white/[0.1] text-white border border-white/10 text-sm font-semibold transition-all hover:border-amber-400/40 hover:scale-105 cursor-pointer"
+          className="btn-secondary text-sm px-5 py-2.5 rounded-lg"
         >
           <Image className="w-4 h-4 text-amber-400" />
           <span>Image Studio</span>
@@ -42,7 +42,7 @@ export const Hero: React.FC<HeroProps> = ({ onScrollToTools }) => {
 
         <Link
           to="/text-to-json"
-          className="flex items-center gap-2.5 px-6 py-3 rounded-full bg-white/[0.05] hover:bg-white/[0.1] text-white border border-white/10 text-sm font-semibold transition-all hover:border-amber-400/40 hover:scale-105 cursor-pointer"
+          className="btn-secondary text-sm px-5 py-2.5 rounded-lg"
         >
           <Braces className="w-4 h-4 text-amber-400" />
           <span>Data Suite (8 Formats)</span>

@@ -143,13 +143,13 @@ export const ConversionDirectory: React.FC = () => {
     <div className="w-full space-y-4">
       {/* Category Tab Switcher: Convert vs Data vs Compress vs Tools */}
       <div className="flex items-center justify-between flex-wrap gap-3">
-        <div className="flex items-center gap-1.5 p-1 rounded-full bg-white/[0.03] border border-white/10">
+        <div className="flex items-center gap-1 p-1 rounded-xl bg-[#0c0d10] border border-white/[0.08]">
           <button
             onClick={() => setActiveTab('convert')}
-            className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-transform transition-colors duration-75 active:scale-95 cursor-pointer select-none ${
+            className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all duration-100 cursor-pointer select-none ${
               activeTab === 'convert'
-                ? 'bg-amber-400 text-black shadow-sm'
-                : 'text-white/60 hover:text-white hover:bg-white/5'
+                ? 'bg-amber-400 text-black shadow-sm font-semibold'
+                : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
             }`}
           >
             File Conversions (29)
@@ -157,37 +157,37 @@ export const ConversionDirectory: React.FC = () => {
 
           <button
             onClick={() => setActiveTab('data')}
-            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold transition-transform transition-colors duration-75 active:scale-95 cursor-pointer select-none ${
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all duration-100 cursor-pointer select-none ${
               activeTab === 'data'
-                ? 'bg-amber-400 text-black shadow-sm'
-                : 'text-white/60 hover:text-white hover:bg-white/5'
+                ? 'bg-amber-400 text-black shadow-sm font-semibold'
+                : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
             }`}
           >
-            <Braces className="w-3 h-3" />
+            <Braces className="w-3.5 h-3.5" />
             <span>Data &amp; Code Suite (8)</span>
           </button>
 
           <button
             onClick={() => setActiveTab('compress')}
-            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold transition-transform transition-colors duration-75 active:scale-95 cursor-pointer select-none ${
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all duration-100 cursor-pointer select-none ${
               activeTab === 'compress'
-                ? 'bg-amber-400 text-black shadow-sm'
-                : 'text-white/60 hover:text-white hover:bg-white/5'
+                ? 'bg-amber-400 text-black shadow-sm font-semibold'
+                : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
             }`}
           >
-            <Minimize2 className="w-3 h-3" />
+            <Minimize2 className="w-3.5 h-3.5" />
             <span>Compressors (4)</span>
           </button>
 
           <button
             onClick={() => setActiveTab('tools')}
-            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold transition-transform transition-colors duration-75 active:scale-95 cursor-pointer select-none ${
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all duration-100 cursor-pointer select-none ${
               activeTab === 'tools'
-                ? 'bg-amber-400 text-black shadow-sm'
-                : 'text-white/60 hover:text-white hover:bg-white/5'
+                ? 'bg-amber-400 text-black shadow-sm font-semibold'
+                : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
             }`}
           >
-            <Edit3 className="w-3 h-3" />
+            <Edit3 className="w-3.5 h-3.5" />
             <span>Tools &amp; Editors (24)</span>
           </button>
         </div>

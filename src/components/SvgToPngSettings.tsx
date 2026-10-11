@@ -229,7 +229,7 @@ export const SvgToPngSettings: React.FC<SvgToPngSettingsProps> = ({
       <button
         onClick={onRender}
         disabled={isProcessing}
-        className="w-full py-3 px-4 rounded-2xl bg-amber-400 hover:bg-amber-300 text-black font-bold text-xs sm:text-sm transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20 active:scale-[0.98]"
+        className="w-full btn-primary py-2.5 rounded-lg text-xs sm:text-sm font-semibold flex items-center justify-center gap-2"
       >
         {isProcessing ? (
           <>

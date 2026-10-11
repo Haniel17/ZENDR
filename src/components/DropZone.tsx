@@ -103,7 +103,7 @@ export const DropZone: React.FC<DropZoneProps> = ({
       >
         <div className="flex flex-col items-center justify-center space-y-4 max-w-sm mx-auto">
           {/* Centered Squircle Icon */}
-          <div className="w-16 h-16 rounded-2xl bg-white/[0.06] border border-white/10 flex items-center justify-center text-white/80 group-hover:text-amber-400 group-hover:scale-105 transition-all duration-300 shadow-inner">
+          <div className="w-16 h-16 rounded-2xl bg-white/[0.06] border border-white/10 flex items-center justify-center text-white/80 group-hover:text-amber-400 group-hover:border-amber-400/40 transition-colors duration-200 shadow-inner">
             {isLoading ? (
               <div className="w-6 h-6 border-2 border-amber-400 border-t-transparent rounded-full animate-spin" />
             ) : mode === 'png-to-svg' ? (

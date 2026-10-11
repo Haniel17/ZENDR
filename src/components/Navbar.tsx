@@ -340,23 +340,23 @@ export const Navbar: React.FC<NavbarProps> = ({
           <img
             src="/Zendr.png"
             alt="ZENDR"
-            className="h-6 sm:h-7 w-auto object-contain drop-shadow-[0_0_15px_rgba(245,158,11,0.35)] transition-transform group-hover:scale-105"
+            className="h-6 sm:h-7 w-auto object-contain drop-shadow-[0_0_15px_rgba(245,158,11,0.35)] transition-opacity opacity-90 group-hover:opacity-100"
           />
           <span className="text-[10px] font-mono tracking-widest text-white/40 uppercase hidden sm:inline self-center pt-0.5">
             STUDIO
           </span>
         </Link>
 
-        {/* Center: Module Navigation Links */}
-        <nav className="hidden md:flex items-center gap-1 bg-white/[0.03] p-1 rounded-full border border-white/[0.06] text-xs">
+        {/* Center: Module Navigation Links (Engineered Segmented Control) */}
+        <nav className="hidden md:flex items-center gap-1 bg-[#0b0c10]/80 p-1 rounded-xl border border-white/[0.08] text-xs">
           <NavLink
             to="/"
             end
             className={({ isActive }) =>
-              `px-3.5 py-1.5 rounded-full transition-transform transition-colors duration-75 active:scale-95 cursor-pointer select-none font-medium ${
+              `px-3 py-1.5 rounded-lg transition-all duration-100 cursor-pointer select-none font-medium ${
                 isActive
                   ? 'bg-amber-400 text-black shadow-sm font-semibold'
-                  : 'text-white/60 hover:text-white hover:bg-white/5'
+                  : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
               }`
             }
           >
@@ -373,14 +373,14 @@ export const Navbar: React.FC<NavbarProps> = ({
               to="/pdf-converter"
               onClick={handleClosePdfDropdown}
               className={({ isActive }) =>
-                `px-3.5 py-1.5 rounded-full transition-transform transition-colors duration-75 active:scale-95 cursor-pointer select-none font-medium flex items-center gap-1.5 ${
+                `px-3 py-1.5 rounded-lg transition-all duration-100 cursor-pointer select-none font-medium flex items-center gap-1.5 ${
                   isActive || isPdfDropdownOpen
                     ? 'bg-amber-400 text-black shadow-sm font-semibold'
-                    : 'text-white/60 hover:text-white hover:bg-white/5'
+                    : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
                 }`
               }
             >
-              <FileText className="w-3 h-3" />
+              <FileText className="w-3.5 h-3.5" />
               <span>PDF Tools</span>
               <ChevronDown
                 className={`w-3 h-3 transition-transform duration-150 ${
@@ -486,28 +486,28 @@ export const Navbar: React.FC<NavbarProps> = ({
           <NavLink
             to="/pdf-editor"
             className={({ isActive }) =>
-              `px-3.5 py-1.5 rounded-full transition-transform transition-colors duration-75 active:scale-95 cursor-pointer select-none font-medium flex items-center gap-1.5 ${
+              `px-3 py-1.5 rounded-lg transition-all duration-100 cursor-pointer select-none font-medium flex items-center gap-1.5 ${
                 isActive
                   ? 'bg-amber-400 text-black shadow-sm font-semibold'
-                  : 'text-white/60 hover:text-white hover:bg-white/5'
+                  : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
               }`
             }
           >
-            <Edit3 className="w-3 h-3" />
+            <Edit3 className="w-3.5 h-3.5" />
             <span>PDF Editor</span>
           </NavLink>
 
           <NavLink
             to="/image-converter"
             className={({ isActive }) =>
-              `px-3.5 py-1.5 rounded-full transition-transform transition-colors duration-75 active:scale-95 cursor-pointer select-none font-medium flex items-center gap-1.5 ${
+              `px-3 py-1.5 rounded-lg transition-all duration-100 cursor-pointer select-none font-medium flex items-center gap-1.5 ${
                 isActive
                   ? 'bg-amber-400 text-black shadow-sm font-semibold'
-                  : 'text-white/60 hover:text-white hover:bg-white/5'
+                  : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
               }`
             }
           >
-            <Image className="w-3 h-3" />
+            <Image className="w-3.5 h-3.5" />
             <span>Image Tools</span>
           </NavLink>
 
@@ -521,14 +521,14 @@ export const Navbar: React.FC<NavbarProps> = ({
               to="/text-to-json"
               onClick={handleCloseDataDropdown}
               className={({ isActive }) =>
-                `px-3.5 py-1.5 rounded-full transition-transform transition-colors duration-75 active:scale-95 cursor-pointer select-none font-medium flex items-center gap-1.5 ${
+                `px-3 py-1.5 rounded-lg transition-all duration-100 cursor-pointer select-none font-medium flex items-center gap-1.5 ${
                   isActive || isDataDropdownOpen
                     ? 'bg-amber-400 text-black shadow-sm font-semibold'
-                    : 'text-white/60 hover:text-white hover:bg-white/5'
+                    : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
                 }`
               }
             >
-              <Braces className="w-3 h-3" />
+              <Braces className="w-3.5 h-3.5" />
               <span>Data Tools</span>
               <ChevronDown
                 className={`w-3 h-3 transition-transform duration-150 ${
@@ -633,10 +633,10 @@ export const Navbar: React.FC<NavbarProps> = ({
         </nav>
 
         {/* Right Tools & Optional Auth Actions */}
-        <div className="flex items-center gap-2.5 sm:gap-4">
+        <div className="flex items-center gap-2.5 sm:gap-3">
           {/* MongoDB Status Indicator */}
           <div 
-            className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/10 text-white/70 text-xs font-mono"
+            className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#0e0f13] border border-white/[0.08] text-white/70 text-xs font-mono"
             title={dbStatus.isConnected ? 'MongoDB Connected' : 'Local Storage Fallback'}
           >
             <span
@@ -655,12 +655,12 @@ export const Navbar: React.FC<NavbarProps> = ({
               {/* Vault Button */}
               <button
                 onClick={onOpenVault}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full futuristic-pill text-xs font-medium text-white/90 hover:text-white transition-all hover:border-amber-400/40"
+                className="btn-secondary text-xs px-3 py-1.5 rounded-lg"
               >
                 <Database className="w-3.5 h-3.5 text-amber-400" />
                 <span className="hidden sm:inline">Vault</span>
                 {conversions.length > 0 && (
-                  <span className="ml-0.5 px-1.5 py-0.2 rounded-full text-[10px] bg-amber-400/20 text-amber-300 font-mono">
+                  <span className="ml-0.5 px-1.5 py-0.2 rounded text-[10px] bg-amber-400/20 text-amber-300 font-mono">
                     {conversions.length}
                   </span>
                 )}
@@ -669,14 +669,14 @@ export const Navbar: React.FC<NavbarProps> = ({
               {/* User Avatar badge */}
               <div className="flex items-center gap-2 pl-1 border-l border-white/10">
                 <div className="flex items-center gap-1.5 text-xs text-white/80">
-                  <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-amber-400 to-amber-200 text-black flex items-center justify-center font-bold text-[10px]">
+                  <div className="w-6 h-6 rounded-md bg-gradient-to-tr from-amber-400 to-amber-200 text-black flex items-center justify-center font-bold text-[10px]">
                     {user.username.charAt(0).toUpperCase()}
                   </div>
                   <span className="font-medium hidden md:inline">{user.username}</span>
                 </div>
                 <button
                   onClick={logout}
-                  className="p-1.5 rounded-full text-white/40 hover:text-rose-400 hover:bg-white/5 transition-colors"
+                  className="p-1.5 rounded-md text-white/40 hover:text-rose-400 hover:bg-white/5 transition-colors"
                   title="Sign out"
                 >
                   <LogOut className="w-3.5 h-3.5" />
@@ -687,7 +687,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <div className="flex items-center gap-2">
               <button
                 onClick={onOpenAuth}
-                className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/[0.05] hover:bg-white/[0.1] text-xs font-medium text-white border border-white/10 hover:border-amber-400/40 transition-all cursor-pointer"
+                className="btn-secondary text-xs px-3 py-1.5 rounded-lg"
               >
                 <UserIcon className="w-3.5 h-3.5 text-amber-400" />
                 <span>Sign In</span>

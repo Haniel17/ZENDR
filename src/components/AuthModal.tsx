@@ -79,7 +79,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           <img
             src="/Zendr.png"
             alt="ZENDR Logo"
-            className="h-8 sm:h-9 w-auto max-w-[180px] object-contain mx-auto drop-shadow-[0_0_20px_rgba(245,158,11,0.3)] transition-transform hover:scale-105"
+            className="h-8 sm:h-9 w-auto max-w-[180px] object-contain mx-auto drop-shadow-[0_0_20px_rgba(245,158,11,0.3)] transition-opacity opacity-90 hover:opacity-100"
           />
           <h2 className="text-2xl font-extrabold tracking-tight text-white">
             ZENDR Vault
@@ -88,7 +88,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             Cloud sync past conversions, store raw SVG code &amp; access your presets anywhere.
           </p>
           <div className="pt-1">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/20 text-amber-400 font-mono text-[10px]">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-amber-400/10 border border-amber-400/20 text-amber-400 font-mono text-[10px]">
               <Shield className="w-3 h-3" />
               <span>100% Optional • No Gatekeeping</span>
             </span>
@@ -96,17 +96,17 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         </div>
 
         {/* Tab Switcher */}
-        <div className="grid grid-cols-2 gap-1 p-1 rounded-xl futuristic-pill mb-6">
+        <div className="grid grid-cols-2 gap-1 p-1 rounded-xl bg-[#0c0d10] border border-white/[0.08] mb-6">
           <button
             type="button"
             onClick={() => {
               setTab('login');
               setErrorMsg(null);
             }}
-            className={`py-2 text-xs font-bold rounded-lg transition-all ${
+            className={`py-2 text-xs font-semibold rounded-lg transition-all ${
               tab === 'login'
-                ? 'bg-amber-400 text-black shadow-md shadow-amber-400/20'
-                : 'text-white/60 hover:text-white'
+                ? 'bg-amber-400 text-black shadow-sm'
+                : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
             }`}
           >
             Sign In
@@ -117,10 +117,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               setTab('register');
               setErrorMsg(null);
             }}
-            className={`py-2 text-xs font-bold rounded-lg transition-all ${
+            className={`py-2 text-xs font-semibold rounded-lg transition-all ${
               tab === 'register'
-                ? 'bg-amber-400 text-black shadow-md shadow-amber-400/20'
-                : 'text-white/60 hover:text-white'
+                ? 'bg-amber-400 text-black shadow-sm'
+                : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
             }`}
           >
             Create Account
@@ -199,7 +199,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full mt-2 py-3 px-4 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black font-extrabold text-xs sm:text-sm transition-all shadow-lg shadow-amber-500/25 cursor-pointer disabled:opacity-50"
+            className="w-full mt-2 btn-primary py-2.5 rounded-lg text-xs sm:text-sm font-semibold"
           >
             {isSubmitting
               ? 'Connecting to Vault...'

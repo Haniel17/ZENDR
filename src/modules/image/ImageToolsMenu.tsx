@@ -90,7 +90,7 @@ export const ImageToolsMenu: React.FC = () => {
             placeholder="Search image tools (e.g. heic, webp, svg)..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-8 py-2 rounded-full bg-white/[0.04] border border-white/10 text-white placeholder-white/40 text-xs focus:outline-none focus:border-amber-400 transition-colors"
+            className="w-full pl-10 pr-8 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder-white/40 text-xs focus:outline-none focus:border-amber-400/50 transition-colors"
           />
           {searchQuery && (
             <button
@@ -124,11 +124,11 @@ export const ImageToolsMenu: React.FC = () => {
             >
               <div className="space-y-3.5">
                 <div className="flex items-center justify-between">
-                  <div className="w-11 h-11 rounded-2xl bg-white/[0.04] border border-white/10 flex items-center justify-center transition-transform group-hover:scale-105 group-hover:border-amber-400/30">
+                  <div className="w-11 h-11 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center transition-colors group-hover:border-amber-400/30">
                     {renderIcon(tool.iconName)}
                   </div>
 
-                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-white/[0.04] border border-white/10 text-white/70 group-hover:text-amber-400 group-hover:border-amber-400/30 transition-colors">
+                  <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-medium bg-white/[0.04] border border-white/10 text-white/70 group-hover:text-amber-400 group-hover:border-amber-400/30 transition-colors">
                     {tool.badge || 'Image Tool'}
                   </span>
                 </div>

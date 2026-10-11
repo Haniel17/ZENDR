@@ -49,17 +49,17 @@ export const ToolsGrid: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex items-center gap-3 pt-6 mt-6 border-t border-white/[0.06]">
+          <div className="flex items-center gap-2.5 pt-6 mt-6 border-t border-white/[0.06]">
             <Link
               to="/pdf-converter"
-              className="flex items-center gap-2 px-4 py-2 rounded-full bg-amber-400 hover:bg-amber-300 text-black text-xs font-semibold transition-transform transition-colors duration-75 active:scale-95 cursor-pointer select-none"
+              className="btn-primary text-xs px-3.5 py-1.5 rounded-lg"
             >
               <span>Open PDF Tools</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
             <Link
               to="/pdf-editor"
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white/[0.04] hover:bg-white/[0.08] text-white/80 hover:text-white border border-white/10 text-xs font-medium transition-transform transition-colors duration-75 active:scale-95 cursor-pointer select-none"
+              className="btn-secondary text-xs px-3 py-1.5 rounded-lg"
             >
               <Edit3 className="w-3.5 h-3.5 text-amber-400" />
               <span>Visual Editor</span>
@@ -74,7 +74,7 @@ export const ToolsGrid: React.FC = () => {
               <div className="w-11 h-11 rounded-2xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-400">
                 <Image className="w-5 h-5" />
               </div>
-              <span className="px-3 py-1 rounded-full text-[11px] font-mono text-amber-400/90 bg-amber-400/10 border border-amber-400/20">
+              <span className="px-3 py-1 rounded-md text-[11px] font-mono text-amber-400/90 bg-amber-400/10 border border-amber-400/20">
                 {imageCount} Tools • Client-Side
               </span>
             </div>
@@ -97,17 +97,17 @@ export const ToolsGrid: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex items-center gap-3 pt-6 mt-6 border-t border-white/[0.06]">
+          <div className="flex items-center gap-2.5 pt-6 mt-6 border-t border-white/[0.06]">
             <Link
               to="/image-converter"
-              className="flex items-center gap-2 px-4 py-2 rounded-full bg-amber-400 hover:bg-amber-300 text-black text-xs font-semibold transition-transform transition-colors duration-75 active:scale-95 cursor-pointer select-none"
+              className="btn-primary text-xs px-3.5 py-1.5 rounded-lg"
             >
               <span>Open Image Studio</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
             <Link
               to="/image-converter/png-to-svg"
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white/[0.04] hover:bg-white/[0.08] text-white/80 hover:text-white border border-white/10 text-xs font-medium transition-transform transition-colors duration-75 active:scale-95 cursor-pointer select-none"
+              className="btn-secondary text-xs px-3 py-1.5 rounded-lg"
             >
               <span>PNG → SVG</span>
             </Link>
@@ -121,7 +121,7 @@ export const ToolsGrid: React.FC = () => {
               <div className="w-11 h-11 rounded-2xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-400">
                 <Braces className="w-5 h-5" />
               </div>
-              <span className="px-3 py-1 rounded-full text-[11px] font-mono text-amber-400/90 bg-amber-400/10 border border-amber-400/20">
+              <span className="px-3 py-1 rounded-md text-[11px] font-mono text-amber-400/90 bg-amber-400/10 border border-amber-400/20">
                 {dataCount} Tools • Client-Side
               </span>
             </div>
@@ -144,17 +144,17 @@ export const ToolsGrid: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex items-center gap-3 pt-6 mt-6 border-t border-white/[0.06]">
+          <div className="flex items-center gap-2.5 pt-6 mt-6 border-t border-white/[0.06]">
             <Link
               to="/text-to-json"
-              className="flex items-center gap-2 px-4 py-2 rounded-full bg-amber-400 hover:bg-amber-300 text-black text-xs font-semibold transition-transform transition-colors duration-75 active:scale-95 cursor-pointer select-none"
+              className="btn-primary text-xs px-3.5 py-1.5 rounded-lg"
             >
               <span>Open Data Suite</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
             <Link
               to="/csv-to-json"
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white/[0.04] hover:bg-white/[0.08] text-white/80 hover:text-white border border-white/10 text-xs font-medium transition-transform transition-colors duration-75 active:scale-95 cursor-pointer select-none"
+              className="btn-secondary text-xs px-3 py-1.5 rounded-lg"
             >
               <span>CSV ➔ JSON</span>
             </Link>

@@ -530,7 +530,7 @@ export const EditorToolbar: React.FC<EditorToolbarProps> = ({
         {onOpenShortcutsModal && (
           <button
             onClick={onOpenShortcutsModal}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-white/80 hover:text-white border border-white/10 transition-transform transition-colors duration-75 active:scale-95 cursor-pointer select-none text-[11px]"
+            className="btn-secondary text-[11px] px-2.5 py-1.5 rounded-lg"
             title="View All Synced Keyboard Controls (Shortcut: ?)"
           >
             <Keyboard className="w-3.5 h-3.5 text-amber-400" />
@@ -543,12 +543,12 @@ export const EditorToolbar: React.FC<EditorToolbarProps> = ({
         <button
           onClick={onExportPdf}
           disabled={isExporting}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-black font-semibold text-xs shadow-lg shadow-amber-400/20 transition-transform transition-colors duration-75 active:scale-95 cursor-pointer select-none disabled:opacity-50 disabled:cursor-not-allowed"
+          className="btn-primary text-xs px-3.5 py-1.5 rounded-lg"
           title="Save and Download PDF (Shortcut: ⌘S or Ctrl+S)"
         >
           <Download className="w-3.5 h-3.5" />
           <span>{isExporting ? 'Saving...' : 'Save PDF'}</span>
-          <kbd className="hidden sm:inline text-[9px] font-mono px-1.5 py-0.5 rounded bg-black/20 text-black font-bold">
+          <kbd className="hidden sm:inline text-[9px] font-mono px-1.5 py-0.5 rounded bg-black/15 text-black font-bold">
             ⌘S
           </kbd>
         </button>

@@ -186,7 +186,7 @@ export const StampPickerModal: React.FC<StampPickerModalProps> = ({
         <div className="px-6 py-3 border-t border-white/[0.08] bg-white/[0.01] flex justify-end">
           <button
             onClick={onClose}
-            className="px-4 py-1.5 rounded-full text-xs font-medium text-white/70 hover:text-white transition-colors cursor-pointer"
+            className="btn-secondary text-xs px-3.5 py-1.5 rounded-lg"
           >
             Cancel
           </button>

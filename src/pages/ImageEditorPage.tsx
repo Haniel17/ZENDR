@@ -311,7 +311,7 @@ export const ImageEditorPage: React.FC = () => {
         </p>
 
         {/* Tool Sub-Navigation Pills */}
-        <div className="flex items-center justify-center gap-1.5 flex-wrap pt-3">
+        <div className="flex items-center justify-center gap-1 p-1 rounded-xl bg-[#0c0d10] border border-white/[0.08] max-w-fit mx-auto flex-wrap mt-3 text-xs">
           {[
             { id: 'resize' as const, label: 'Resize', icon: Scaling },
             { id: 'crop' as const, label: 'Crop', icon: Crop },
@@ -327,10 +327,10 @@ export const ImageEditorPage: React.FC = () => {
               <button
                 key={item.id}
                 onClick={() => setActiveTool(item.id)}
-                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-100 cursor-pointer ${
                   isActive
-                    ? 'bg-amber-400 text-black shadow-sm'
-                    : 'bg-white/[0.03] text-white/60 hover:text-white hover:bg-white/10 border border-white/10'
+                    ? 'bg-amber-400 text-black font-semibold shadow-sm'
+                    : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
                 }`}
               >
                 <Icon className="w-3.5 h-3.5" />
@@ -375,7 +375,7 @@ export const ImageEditorPage: React.FC = () => {
                   onChange={(e) => {
                     if (e.target.files) setGifFiles(Array.from(e.target.files));
                   }}
-                  className="w-full text-xs text-white/60 file:mr-3 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-amber-400 file:text-black hover:file:bg-amber-300 cursor-pointer"
+                  className="w-full text-xs text-white/60 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-400 file:text-black hover:file:bg-amber-300 cursor-pointer"
                 />
                 <p className="text-[11px] text-white/40 font-mono">
                   {gifFiles.length} frames selected
@@ -401,7 +401,7 @@ export const ImageEditorPage: React.FC = () => {
               <button
                 onClick={executeGif}
                 disabled={gifFiles.length === 0 || isProcessing}
-                className="w-full py-3 rounded-full bg-amber-400 hover:bg-amber-300 text-black text-xs font-bold transition-all shadow-lg shadow-amber-400/20 disabled:opacity-50 cursor-pointer"
+                className="w-full btn-primary py-2.5 rounded-lg text-xs font-semibold"
               >
                 {isProcessing ? 'Generating GIF...' : 'Generate Animated GIF'}
               </button>
@@ -414,7 +414,7 @@ export const ImageEditorPage: React.FC = () => {
                   <a
                     href={resultSrc}
                     download="animated.gif"
-                    className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-amber-400 hover:bg-amber-300 text-black text-xs font-bold transition-all cursor-pointer shadow-lg"
+                    className="btn-primary text-xs px-5 py-2.5 rounded-lg font-semibold inline-flex items-center gap-2"
                   >
                     <Download className="w-4 h-4 text-black" />
                     <span>Download GIF ({resultBlob ? formatBytes(resultBlob.size) : ''})</span>
@@ -446,12 +446,12 @@ export const ImageEditorPage: React.FC = () => {
               }}
               className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
             />
-            <div className="w-14 h-14 rounded-2xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-400 mb-3 group-hover:scale-105 transition-transform">
+            <div className="w-14 h-14 rounded-2xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-400 mb-3 transition-opacity group-hover:opacity-90">
               <ImageIcon className="w-7 h-7" />
             </div>
             <h3 className="text-base font-bold text-white mb-1">Choose or drop an image to edit</h3>
             <p className="text-xs text-white/50 mb-4 font-mono">PNG, JPG, WEBP, HEIC, JFIF, SVG</p>
-            <span className="px-5 py-2 rounded-full bg-amber-400 text-black text-xs font-bold shadow-lg">
+            <span className="btn-primary text-xs px-4 py-2 rounded-lg font-semibold">
               Select Image
             </span>
           </div>
@@ -530,7 +530,7 @@ export const ImageEditorPage: React.FC = () => {
                   <button
                     onClick={executeResize}
                     disabled={isProcessing}
-                    className="w-full py-2.5 rounded-full bg-amber-400 hover:bg-amber-300 text-black text-xs font-bold transition-all shadow-md cursor-pointer"
+                    className="w-full btn-primary py-2.5 rounded-lg text-xs font-semibold cursor-pointer"
                   >
                     Apply Resize
                   </button>
@@ -654,7 +654,7 @@ export const ImageEditorPage: React.FC = () => {
                   <button
                     onClick={executeEnlarge}
                     disabled={isProcessing}
-                    className="w-full py-2.5 rounded-full bg-amber-400 hover:bg-amber-300 text-black text-xs font-bold transition-all shadow-md cursor-pointer"
+                    className="w-full btn-primary py-2.5 rounded-lg text-xs font-semibold cursor-pointer"
                   >
                     {isProcessing ? 'Upscaling...' : 'Enlarge Canvas'}
                   </button>
@@ -666,7 +666,7 @@ export const ImageEditorPage: React.FC = () => {
                   {typeof window !== 'undefined' && (window as any).EyeDropper && (
                     <button
                       onClick={handleEyedropper}
-                      className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-black text-xs font-bold transition-all cursor-pointer shadow-md"
+                      className="w-full btn-primary flex items-center justify-center gap-2 py-2.5 rounded-lg text-xs font-semibold cursor-pointer"
                     >
                       <Pipette className="w-4 h-4" />
                       <span>Pick Color From Screen</span>
@@ -740,7 +740,7 @@ export const ImageEditorPage: React.FC = () => {
                 <a
                   href={resultSrc || originalSrc}
                   download={`edited_${file.name}`}
-                  className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-amber-400 hover:bg-amber-300 text-black text-xs font-bold transition-all shadow-lg shadow-amber-400/20 cursor-pointer"
+                  className="btn-primary text-xs px-5 py-2.5 rounded-lg font-semibold inline-flex items-center gap-2"
                 >
                   <Download className="w-4 h-4 text-black" />
                   <span>Download Image</span>

@@ -390,8 +390,8 @@ const ImageWorkspaceContent: React.FC<ImageWorkspaceContentProps> = ({ mode, onO
 
         {/* Format Selector if Universal Image Converter */}
         {mode === 'image-converter' && (
-          <div className="inline-flex items-center gap-2 p-1.5 rounded-2xl bg-white/[0.03] border border-white/10 text-xs font-mono mb-4">
-            <span className="text-white/50 pl-2">Convert to:</span>
+          <div className="inline-flex items-center gap-1 p-1 rounded-xl bg-[#0c0d10] border border-white/[0.08] text-xs font-mono mb-4">
+            <span className="text-white/50 pl-2 pr-1 text-[11px]">Format:</span>
             {(['png', 'jpeg', 'webp'] as const).map((fmt) => (
               <button
                 key={fmt}
@@ -399,10 +399,10 @@ const ImageWorkspaceContent: React.FC<ImageWorkspaceContentProps> = ({ mode, onO
                   setTargetFormat(fmt);
                   if (file) runGenericConversion(file);
                 }}
-                className={`px-3 py-1 rounded-xl uppercase font-semibold transition-transform transition-colors duration-75 active:scale-95 cursor-pointer select-none ${
+                className={`px-3 py-1 rounded-lg uppercase font-semibold transition-all duration-100 cursor-pointer select-none ${
                   targetFormat === fmt
                     ? 'bg-amber-400 text-black shadow-sm'
-                    : 'text-white/60 hover:text-white hover:bg-white/5'
+                    : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
                 }`}
               >
                 {fmt === 'jpeg' ? 'JPG' : fmt}
@@ -515,7 +515,7 @@ const ImageWorkspaceContent: React.FC<ImageWorkspaceContentProps> = ({ mode, onO
                     <div className="flex items-center gap-2">
                       <button
                         onClick={handleClear}
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] text-white/70 hover:text-white border border-white/10 text-xs transition-transform transition-colors duration-75 active:scale-95 cursor-pointer select-none"
+                        className="btn-secondary text-xs px-3 py-1.5 rounded-lg"
                       >
                         <RotateCcw className="w-3.5 h-3.5" />
                         <span>Change File</span>
@@ -545,7 +545,7 @@ const ImageWorkspaceContent: React.FC<ImageWorkspaceContentProps> = ({ mode, onO
                           <a
                             href={convertedSrc}
                             download={`${file.name.replace(/\.[^/.]+$/, '')}.${meta.outputExt}`}
-                            className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-amber-400 hover:bg-amber-300 text-black text-xs font-bold transition-transform transition-colors duration-75 active:scale-95 shadow-lg shadow-amber-400/20 cursor-pointer select-none"
+                            className="btn-primary text-xs px-5 py-2.5 rounded-lg"
                           >
                             <Download className="w-4 h-4 text-black" />
                             <span>Download {meta.outputExt.toUpperCase()}</span>
