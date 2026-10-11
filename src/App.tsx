@@ -1,5 +1,6 @@
-import { useState, lazy, Suspense } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { motion, AnimatePresence } from 'motion/react';
 import { ChromaticWaves } from './components/ChromaticWaves';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
@@ -9,7 +10,6 @@ import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
 import { VaultProvider } from './context/VaultContext';
 import { HomePage } from './pages/HomePage';
-import { Loader2 } from 'lucide-react';
 
 const ImageWorkspacePage = lazy(() =>
   import('./pages/ImageWorkspacePage').then((m) => ({ default: m.ImageWorkspacePage }))
@@ -34,10 +34,16 @@ const DataConverterPage = lazy(() =>
 );
 
 const PageLoader = () => (
-  <div className="flex-1 flex flex-col items-center justify-center p-12 space-y-3">
-    <Loader2 className="w-8 h-8 text-amber-400 animate-spin" />
-    <span className="text-xs font-mono text-white/50">Loading workspace engine...</span>
-  </div>
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    transition={{ duration: 0.15 }}
+    className="flex-1 flex flex-col items-center justify-center p-12 space-y-3 min-h-[400px]"
+  >
+    <div className="w-7 h-7 rounded-full border-2 border-amber-400 border-t-transparent animate-spin" />
+    <span className="text-xs font-mono text-white/50 tracking-wide">Loading workspace...</span>
+  </motion.div>
 );
 
 export function AppContent() {
@@ -45,6 +51,13 @@ export function AppContent() {
   const [isVaultOpen, setIsVaultOpen] = useState(false);
   const location = useLocation();
   const isPdfEditor = location.pathname.startsWith('/pdf-editor');
+
+  // Smooth scroll restoration on page change (except full-height editor)
+  useEffect(() => {
+    if (!isPdfEditor) {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    }
+  }, [location.pathname, isPdfEditor]);
 
   return (
     <div className={`min-h-screen flex flex-col relative text-white selection:bg-amber-400 selection:text-black ${isPdfEditor ? 'h-screen overflow-hidden' : ''}`}>
@@ -57,10 +70,22 @@ export function AppContent() {
         onOpenVault={() => setIsVaultOpen(true)}
       />
 
-      {/* Main Routed Content Area */}
+      {/* Main Routed Content Area with Smooth Page Transition */}
       <div className="flex-1 flex flex-col relative z-10 min-h-0">
         <Suspense fallback={<PageLoader />}>
-          <Routes>
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={location.pathname}
+              initial={{ opacity: 0, y: 7 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -5 }}
+              transition={{
+                duration: 0.2,
+                ease: [0.16, 1, 0.3, 1]
+              }}
+              className={`flex-1 flex flex-col min-h-0 ${isPdfEditor ? 'h-full overflow-hidden' : ''}`}
+            >
+              <Routes location={location}>
             <Route path="/" element={<HomePage />} />
             <Route
               path="/image-converter"
@@ -101,7 +126,9 @@ export function AppContent() {
             <Route path="/base64-converter" element={<DataConverterPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
-        </Suspense>
+        </motion.div>
+      </AnimatePresence>
+    </Suspense>
       </div>
 
       {/* Single Clean Footer with Navigation Links (hidden in studio workspaces) */}

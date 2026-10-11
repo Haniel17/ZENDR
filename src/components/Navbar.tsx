@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { useAuth } from '../context/AuthContext';
 import { useVault } from '../context/VaultContext';
 import {
@@ -265,6 +266,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const { conversions } = useVault();
   const [isPdfDropdownOpen, setIsPdfDropdownOpen] = useState(false);
   const [isDataDropdownOpen, setIsDataDropdownOpen] = useState(false);
+  const [hoveredNav, setHoveredNav] = useState<string | null>(null);
   const pdfTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const dataTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -329,12 +331,194 @@ export const Navbar: React.FC<NavbarProps> = ({
     };
   }, []);
 
+  const renderPdfDropdownContent = () => (
+    <div className="w-[780px] max-w-[calc(100vw-2rem)] rounded-2xl bg-[#08080c]/98 backdrop-blur-3xl border border-white/10 p-5 shadow-[0_25px_70px_-15px_rgba(0,0,0,0.95),0_0_25px_rgba(245,158,11,0.08)] ring-1 ring-white/5">
+      {/* Top Header */}
+      <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-white/[0.08]">
+        <div className="flex items-center gap-2.5">
+          <div className="w-5 h-5 rounded-md bg-amber-400/20 text-amber-400 flex items-center justify-center">
+            <FileText className="w-3.5 h-3.5" />
+          </div>
+          <span className="text-xs font-bold uppercase tracking-wider text-white">
+            PDF Tools Suite
+          </span>
+          <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-amber-400/10 text-amber-400 border border-amber-400/20">
+            17 Tools • In-Browser
+          </span>
+        </div>
+        <Link
+          to="/pdf-converter"
+          onClick={handleClosePdfDropdown}
+          className="text-[11px] font-medium text-amber-400 hover:text-amber-300 flex items-center gap-1 transition-colors group cursor-pointer"
+        >
+          <span>View Full Directory</span>
+          <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+        </Link>
+      </div>
+
+      {/* 3 Columns Grid */}
+      <div className="grid grid-cols-3 gap-4">
+        {PDF_DROPDOWN_GROUPS.map((group) => (
+          <div key={group.title} className="space-y-1">
+            <h4 className="text-[10px] uppercase font-mono tracking-wider text-white/40 px-2 py-1 font-semibold">
+              {group.title}
+            </h4>
+            <div className="space-y-0.5">
+              {group.items.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <Link
+                    key={item.id}
+                    to={item.route}
+                    onClick={handleClosePdfDropdown}
+                    className="flex items-center gap-2.5 px-2.5 py-1.5 rounded-xl hover:bg-white/[0.06] transition-transform transition-colors duration-75 active:scale-95 group text-left cursor-pointer"
+                  >
+                    <div className="w-6 h-6 rounded-lg bg-white/[0.04] border border-white/5 flex items-center justify-center shrink-0 group-hover:bg-amber-400/15 group-hover:border-amber-400/30 transition-colors">
+                      <Icon className="w-3.5 h-3.5 text-white/70 group-hover:text-amber-400 transition-colors" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-xs font-medium text-white/90 group-hover:text-amber-400 transition-colors truncate">
+                          {item.title}
+                        </span>
+                        {item.badge && (
+                          <span className="px-1.5 py-0.2 rounded text-[9px] font-mono bg-amber-400/20 text-amber-300 font-semibold">
+                            {item.badge}
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-[10px] text-white/40 truncate leading-tight">
+                        {item.subtitle}
+                      </p>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Bottom Banner */}
+      <div className="mt-3.5 pt-3 border-t border-white/[0.06] flex items-center justify-between text-[11px] text-white/50">
+        <div className="flex items-center gap-2">
+          <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+          <span>Zero Server Storage • Instant Local Browser Processing</span>
+        </div>
+        <Link
+          to="/pdf-editor"
+          onClick={handleClosePdfDropdown}
+          className="text-amber-400 hover:text-amber-300 font-medium flex items-center gap-1 transition-colors cursor-pointer"
+        >
+          <span>Open Visual Editor</span>
+          <ArrowRight className="w-3 h-3" />
+        </Link>
+      </div>
+    </div>
+  );
+
+  const renderDataDropdownContent = () => (
+    <div className="w-[780px] max-w-[calc(100vw-2rem)] rounded-2xl bg-[#08080c]/98 backdrop-blur-3xl border border-white/10 p-5 shadow-[0_25px_70px_-15px_rgba(0,0,0,0.95),0_0_25px_rgba(245,158,11,0.08)] ring-1 ring-white/5">
+      {/* Top Header */}
+      <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-white/[0.08]">
+        <div className="flex items-center gap-2.5">
+          <div className="w-5 h-5 rounded-md bg-amber-400/20 text-amber-400 flex items-center justify-center">
+            <Braces className="w-3.5 h-3.5" />
+          </div>
+          <span className="text-xs font-bold uppercase tracking-wider text-white">
+            Universal Data &amp; Code Suite
+          </span>
+          <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-amber-400/10 text-amber-400 border border-amber-400/20">
+            8 Formats • Client-Side
+          </span>
+        </div>
+        <Link
+          to="/text-to-json"
+          onClick={handleCloseDataDropdown}
+          className="text-[11px] font-medium text-amber-400 hover:text-amber-300 flex items-center gap-1 transition-colors group cursor-pointer"
+        >
+          <span>Open Data Converter</span>
+          <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+        </Link>
+      </div>
+
+      {/* 3 Columns Grid */}
+      <div className="grid grid-cols-3 gap-4">
+        {DATA_DROPDOWN_GROUPS.map((group) => (
+          <div key={group.title} className="space-y-1">
+            <h4 className="text-[10px] uppercase font-mono tracking-wider text-white/40 px-2 py-1 font-semibold">
+              {group.title}
+            </h4>
+            <div className="space-y-0.5">
+              {group.items.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <Link
+                    key={item.id}
+                    to={item.route}
+                    onClick={handleCloseDataDropdown}
+                    className="flex items-center gap-2.5 px-2.5 py-1.5 rounded-xl hover:bg-white/[0.06] transition-transform transition-colors duration-75 active:scale-95 group text-left cursor-pointer"
+                  >
+                    <div className="w-6 h-6 rounded-lg bg-white/[0.04] border border-white/5 flex items-center justify-center shrink-0 group-hover:bg-amber-400/15 group-hover:border-amber-400/30 transition-colors">
+                      <Icon className="w-3.5 h-3.5 text-white/70 group-hover:text-amber-400 transition-colors" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-xs font-medium text-white/90 group-hover:text-amber-400 transition-colors truncate">
+                          {item.title}
+                        </span>
+                        {item.badge && (
+                          <span className="px-1.5 py-0.2 rounded text-[9px] font-mono bg-amber-400/20 text-amber-300 font-semibold">
+                            {item.badge}
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-[10px] text-white/40 truncate leading-tight">
+                        {item.subtitle}
+                      </p>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Bottom Banner */}
+      <div className="mt-3.5 pt-3 border-t border-white/[0.06] flex items-center justify-between text-[11px] text-white/50">
+        <div className="flex items-center gap-2">
+          <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+          <span>Zero Server Storage • Instant Local Browser Processing</span>
+        </div>
+        <Link
+          to="/text-to-json"
+          onClick={handleCloseDataDropdown}
+          className="text-amber-400 hover:text-amber-300 font-medium flex items-center gap-1 transition-colors cursor-pointer"
+        >
+          <span>Launch Multi-Format Studio</span>
+          <ArrowRight className="w-3 h-3" />
+        </Link>
+      </div>
+    </div>
+  );
+
   return (
     <header 
       className="sticky top-0 z-50 w-full border-b border-white/[0.06] bg-[#040406]/90 backdrop-blur-md transition-colors flex-shrink-0"
       style={{ transform: 'translateZ(0)' }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      {/* Animated Subtle Ambient Highlight Beam under Navbar */}
+      <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/[0.08] to-transparent pointer-events-none" />
+      <div
+        className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-[1px] w-3/4 max-w-4xl bg-gradient-to-r from-transparent via-amber-400/50 to-transparent transition-all duration-300 pointer-events-none ${
+          isPdfDropdownOpen || isDataDropdownOpen || hoveredNav
+            ? 'opacity-100 shadow-[0_0_14px_rgba(245,158,11,0.6)]'
+            : 'opacity-0'
+        }`}
+      />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between relative">
         {/* Brand Logo with Transparent Zendr.png */}
         <Link to="/" className="flex items-center gap-2.5 group active:scale-95 transition-transform duration-75">
           <img
@@ -347,288 +531,164 @@ export const Navbar: React.FC<NavbarProps> = ({
           </span>
         </Link>
 
-        {/* Center: Module Navigation Links (Engineered Segmented Control) */}
-        <nav className="hidden md:flex items-center gap-1 bg-[#0b0c10]/80 p-1 rounded-xl border border-white/[0.08] text-xs">
+        {/* Center: Module Navigation Links with Fluid Hover Pill */}
+        <nav 
+          className="hidden md:flex items-center gap-1 bg-[#0b0c10]/80 p-1 rounded-xl border border-white/[0.08] text-xs relative"
+          onMouseLeave={() => setHoveredNav(null)}
+        >
+          {/* Overview */}
           <NavLink
             to="/"
             end
+            onMouseEnter={() => {
+              setHoveredNav('overview');
+              handleClosePdfDropdown();
+              handleCloseDataDropdown();
+            }}
             className={({ isActive }) =>
-              `px-3 py-1.5 rounded-lg transition-all duration-100 cursor-pointer select-none font-medium ${
+              `relative px-3 py-1.5 rounded-lg transition-colors duration-150 cursor-pointer select-none font-medium z-10 ${
                 isActive
                   ? 'bg-amber-400 text-black shadow-sm font-semibold'
-                  : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
+                  : 'text-white/60 hover:text-white'
               }`
             }
           >
+            {hoveredNav === 'overview' && (
+              <motion.div
+                layoutId="navbar-hover-pill"
+                className="absolute inset-0 rounded-lg bg-white/[0.08] -z-10"
+                transition={{ type: 'spring', stiffness: 450, damping: 32 }}
+              />
+            )}
             Overview
           </NavLink>
 
-          {/* PDF Tools with Hover Mega-Dropdown */}
+          {/* PDF Tools */}
           <div
             className="relative"
-            onMouseEnter={handlePdfMouseEnter}
+            onMouseEnter={() => {
+              setHoveredNav('pdf-tools');
+              handlePdfMouseEnter();
+            }}
             onMouseLeave={handlePdfMouseLeave}
           >
             <NavLink
               to="/pdf-converter"
               onClick={handleClosePdfDropdown}
               className={({ isActive }) =>
-                `px-3 py-1.5 rounded-lg transition-all duration-100 cursor-pointer select-none font-medium flex items-center gap-1.5 ${
+                `relative px-3 py-1.5 rounded-lg transition-colors duration-150 cursor-pointer select-none font-medium flex items-center gap-1.5 z-10 ${
                   isActive || isPdfDropdownOpen
                     ? 'bg-amber-400 text-black shadow-sm font-semibold'
-                    : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
+                    : 'text-white/60 hover:text-white'
                 }`
               }
             >
+              {hoveredNav === 'pdf-tools' && !isPdfDropdownOpen && (
+                <motion.div
+                  layoutId="navbar-hover-pill"
+                  className="absolute inset-0 rounded-lg bg-white/[0.08] -z-10"
+                  transition={{ type: 'spring', stiffness: 450, damping: 32 }}
+                />
+              )}
               <FileText className="w-3.5 h-3.5" />
               <span>PDF Tools</span>
               <ChevronDown
-                className={`w-3 h-3 transition-transform duration-150 ${
+                className={`w-3 h-3 transition-transform duration-200 ${
                   isPdfDropdownOpen ? 'rotate-180' : 'text-current/60'
                 }`}
               />
             </NavLink>
-
-            {/* Mega-menu Dropdown */}
-            {isPdfDropdownOpen && (
-              <div
-                className="absolute top-full left-1/2 -translate-x-1/2 pt-2.5 z-50 animate-in fade-in duration-100"
-                onMouseEnter={handlePdfMouseEnter}
-                onMouseLeave={handlePdfMouseLeave}
-              >
-                <div className="w-[820px] max-w-[95vw] rounded-2xl bg-[#08080c]/98 backdrop-blur-3xl border border-white/10 p-5 shadow-[0_25px_70px_-15px_rgba(0,0,0,0.95),0_0_25px_rgba(245,158,11,0.08)] ring-1 ring-white/5">
-                  {/* Top Header */}
-                  <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-white/[0.08]">
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-5 h-5 rounded-md bg-amber-400/20 text-amber-400 flex items-center justify-center">
-                        <FileText className="w-3.5 h-3.5" />
-                      </div>
-                      <span className="text-xs font-bold uppercase tracking-wider text-white">
-                        PDF Tools Suite
-                      </span>
-                      <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-amber-400/10 text-amber-400 border border-amber-400/20">
-                        17 Tools • In-Browser
-                      </span>
-                    </div>
-                    <Link
-                      to="/pdf-converter"
-                      onClick={handleClosePdfDropdown}
-                      className="text-[11px] font-medium text-amber-400 hover:text-amber-300 flex items-center gap-1 transition-colors group cursor-pointer"
-                    >
-                      <span>View Full Directory</span>
-                      <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-                    </Link>
-                  </div>
-
-                  {/* 3 Columns Grid */}
-                  <div className="grid grid-cols-3 gap-4">
-                    {PDF_DROPDOWN_GROUPS.map((group) => (
-                      <div key={group.title} className="space-y-1">
-                        <h4 className="text-[10px] uppercase font-mono tracking-wider text-white/40 px-2 py-1 font-semibold">
-                          {group.title}
-                        </h4>
-                        <div className="space-y-0.5">
-                          {group.items.map((item) => {
-                            const Icon = item.icon;
-                            return (
-                              <Link
-                                key={item.id}
-                                to={item.route}
-                                onClick={handleClosePdfDropdown}
-                                className="flex items-center gap-2.5 px-2.5 py-1.5 rounded-xl hover:bg-white/[0.06] transition-transform transition-colors duration-75 active:scale-95 group text-left cursor-pointer"
-                              >
-                                <div className="w-6 h-6 rounded-lg bg-white/[0.04] border border-white/5 flex items-center justify-center shrink-0 group-hover:bg-amber-400/15 group-hover:border-amber-400/30 transition-colors">
-                                  <Icon className="w-3.5 h-3.5 text-white/70 group-hover:text-amber-400 transition-colors" />
-                                </div>
-                                <div className="min-w-0 flex-1">
-                                  <div className="flex items-center gap-1.5">
-                                    <span className="text-xs font-medium text-white/90 group-hover:text-amber-400 transition-colors truncate">
-                                      {item.title}
-                                    </span>
-                                    {item.badge && (
-                                      <span className="px-1.5 py-0.2 rounded text-[9px] font-mono bg-amber-400/20 text-amber-300 font-semibold">
-                                        {item.badge}
-                                      </span>
-                                    )}
-                                  </div>
-                                  <p className="text-[10px] text-white/40 truncate leading-tight">
-                                    {item.subtitle}
-                                  </p>
-                                </div>
-                              </Link>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Bottom Banner */}
-                  <div className="mt-3.5 pt-3 border-t border-white/[0.06] flex items-center justify-between text-[11px] text-white/50">
-                    <div className="flex items-center gap-2">
-                      <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                      <span>Zero Server Storage • Instant Local Browser Processing</span>
-                    </div>
-                    <Link
-                      to="/pdf-editor"
-                      onClick={handleClosePdfDropdown}
-                      className="text-amber-400 hover:text-amber-300 font-medium flex items-center gap-1 transition-colors cursor-pointer"
-                    >
-                      <span>Open Visual Editor</span>
-                      <ArrowRight className="w-3 h-3" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
 
+          {/* PDF Editor */}
           <NavLink
             to="/pdf-editor"
+            onMouseEnter={() => {
+              setHoveredNav('pdf-editor');
+              handleClosePdfDropdown();
+              handleCloseDataDropdown();
+            }}
             className={({ isActive }) =>
-              `px-3 py-1.5 rounded-lg transition-all duration-100 cursor-pointer select-none font-medium flex items-center gap-1.5 ${
+              `relative px-3 py-1.5 rounded-lg transition-colors duration-150 cursor-pointer select-none font-medium flex items-center gap-1.5 z-10 ${
                 isActive
                   ? 'bg-amber-400 text-black shadow-sm font-semibold'
-                  : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
+                  : 'text-white/60 hover:text-white'
               }`
             }
           >
+            {hoveredNav === 'pdf-editor' && (
+              <motion.div
+                layoutId="navbar-hover-pill"
+                className="absolute inset-0 rounded-lg bg-white/[0.08] -z-10"
+                transition={{ type: 'spring', stiffness: 450, damping: 32 }}
+              />
+            )}
             <Edit3 className="w-3.5 h-3.5" />
             <span>PDF Editor</span>
           </NavLink>
 
+          {/* Image Tools */}
           <NavLink
             to="/image-converter"
+            onMouseEnter={() => {
+              setHoveredNav('image-tools');
+              handleClosePdfDropdown();
+              handleCloseDataDropdown();
+            }}
             className={({ isActive }) =>
-              `px-3 py-1.5 rounded-lg transition-all duration-100 cursor-pointer select-none font-medium flex items-center gap-1.5 ${
+              `relative px-3 py-1.5 rounded-lg transition-colors duration-150 cursor-pointer select-none font-medium flex items-center gap-1.5 z-10 ${
                 isActive
                   ? 'bg-amber-400 text-black shadow-sm font-semibold'
-                  : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
+                  : 'text-white/60 hover:text-white'
               }`
             }
           >
+            {hoveredNav === 'image-tools' && (
+              <motion.div
+                layoutId="navbar-hover-pill"
+                className="absolute inset-0 rounded-lg bg-white/[0.08] -z-10"
+                transition={{ type: 'spring', stiffness: 450, damping: 32 }}
+              />
+            )}
             <Image className="w-3.5 h-3.5" />
             <span>Image Tools</span>
           </NavLink>
 
-          {/* Data Tools with Hover Mega-Dropdown */}
+          {/* Data Tools */}
           <div
             className="relative"
-            onMouseEnter={handleDataMouseEnter}
+            onMouseEnter={() => {
+              setHoveredNav('data-tools');
+              handleDataMouseEnter();
+            }}
             onMouseLeave={handleDataMouseLeave}
           >
             <NavLink
               to="/text-to-json"
               onClick={handleCloseDataDropdown}
               className={({ isActive }) =>
-                `px-3 py-1.5 rounded-lg transition-all duration-100 cursor-pointer select-none font-medium flex items-center gap-1.5 ${
+                `relative px-3 py-1.5 rounded-lg transition-colors duration-150 cursor-pointer select-none font-medium flex items-center gap-1.5 z-10 ${
                   isActive || isDataDropdownOpen
                     ? 'bg-amber-400 text-black shadow-sm font-semibold'
-                    : 'text-white/60 hover:text-white hover:bg-white/[0.04]'
+                    : 'text-white/60 hover:text-white'
                 }`
               }
             >
+              {hoveredNav === 'data-tools' && !isDataDropdownOpen && (
+                <motion.div
+                  layoutId="navbar-hover-pill"
+                  className="absolute inset-0 rounded-lg bg-white/[0.08] -z-10"
+                  transition={{ type: 'spring', stiffness: 450, damping: 32 }}
+                />
+              )}
               <Braces className="w-3.5 h-3.5" />
               <span>Data Tools</span>
               <ChevronDown
-                className={`w-3 h-3 transition-transform duration-150 ${
+                className={`w-3 h-3 transition-transform duration-200 ${
                   isDataDropdownOpen ? 'rotate-180' : 'text-current/60'
                 }`}
               />
             </NavLink>
-
-            {/* Mega-menu Dropdown */}
-            {isDataDropdownOpen && (
-              <div
-                className="absolute top-full right-0 sm:left-1/2 sm:-translate-x-1/2 pt-2.5 z-50 animate-in fade-in duration-100"
-                onMouseEnter={handleDataMouseEnter}
-                onMouseLeave={handleDataMouseLeave}
-              >
-                <div className="w-[820px] max-w-[95vw] rounded-2xl bg-[#08080c]/98 backdrop-blur-3xl border border-white/10 p-5 shadow-[0_25px_70px_-15px_rgba(0,0,0,0.95),0_0_25px_rgba(245,158,11,0.08)] ring-1 ring-white/5">
-                  {/* Top Header */}
-                  <div className="flex items-center justify-between pb-3.5 mb-3.5 border-b border-white/[0.08]">
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-5 h-5 rounded-md bg-amber-400/20 text-amber-400 flex items-center justify-center">
-                        <Braces className="w-3.5 h-3.5" />
-                      </div>
-                      <span className="text-xs font-bold uppercase tracking-wider text-white">
-                        Universal Data &amp; Code Suite
-                      </span>
-                      <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-amber-400/10 text-amber-400 border border-amber-400/20">
-                        8 Formats • Client-Side
-                      </span>
-                    </div>
-                    <Link
-                      to="/text-to-json"
-                      onClick={handleCloseDataDropdown}
-                      className="text-[11px] font-medium text-amber-400 hover:text-amber-300 flex items-center gap-1 transition-colors group cursor-pointer"
-                    >
-                      <span>Open Data Converter</span>
-                      <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-                    </Link>
-                  </div>
-
-                  {/* 3 Columns Grid */}
-                  <div className="grid grid-cols-3 gap-4">
-                    {DATA_DROPDOWN_GROUPS.map((group) => (
-                      <div key={group.title} className="space-y-1">
-                        <h4 className="text-[10px] uppercase font-mono tracking-wider text-white/40 px-2 py-1 font-semibold">
-                          {group.title}
-                        </h4>
-                        <div className="space-y-0.5">
-                          {group.items.map((item) => {
-                            const Icon = item.icon;
-                            return (
-                              <Link
-                                key={item.id}
-                                to={item.route}
-                                onClick={handleCloseDataDropdown}
-                                className="flex items-center gap-2.5 px-2.5 py-1.5 rounded-xl hover:bg-white/[0.06] transition-transform transition-colors duration-75 active:scale-95 group text-left cursor-pointer"
-                              >
-                                <div className="w-6 h-6 rounded-lg bg-white/[0.04] border border-white/5 flex items-center justify-center shrink-0 group-hover:bg-amber-400/15 group-hover:border-amber-400/30 transition-colors">
-                                  <Icon className="w-3.5 h-3.5 text-white/70 group-hover:text-amber-400 transition-colors" />
-                                </div>
-                                <div className="min-w-0 flex-1">
-                                  <div className="flex items-center gap-1.5">
-                                    <span className="text-xs font-medium text-white/90 group-hover:text-amber-400 transition-colors truncate">
-                                      {item.title}
-                                    </span>
-                                    {item.badge && (
-                                      <span className="px-1.5 py-0.2 rounded text-[9px] font-mono bg-amber-400/20 text-amber-300 font-semibold">
-                                        {item.badge}
-                                      </span>
-                                    )}
-                                  </div>
-                                  <p className="text-[10px] text-white/40 truncate leading-tight">
-                                    {item.subtitle}
-                                  </p>
-                                </div>
-                              </Link>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Bottom Banner */}
-                  <div className="mt-3.5 pt-3 border-t border-white/[0.06] flex items-center justify-between text-[11px] text-white/50">
-                    <div className="flex items-center gap-2">
-                      <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                      <span>Zero Server Storage • Instant Local Browser Processing</span>
-                    </div>
-                    <Link
-                      to="/text-to-json"
-                      onClick={handleCloseDataDropdown}
-                      className="text-amber-400 hover:text-amber-300 font-medium flex items-center gap-1 transition-colors cursor-pointer"
-                    >
-                      <span>Launch Multi-Format Studio</span>
-                      <ArrowRight className="w-3 h-3" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         </nav>
 
@@ -695,6 +755,39 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
           )}
         </div>
+
+        {/* Mega-Dropdown Menus (Viewport-safe, centered on screen) */}
+        <AnimatePresence>
+          {isPdfDropdownOpen && (
+            <motion.div
+              key="pdf-mega-menu"
+              initial={{ opacity: 0, y: -8, scale: 0.985 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -6, scale: 0.985 }}
+              transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50 pointer-events-auto"
+              onMouseEnter={handlePdfMouseEnter}
+              onMouseLeave={handlePdfMouseLeave}
+            >
+              {renderPdfDropdownContent()}
+            </motion.div>
+          )}
+
+          {isDataDropdownOpen && (
+            <motion.div
+              key="data-mega-menu"
+              initial={{ opacity: 0, y: -8, scale: 0.985 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -6, scale: 0.985 }}
+              transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50 pointer-events-auto"
+              onMouseEnter={handleDataMouseEnter}
+              onMouseLeave={handleDataMouseLeave}
+            >
+              {renderDataDropdownContent()}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </header>
   );
